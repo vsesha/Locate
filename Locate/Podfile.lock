@@ -1,0 +1,26 @@
+PODS:
+  - GoogleMaps (2.1.1):
+    - GoogleMaps/Maps (= 2.1.1)
+  - GoogleMaps/Base (2.1.1)
+  - GoogleMaps/Maps (2.1.1):
+    - GoogleMaps/Base
+  - GooglePlaces (2.1.1):
+    - GoogleMaps/Base (= 2.1.1)
+  - RealtimeMessaging-iOS-Swift3 (1.0.4):
+    - Starscream (= 2.0.0)
+  - Starscream (2.0.0)
+
+DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlaces
+  - RealtimeMessaging-iOS-Swift3
+
+SPEC CHECKSUMS:
+  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
+  GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  RealtimeMessaging-iOS-Swift3: 9e723add7984143dfa9c92f3e728de287d78c1f8
+  Starscream: 947c865596f0d6bb3f0203fee23228ed2d471468
+
+PODFILE CHECKSUM: 212a81cbf64a055dbbbf573039465467446c3e05
+
+COCOAPODS: 1.1.1

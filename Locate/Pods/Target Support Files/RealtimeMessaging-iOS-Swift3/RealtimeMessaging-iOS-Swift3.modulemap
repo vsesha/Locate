@@ -1,0 +1,6 @@
+framework module RealtimeMessaging_iOS_Swift3 {
+  umbrella header "RealtimeMessaging-iOS-Swift3-umbrella.h"
+
+  export *
+  module * { export * }
+}
