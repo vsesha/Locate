@@ -37,6 +37,8 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
 
         GLOBAL_BREACH_LIST.removeAll()
         t_DistanceBreachTable.reloadData()
+        GLOBAL_notifyToViews(notificationMsg: "Updated Breach Cache", notificationType: NotificationTypes.USERBREACHCACHE_UPDATED)
+        
     }
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GLOBAL_BREACH_LIST.count
