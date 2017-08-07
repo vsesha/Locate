@@ -496,21 +496,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     func processDistanceBreachMsg(realtimeJsonMsg:[String: AnyObject]){
         var distBreachObj = DistanceBreachStruct()
         var alertMsg: String
-        
-        /*
-        distBreachObj.msgFrom             = realtimeJsonMsg["msgFrom"] as? String
-        distBreachObj.userBreached        = realtimeJsonMsg["userBreached"] as? String
-        distBreachObj.breachDistance      = (realtimeJsonMsg["breachDistance"] as! String)
-        distBreachObj.breachTime          = (realtimeJsonMsg["breachTime"] as! String)
-        
-        GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
-        AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
-        
-        
-        alertMsg = " \(distBreachObj.userBreached! ) is \(distBreachObj.breachDistance!) miles away from Leader: \( distBreachObj.msgFrom!)"
-        */
-        
-        
+
         distBreachObj.msgFrom             = (realtimeJsonMsg["msgFrom"] as? String)!
         distBreachObj.userBreached        = (realtimeJsonMsg["userBreached"] as? String)!
         distBreachObj.breachDistance      = (realtimeJsonMsg["breachDistance"] as! String)

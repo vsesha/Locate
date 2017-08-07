@@ -12,17 +12,20 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
 //class DistanceBreachViewController: UITableViewController {
     //let refreshControl = UIRefreshControl()
 
+    @IBOutlet weak var t_DistanceBreachTable: UITableView!
     var numberOfTableSections: Int =  1
     override func viewDidLoad() {
         super.viewDidLoad()
         
-  //      self.tableView.register(DistanceBreachCellView.self, forCellReuseIdentifier: "DistanceBreachCell")
+
         
         self.title = "Distance Breach List"
         let clearAll = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clearDistanceBreachList))
         self.navigationItem.rightBarButtonItem = clearAll
         
-        // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(self.delegateNotification(_:)), name: NSNotification.Name(rawValue: GLOBAL_APP_INTERNAL_NOTIFICATION_KEY), object: nil)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,13 +38,15 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         //numberOfTableSections = 0
         
         GLOBAL_BREACH_LIST.removeAll()
+        t_DistanceBreachTable.reloadData()
+        
         GLOBAL_notifyToViews(notificationMsg: "Updated Breach Cache", notificationType: NotificationTypes.USERBREACHCACHE_UPDATED)
         
         let alert = UIAlertController(title: "Alert", message: "Deleted. Please navigate to Main screen to refresh breach use list",
                                       preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
-        self.present(alert, animated: true, completion: nil)
+        //self.present(alert, animated: true, completion: nil)
         
     }
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,5 +88,9 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         return sectionTitle
 //        return "Distance Breached"
     }
-
+    
+    func delegateNotification(_ notification:NSNotification){
+       t_DistanceBreachTable.reloadData()
+        
+    }
 }

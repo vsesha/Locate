@@ -14,7 +14,7 @@
         <scene sceneID="6ge-KZ-VOc">
             <objects>
                 <navigationController id="I3y-Cr-QPJ" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="z8C-rz-SOi">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="z8C-rz-SOi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -648,6 +648,9 @@
                         <barButtonItem title="Clear All" id="hs6-YU-IyF"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="t_DistanceBreachTable" destination="Jz3-c5-mpM" id="cny-8d-KBU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAL-j5-9YG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
