@@ -34,20 +34,9 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func clearDistanceBreachList(){
-    //    tableView.reloadData()
-        //numberOfTableSections = 0
-        
+
         GLOBAL_BREACH_LIST.removeAll()
         t_DistanceBreachTable.reloadData()
-        
-        GLOBAL_notifyToViews(notificationMsg: "Updated Breach Cache", notificationType: NotificationTypes.USERBREACHCACHE_UPDATED)
-        
-        let alert = UIAlertController(title: "Alert", message: "Deleted. Please navigate to Main screen to refresh breach use list",
-                                      preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        
-        //self.present(alert, animated: true, completion: nil)
-        
     }
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GLOBAL_BREACH_LIST.count
@@ -56,21 +45,14 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         NSLog("In tableView - cellForRow")
         let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceBreachCell") as! DistanceBreachCellView
-        //let cell = self.tableView.dequeueReusableCell(withIdentifier: "DistanceBreachCell", for: indexPath) as! DistanceBreachCellView
-        
-        
+
         if (GLOBAL_BREACH_LIST.count > 0){
             let distanceBreachObj = GLOBAL_BREACH_LIST[indexPath.row]
-            NSLog("distanceBreachObj = \(distanceBreachObj)")
-
             cell.s_BreachUserName?.text      =  distanceBreachObj.userBreached + " is "
             cell.s_BreachFrom?.text          = "Away from: " + distanceBreachObj.msgFrom
             cell.s_BreachTime?.text          = "At: " + distanceBreachObj.breachTime
             cell.s_BreachDistance?.text      = distanceBreachObj.breachDistance + " Miles"
-            
-            //cell.setCell()
-            NSLog("cell.s_BreachDistance = \(cell.s_BreachDistance)")
-        }
+                }
         
         return cell
     }
@@ -84,9 +66,12 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
     }
     
       func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionTitle = "Trip - " + GLOBAL_CHANNEL
+        var sectionTitle = ""
+        if(GLOBAL_CONNECTION_STATUS)
+        {
+            sectionTitle = "Trip - " + GLOBAL_CHANNEL + " - (\(GLOBAL_BREACH_LIST.count))"
+        }
         return sectionTitle
-//        return "Distance Breached"
     }
     
     func delegateNotification(_ notification:NSNotification){
