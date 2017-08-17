@@ -36,6 +36,9 @@ var GLOBAL_TRIP_STARTED                     = false
 var GLOBAL_FILTER_USER                      = "FILTER"
 var GLOBAL_AUDIO_CODE                       = "1012"
 var GLOBAL_IS_INTERENT_CONNECTED            = true
+var GLOBAL_SHOW_ALERT_POPUPS                = false
+var GLOBAL_SHOW_TRAIL                       = false
+
 var GLOBAL_USER_LIST: [userStruct]                  = []
 var GLOBAL_BREACH_LIST: [DistanceBreachStruct]      = []
 var GLOBAL_PINNED_LOCATION_LIST:[UserPinnedLocation] = []

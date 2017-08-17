@@ -24,7 +24,9 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
     @IBOutlet weak var s_userGroupSize:             UILabel!
     @IBOutlet weak var s_IsLeaderSwitch:            UISwitch!
     
+    @IBOutlet weak var s_ShowAlertPopups: UISwitch!
 
+    @IBOutlet weak var s_ShowTrail: UISwitch!
     
     
     var validationError:String      = "None"
@@ -41,6 +43,9 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         s_userGroupSize.text        = String(GLOBAL_USER_LIST.count)
         
         s_IsLeaderSwitch.isOn       = GLOBAL_IAM_GROUP_LEADER
+        s_ShowAlertPopups.isOn      = GLOBAL_SHOW_ALERT_POPUPS
+        s_ShowTrail.isOn            = GLOBAL_SHOW_TRAIL
+        
         
         s_MarkerColor.delegate      = self
         s_MarkerColor.dataSource    = self
@@ -351,14 +356,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         return true
     }
 
-    func setDefaultSettings (){
-        
-        GLOBAL_setDefaultConfigValues()
-        s_Channel.text          = GLOBAL_CHANNEL
-        s_RealtimePubSub.isOn   = GLOBAL_ALLOW_REALTIME_PUBSUB
-    
-    }
-    
+
 
     @IBAction func PublishLoccationChanged(_ sender: UISwitch) {
         GLOBAL_ALLOW_REALTIME_PUBSUB = sender.isOn
@@ -370,6 +368,18 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         GLOBAL_IAM_GROUP_LEADER = sender.isOn
         s_distancePicker.isUserInteractionEnabled = sender.isOn
     }
+    
+    
+    @IBAction func ShowAlertPopupsSwitchChanged(_ sender: UISwitch) {
+        GLOBAL_SHOW_ALERT_POPUPS = sender.isOn
+    }
+    
+    @IBAction func ShowTrailSwitchChanged(_ sender: UISwitch) {
+        GLOBAL_SHOW_TRAIL = sender.isOn
+    }
+    
+    
+    
     
     func clearAllCache(){
         GLOBAL_BREACH_LIST.removeAll()
@@ -392,10 +402,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         self.present(alert, animated: true, completion: nil)
 
     }
-    @IBAction func setDefaultPushed(_ sender: Any) {
-        setDefaultSettings()
-    }
-    
+
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
