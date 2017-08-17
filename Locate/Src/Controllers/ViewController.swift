@@ -172,10 +172,14 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         let font = UIFont.systemFont(ofSize: 25)
         let attributes = [NSFontAttributeName : font]
         
+ //       let gearWheel = UIImage(named: "SettingsGear")
+//         SettingsNavButton.setBackgroundImage(gearWheel, for: UIControlState.normal, barMetrics: UIBarMetrics.default)
+        
+        
         SettingsNavButton.title = NSString(string: "\u{2699}\u{0000FE0E}") as String
         SettingsNavButton.setTitleTextAttributes(attributes, for: .normal)
         
-
+       
         //self.navigationController!.navigationBar.setTitleVerticalPositionAdjustmen(+Value, forBarMetrics: .Default)
        // SettingsNavButton.setTitlePositionAdjustment(UIOffset.zero, for: .default)
         
