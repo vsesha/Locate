@@ -16,17 +16,13 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
     @IBOutlet weak var s_Channel:                   UITextField!
     @IBOutlet weak var s_MarkerColor:               UIPickerView!
     @IBOutlet weak var s_RefreshFrequencyPicker:    UIPickerView!
-    @IBOutlet weak var s_distancePicker:            UIPickerView!
+   
     @IBOutlet weak var s_RealtimePubSub:            UISwitch!
     @IBOutlet weak var s_JoinNow:                   UIButton!
     @IBOutlet weak var s_ErrorMsgDisplay:           UILabel!
     @IBOutlet weak var s_ConnectionStatus:          UILabel!
     @IBOutlet weak var s_userGroupSize:             UILabel!
-    @IBOutlet weak var s_IsLeaderSwitch:            UISwitch!
-    
-    @IBOutlet weak var s_ShowAlertPopups: UISwitch!
 
-    @IBOutlet weak var s_ShowTrail: UISwitch!
     
     
     var validationError:String      = "None"
@@ -41,16 +37,9 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         s_Channel.text              = GLOBAL_CHANNEL
         s_RealtimePubSub.isOn       = GLOBAL_ALLOW_REALTIME_PUBSUB
         s_userGroupSize.text        = String(GLOBAL_USER_LIST.count)
-        
-        s_IsLeaderSwitch.isOn       = GLOBAL_IAM_GROUP_LEADER
-        s_ShowAlertPopups.isOn      = GLOBAL_SHOW_ALERT_POPUPS
-        s_ShowTrail.isOn            = GLOBAL_SHOW_TRAIL
-        
-        
         s_MarkerColor.delegate      = self
         s_MarkerColor.dataSource    = self
-        s_distancePicker.delegate   = self
-        s_distancePicker.dataSource = self
+        
         s_NickName.delegate         = self
         s_Channel.delegate          = self
         s_RefreshFrequencyPicker.delegate = self
@@ -61,10 +50,6 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         
         row = GLOBAL_ARRAY_REFRESH_FREQ.index(of: GLOBAL_REFRESH_FREQUENCY)
         s_RefreshFrequencyPicker.selectRow(row!, inComponent: 0, animated: true)
-        
-        row = GLOBAL_ARRAY_DISTANCE.index(of: GLOBAL_GEOFENCE_DISTANCE)
-        s_distancePicker.selectRow(row!, inComponent: 0, animated: true)
-        s_distancePicker.isUserInteractionEnabled = GLOBAL_IAM_GROUP_LEADER
         
         changeConfigControlsState(state: !GLOBAL_CONNECTION_STATUS)
         
@@ -123,11 +108,8 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS.count
         }
-        else if pickerView == s_RefreshFrequencyPicker {
-            return GLOBAL_ARRAY_REFRESH_FREQ.count
-        }
         else {
-            return GLOBAL_ARRAY_DISTANCE.count
+            return GLOBAL_ARRAY_REFRESH_FREQ.count
         }
     }
     
@@ -135,24 +117,21 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS[row]
         }
-        else if pickerView == s_RefreshFrequencyPicker {
+        else  {
             return GLOBAL_ARRAY_REFRESH_FREQ[row]
         }
-        else {
-            return GLOBAL_ARRAY_DISTANCE[row]
-        }
+        
     }
+    
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == s_MarkerColor {
             GLOBAL_MY_MARKER_COLOR = GLOBAL_MARKER_COLORS[row]
         }
-        else if pickerView == s_RefreshFrequencyPicker {
+        else  {
             GLOBAL_REFRESH_FREQUENCY = GLOBAL_ARRAY_REFRESH_FREQ[row]
         }
-        else {
-            GLOBAL_GEOFENCE_DISTANCE = GLOBAL_ARRAY_DISTANCE[row]
-        }
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -174,15 +153,11 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
                 rowView.attributedText = attribSetting
 
         }
-        else if pickerView == s_RefreshFrequencyPicker {
+        else {
                 let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_REFRESH_FREQ[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
                 rowView.attributedText = attribSetting
         }
-        else {
-            let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_DISTANCE[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
-            rowView.attributedText = attribSetting
-            
-        }
+        
            rowView.textAlignment = .center
         
         return rowView
@@ -364,22 +339,6 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
        
     }
 
-    @IBAction func LeaderSwitchChanged(_ sender: UISwitch) {
-        GLOBAL_IAM_GROUP_LEADER = sender.isOn
-        s_distancePicker.isUserInteractionEnabled = sender.isOn
-    }
-    
-    
-    @IBAction func ShowAlertPopupsSwitchChanged(_ sender: UISwitch) {
-        GLOBAL_SHOW_ALERT_POPUPS = sender.isOn
-    }
-    
-    @IBAction func ShowTrailSwitchChanged(_ sender: UISwitch) {
-        GLOBAL_SHOW_TRAIL = sender.isOn
-    }
-    
-    
-    
     
     func clearAllCache(){
         GLOBAL_BREACH_LIST.removeAll()
