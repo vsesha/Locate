@@ -239,9 +239,24 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.isToolbarHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the navigation bar on other view controllers
+        self.navigationController?.isToolbarHidden = false
+    }
+    
+    
     override var shouldAutorotate: Bool {
         return false
     }
+
     
     func hideSomeFeatureButtons(){
         //addPathToTrip.isHidden      = false
