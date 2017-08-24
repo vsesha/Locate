@@ -29,7 +29,7 @@ class PreferencesSettings: UITableViewController,UIPickerViewDelegate, UIPickerV
         
         var row = GLOBAL_ARRAY_DISTANCE.index(of: GLOBAL_GEOFENCE_DISTANCE)
         s_DistancePicker.selectRow(row!, inComponent: 0, animated: true)
-        //s_DistancePicker.isUserInteractionEnabled = GLOBAL_IAM_GROUP_LEADER
+        s_DistancePicker.isUserInteractionEnabled = GLOBAL_IAM_GROUP_LEADER
         
         
     }
