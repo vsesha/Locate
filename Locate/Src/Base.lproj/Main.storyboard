@@ -175,7 +175,7 @@
         <scene sceneID="wbd-1k-m8Y">
             <objects>
                 <tableViewController title="Settings" id="FFn-jW-9PU" customClass="SettingsViewController" customModule="Locate" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="2" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ELE-Sd-MSF">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" minimumZoomScale="2" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ELE-Sd-MSF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -569,12 +569,12 @@
             </objects>
             <point key="canvasLocation" x="560.79999999999995" y="-840.62968515742136"/>
         </scene>
-        <!--Help Center-->
+        <!--Locate Lite -->
         <scene sceneID="qTE-Ef-Wim">
             <objects>
-                <tableViewController title="Help Center" id="Hxl-Gz-1jl" sceneMemberID="viewController">
+                <tableViewController title="Locate Lite " id="Hxl-Gz-1jl" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="h2i-oc-W0c">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -731,6 +731,9 @@
                             <outlet property="delegate" destination="Hxl-Gz-1jl" id="1Td-eH-86v"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="v1.0.0" id="4DJ-6x-A8v"/>
+                    </toolbarItems>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnK-lJ-68a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1021,7 +1024,7 @@
         <image name="MenuItem" width="110" height="110"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="TwH-nq-U1w"/>
         <segue reference="vlH-h5-LUl"/>
-        <segue reference="iGw-9l-cQj"/>
     </inferredMetricsTieBreakers>
 </document>
