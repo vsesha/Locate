@@ -689,7 +689,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Designed &amp; Developed" id="Gy7-nL-FQ0">
+                            <tableViewSection headerTitle="Designed &amp; Developed by" id="Gy7-nL-FQ0">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="7" id="VGI-oZ-JUs">
                                         <rect key="frame" x="0.0" y="502" width="375" height="7"/>
