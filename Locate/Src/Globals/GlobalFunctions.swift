@@ -64,6 +64,15 @@ func GLOBAL_getDistanceCodeMap(Distance: String) -> Double {
     case "3 Miles":
         return 4828.0
         
+    case "5 Miles":
+        return 8047.0
+        
+    case "7 Miles":
+        return 11265.0
+        
+    case "10 Miles":
+        return 16093.0
+        
     case "30 Miles":
         return 48280.0
         

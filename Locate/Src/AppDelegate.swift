@@ -14,7 +14,6 @@ import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegate {
-
     var window: UIWindow?
     //var manager = CLLocationManager()
     var RTPubSub = RTPubSubController()
@@ -50,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
         application.setMinimumBackgroundFetchInterval(0.20)
         
         LocationController.sharedInstance.startMonitoringInBackground()
+        LocationController.sharedInstance.startUpdatingLocation()
         
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
@@ -121,12 +121,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
     //do nothing
     }
     func publishMyLocationInBackground(currentLocation locations:CLLocation) {
+        
+        NSLog("AppDelegate - IN here - publishMyLocation ")
+
         if(!GLOBAL_CONNECTION_STATUS || GLOBAL_NICK_NAME.isEmpty || !GLOBAL_ALLOW_REALTIME_PUBSUB){
-            NSLog("Cant publish because of Connection Status  is \(GLOBAL_CONNECTION_STATUS) or Nick Name is: \(GLOBAL_NICK_NAME) or Publish Status = \(GLOBAL_ALLOW_REALTIME_PUBSUB)")
+            NSLog("BACKGROUND - Cant publish because of Connection Status  is \(GLOBAL_CONNECTION_STATUS) or Nick Name is: \(GLOBAL_NICK_NAME) or Publish Status = \(GLOBAL_ALLOW_REALTIME_PUBSUB)")
             return
         }
         
-        NSLog("AppDelegate - IN here - publishMyLocation ")
+
         //let locations = LocationController.sharedInstance.getLocation()
         let location = locations.coordinate
         

@@ -172,10 +172,14 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         let font = UIFont.systemFont(ofSize: 25)
         let attributes = [NSFontAttributeName : font]
         
+ //       let gearWheel = UIImage(named: "SettingsGear")
+//         SettingsNavButton.setBackgroundImage(gearWheel, for: UIControlState.normal, barMetrics: UIBarMetrics.default)
+        
+        
         SettingsNavButton.title = NSString(string: "\u{2699}\u{0000FE0E}") as String
         SettingsNavButton.setTitleTextAttributes(attributes, for: .normal)
         
-
+       
         //self.navigationController!.navigationBar.setTitleVerticalPositionAdjustmen(+Value, forBarMetrics: .Default)
        // SettingsNavButton.setTitlePositionAdjustment(UIOffset.zero, for: .default)
         
@@ -235,9 +239,24 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.isToolbarHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the navigation bar on other view controllers
+        self.navigationController?.isToolbarHidden = false
+    }
+    
+    
     override var shouldAutorotate: Bool {
         return false
     }
+
     
     func hideSomeFeatureButtons(){
         //addPathToTrip.isHidden      = false
@@ -359,8 +378,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         let location    = CLLocation(latitude: latitude        as CLLocationDegrees,
                                   longitude: longitude      as CLLocationDegrees)
         
-        
-        removePreviousMarkerForUser(_userName: fromUser)
+        if(GLOBAL_SHOW_TRAIL == false){
+            removePreviousMarkerForUser(_userName: fromUser)
+        }
         addMarker(location: location, addressStr: fromUser, color:markerColor )
         NSLog("location  = \(location) ")
 
@@ -383,14 +403,10 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                 if (userlocation.userName == _userName){
                     let marker = userlocation.pinMarker
                     removeMarker(_marker: marker!)
-                    NSLog("Marker removed")
                     found = count
-                //break
                 }
             }
-            NSLog("Almost out of removePreviousMarkerForUser")
             if(found > -1) { GLOBAL_PINNED_LOCATION_LIST.remove(at: found) }
-            NSLog("Done removePreviousMarkerForUser")
         }
     
     }
@@ -431,10 +447,11 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                 let distAlertJson: NSString = distAlertMsgObj.toJSON() as! NSString
                 RTPubSub.publishMsg(channel: GLOBAL_CHANNEL as NSString, msg: distAlertJson)
             
-                let alert = UIAlertController(title: "Alert", message: alertMsg, preferredStyle: UIAlertControllerStyle.alert)
+                if (GLOBAL_SHOW_ALERT_POPUPS) {
+                    let alert = UIAlertController(title: "Alert", message: alertMsg, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            
-                self.present(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
+                }
 
                 return (true, alertMsg)
             }
@@ -448,12 +465,10 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                     distAlertMsgObj.msgType         = "210"
                     let distAlertJson: NSString = distAlertMsgObj.toJSON() as! NSString
                     RTPubSub.publishMsg(channel: GLOBAL_CHANNEL as NSString, msg: distAlertJson)
-                    
                 }
             }
         }
-        
- 
+  
         return (false, alertMsg)
     }
     
@@ -496,21 +511,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     func processDistanceBreachMsg(realtimeJsonMsg:[String: AnyObject]){
         var distBreachObj = DistanceBreachStruct()
         var alertMsg: String
-        
-        /*
-        distBreachObj.msgFrom             = realtimeJsonMsg["msgFrom"] as? String
-        distBreachObj.userBreached        = realtimeJsonMsg["userBreached"] as? String
-        distBreachObj.breachDistance      = (realtimeJsonMsg["breachDistance"] as! String)
-        distBreachObj.breachTime          = (realtimeJsonMsg["breachTime"] as! String)
-        
-        GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
-        AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
-        
-        
-        alertMsg = " \(distBreachObj.userBreached! ) is \(distBreachObj.breachDistance!) miles away from Leader: \( distBreachObj.msgFrom!)"
-        */
-        
-        
+
         distBreachObj.msgFrom             = (realtimeJsonMsg["msgFrom"] as? String)!
         distBreachObj.userBreached        = (realtimeJsonMsg["userBreached"] as? String)!
         distBreachObj.breachDistance      = (realtimeJsonMsg["breachDistance"] as! String)
@@ -519,17 +520,19 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
         AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
         
-        
-        alertMsg = " \(distBreachObj.userBreached ) is \(distBreachObj.breachDistance) miles away from Leader: \( distBreachObj.msgFrom)"
+        if (GLOBAL_SHOW_ALERT_POPUPS){
+            
+            alertMsg = " \(distBreachObj.userBreached ) is \(distBreachObj.breachDistance) miles away from Leader: \( distBreachObj.msgFrom)"
        
         
-        let alert = UIAlertController(title: "Alert",
+            let alert = UIAlertController(title: "Alert",
                                       message: alertMsg,
                                       preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         
-        self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
+        }
         
     }
     
@@ -714,7 +717,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     
     func publishMyLocation(currentLocation locations:CLLocation) {
-        NSLog(" publishMyLocation ")
+        NSLog(" Viewcontroller: PublishMyLocation ")
        
         //let locations = LocationController.sharedInstance.getLocation()
         let location = locations.coordinate
@@ -751,7 +754,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         previousLocation            = locations
         
         if(!GLOBAL_CONNECTION_STATUS || GLOBAL_NICK_NAME.isEmpty || !GLOBAL_ALLOW_REALTIME_PUBSUB){
-            NSLog("Cant publish because of Connection Status  is \(GLOBAL_CONNECTION_STATUS) or Nick Name is: \(GLOBAL_NICK_NAME) or Publish Status = \(GLOBAL_ALLOW_REALTIME_PUBSUB)")
+            NSLog("Viewcontroller cant publish because of Connection Status  is \(GLOBAL_CONNECTION_STATUS) or Nick Name is: \(GLOBAL_NICK_NAME) or Publish Status = \(GLOBAL_ALLOW_REALTIME_PUBSUB)")
             return
         }
         self.RTPubSub.publishMsg (channel: GLOBAL_CHANNEL as NSString,msg:locationJsonMsg )

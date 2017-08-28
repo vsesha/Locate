@@ -36,6 +36,9 @@ var GLOBAL_TRIP_STARTED                     = false
 var GLOBAL_FILTER_USER                      = "FILTER"
 var GLOBAL_AUDIO_CODE                       = "1012"
 var GLOBAL_IS_INTERENT_CONNECTED            = true
+var GLOBAL_SHOW_ALERT_POPUPS                = false
+var GLOBAL_SHOW_TRAIL                       = false
+
 var GLOBAL_USER_LIST: [userStruct]                  = []
 var GLOBAL_BREACH_LIST: [DistanceBreachStruct]      = []
 var GLOBAL_PINNED_LOCATION_LIST:[UserPinnedLocation] = []
@@ -46,6 +49,6 @@ var GLOBAL_ROUTE_POINTS:RoutePoints?        = nil
 
 var GLOBAL_MARKER_COLORS        = ["None","Red","Orange","Green","Blue","Purple","Pink"]
 var GLOBAL_ARRAY_REFRESH_FREQ   = ["30 Sec", "1 Min", "2 Mins", "5 Mins", "10 Mins"]
-var GLOBAL_ARRAY_DISTANCE       = ["10 Mts","500 Mts", "1 Mile", "1.5 Miles", "2 Miles", "3 Miles","5 Miles"]
+var GLOBAL_ARRAY_DISTANCE       = ["500 Mts", "1 Mile", "1.5 Miles", "2 Miles", "3 Miles","5 Miles", "7 Miles", "10 Miles"]
 
 
