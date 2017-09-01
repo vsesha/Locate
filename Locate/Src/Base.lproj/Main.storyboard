@@ -15,7 +15,7 @@
             <objects>
                 <navigationController hidesBottomBarWhenPushed="YES" toolbarHidden="NO" id="I3y-Cr-QPJ" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="z8C-rz-SOi">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="z8C-rz-SOi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
