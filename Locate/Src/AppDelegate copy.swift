@@ -27,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
         GMSServices.provideAPIKey(GLOBAL_GOOGLE_MAPS_API_KEY)
         
         LocationController.sharedInstance.delegate = self
-        LocationController.sharedInstance.startUpdatingLocation()
         
         if (isConnectedToNetwork()){
             GLOBAL_IS_INTERENT_CONNECTED = true
@@ -38,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
             NSLog("Network not connected")
         }
         
+        schedulePublishing()
         return true
     }
     

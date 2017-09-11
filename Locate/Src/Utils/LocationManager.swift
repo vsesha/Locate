@@ -21,6 +21,11 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     var delegate    :LocationControllerDelegate?
     var counter = 1
     
+    
+    var backgroundMode: Bool = false
+    var lastNotifictionDate = NSDate()
+    
+    
     static let sharedInstance : LocationController = {
         
         let instance = LocationController()
@@ -37,6 +42,11 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         manager?.allowsBackgroundLocationUpdates = true
     }
     
+    func setBackgroundMode(p_flag:Bool){
+        backgroundMode = p_flag
+        lastNotifictionDate = NSDate()
+    }
+    
     func startUpdatingLocation(){
         NSLog("Start updating location: Counter \(counter)")
         self.manager?.startUpdatingLocation()
@@ -48,10 +58,12 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     
     func startMonitoringInBackground(){
         self.manager?.startMonitoringSignificantLocationChanges()
+        //self.manager?.startUpdatingLocation()
     }
     
     func stopMonitoringInBackground(){
         self.manager?.stopMonitoringSignificantLocationChanges()
+        //self.manager?.stopUpdatingLocation()
     }
     
     func getLocation()->CLLocation{
@@ -66,6 +78,16 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         counter=counter + 1
         location = locations.last
         updateLocation(currentlocation: location!)
+        
+        if(backgroundMode){
+            let now = NSDate()
+            if lastNotifictionDate.addingTimeInterval(10).compare(now as Date) == .orderedDescending {
+                //NSLog("Not yet")
+                return
+            }
+            //NSLog("It's time")
+            lastNotifictionDate = now
+        }
         
     }
     
