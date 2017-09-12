@@ -23,6 +23,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
     @IBOutlet weak var s_ConnectionStatus:          UILabel!
     @IBOutlet weak var s_userGroupSize:             UILabel!
 
+    @IBOutlet weak var s_AdditionalPrefText:        UILabel!
     
     
     var validationError:String      = "None"
@@ -84,6 +85,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
         
         s_ErrorMsgDisplay.text  = GLOBAL_CONNECTION_ERR_MSG
         addEffectToButton()
+        s_AdditionalPrefText.isHidden = true
        
     }
     
@@ -219,6 +221,15 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
                 
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness:1.0, alpha: 1.0)
                 s_JoinNow.isEnabled = true
+                //s_AdditionalPrefText.isHidden = false
+            
+                UIView.animate(withDuration: 1.0, delay: 0.4, options:
+                    UIViewAnimationOptions.curveEaseOut, animations: {
+                        self.s_AdditionalPrefText.alpha = 1
+                }, completion: { finished in
+                    self.s_AdditionalPrefText.isHidden = false
+                })
+            
             
         
         case NotificationTypes.DISCONNECTED:
@@ -229,6 +240,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
                 s_ConnectionStatus.text = "DISCONNECTED"
                 s_ConnectionStatus.backgroundColor = nil
                 s_JoinNow.isEnabled = true
+            s_AdditionalPrefText.isHidden = true
         
         case NotificationTypes.USERCACHE_UPDATED:
                 NSLog("case NotificationTypes.USERCACHE_UPDATED - \(GLOBAL_USER_LIST.count)")
@@ -244,6 +256,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
             s_ConnectionStatus.text = "ERROR"
             s_ConnectionStatus.backgroundColor = UIColor(hue: 0.0, saturation: 0.8, brightness:1.0, alpha: 1.0)
             s_JoinNow.isEnabled = true
+            s_AdditionalPrefText.isHidden = true
             break
         
         default:

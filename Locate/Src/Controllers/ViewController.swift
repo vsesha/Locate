@@ -37,6 +37,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var publishTimer:Timer?
     
     
+    @IBOutlet weak var s_BreachListLabel: UILabel!
     
     @IBOutlet weak var alertLabel: UILabel!
   
@@ -54,7 +55,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     //@IBOutlet weak var alertShowButton: UIButton!
     
     
-    
+
     
     func initMapVariables(){
 
@@ -106,7 +107,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         //view.addSubview(alertShowButton)
         view.addSubview(alertLabel)
         view.bringSubview(toFront: alertLabel)
-       
+        
+        view.addSubview(s_BreachListLabel)
+        view.bringSubview(toFront: s_BreachListLabel)
         addShadowEffect()
       
     }
@@ -161,10 +164,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         groupLeader.layer.shadowRadius = 4
         groupLeader.layer.masksToBounds = false
         groupLeader.layer.cornerRadius = 4
-        
-       
-        
-        
 
     }
     
@@ -233,6 +232,12 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         alertLabel.text = String(GLOBAL_BREACH_LIST.count)
         
+        if GLOBAL_BREACH_LIST.count > 0{
+            HideDistanceBreachAlert(p_flag: false)
+        } else {
+            HideDistanceBreachAlert(p_flag: false)
+        }
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
@@ -296,6 +301,14 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         publishTimer?.invalidate()
     }
     
+    func HideDistanceBreachAlert(p_flag:Bool){
+        NSLog("GLOBAL_BREACH_LIST.count = \(GLOBAL_BREACH_LIST.count)")
+        NSLog("Show Or Hide  = \(p_flag)")
+        DistBreachButton.isHidden   = p_flag
+        alertLabel.isHidden         = p_flag
+        s_BreachListLabel.isHidden  = p_flag
+    }
+    
     
     func delegateNotification(_ notification:NSNotification){
         var notifyMsg:  NotificationMessage
@@ -356,6 +369,13 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             else if(msgType == "210" ){
                 processDeleteUserFromDistanceBreachMsg(realtimeJsonMsg: jsonMsg)
                 alertLabel.text = String(GLOBAL_BREACH_LIST.count)
+                
+                if GLOBAL_BREACH_LIST.count > 0 {
+                    HideDistanceBreachAlert(p_flag: false)
+                    } else {
+                    HideDistanceBreachAlert(p_flag: true)
+                }
+            
             }
             else {
                 NSLog("Message Type \(msgType) is not supported yet")
@@ -452,7 +472,16 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
-
+                
+                NSLog("Here  - 1")
+                if GLOBAL_BREACH_LIST.count > 0 {
+                    NSLog("Here  - 2.a")
+                    HideDistanceBreachAlert(p_flag: false)
+                } else {
+                    NSLog("Here  - 2.b")
+                    HideDistanceBreachAlert(p_flag: true)
+                }
+                NSLog("Here  - 3")
                 return (true, alertMsg)
             }
             else
@@ -467,6 +496,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                     RTPubSub.publishMsg(channel: GLOBAL_CHANNEL as NSString, msg: distAlertJson)
                 }
             }
+
         }
   
         return (false, alertMsg)
@@ -520,6 +550,14 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
         AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
         
+        if GLOBAL_BREACH_LIST.count > 0 {
+            HideDistanceBreachAlert(p_flag: false)
+        } else {
+            HideDistanceBreachAlert(p_flag: true)
+        }
+        
+        
+        
         if (GLOBAL_SHOW_ALERT_POPUPS){
             
             alertMsg = " \(distBreachObj.userBreached ) is \(distBreachObj.breachDistance) miles away from Leader: \( distBreachObj.msgFrom)"
@@ -534,6 +572,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             self.present(alert, animated: true, completion: nil)
         }
         
+        
+ 
+        
     }
     
     func processDeleteUserFromDistanceBreachMsg(realtimeJsonMsg:[String: AnyObject]){
@@ -546,6 +587,13 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     }
     func processUserBreachCacheUpdates () {
         alertLabel.text = String(GLOBAL_BREACH_LIST.count)
+        
+        if GLOBAL_BREACH_LIST.count > 0 {
+            HideDistanceBreachAlert(p_flag: false)
+        } else {
+            HideDistanceBreachAlert(p_flag: true)
+        }
+        
     }
     
     func processOthersInGroupMsg(realtimeJsonMsg:[String: AnyObject]){
