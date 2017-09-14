@@ -230,7 +230,6 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
                     self.s_AdditionalPrefText.isHidden = false
                 })
             
-            
         
         case NotificationTypes.DISCONNECTED:
                 //RTPubSub.getAllUsersInGroup()
@@ -240,7 +239,7 @@ class SettingsViewController: UITableViewController, CLLocationManagerDelegate, 
                 s_ConnectionStatus.text = "DISCONNECTED"
                 s_ConnectionStatus.backgroundColor = nil
                 s_JoinNow.isEnabled = true
-            s_AdditionalPrefText.isHidden = true
+                s_AdditionalPrefText.isHidden = true
         
         case NotificationTypes.USERCACHE_UPDATED:
                 NSLog("case NotificationTypes.USERCACHE_UPDATED - \(GLOBAL_USER_LIST.count)")

@@ -235,7 +235,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         if GLOBAL_BREACH_LIST.count > 0{
             HideDistanceBreachAlert(p_flag: false)
         } else {
-            HideDistanceBreachAlert(p_flag: false)
+            HideDistanceBreachAlert(p_flag: true)
         }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))

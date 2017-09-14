@@ -19,7 +19,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     var manager     :CLLocationManager?
     var location    :CLLocation?
     var delegate    :LocationControllerDelegate?
-    var counter = 1
+    var counter       = 1
     
     static let sharedInstance : LocationController = {
         
@@ -35,6 +35,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         manager?.delegate = self
         manager?.requestAlwaysAuthorization()
         manager?.allowsBackgroundLocationUpdates = true
+        manager?.pausesLocationUpdatesAutomatically = false
     }
     
     func startUpdatingLocation(){
