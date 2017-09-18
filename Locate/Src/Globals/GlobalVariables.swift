@@ -38,6 +38,8 @@ var GLOBAL_AUDIO_CODE                       = "1012"
 var GLOBAL_IS_INTERENT_CONNECTED            = true
 var GLOBAL_SHOW_ALERT_POPUPS                = false
 var GLOBAL_SHOW_TRAIL                       = false
+var GLOBAL_IS_IN_BACKGROUND                 = false
+var GLOBAL_DEFERRED_UPDATES                 = false
 
 var GLOBAL_USER_LIST: [userStruct]                  = []
 var GLOBAL_BREACH_LIST: [DistanceBreachStruct]      = []

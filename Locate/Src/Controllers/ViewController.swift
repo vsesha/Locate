@@ -220,7 +220,8 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         LocationController.sharedInstance.delegate = self
         LocationController.sharedInstance.startUpdatingLocation()
-       
+
+        //NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(self.delegateNotification(_:)), name: NSNotification.Name(rawValue: GLOBAL_APP_INTERNAL_NOTIFICATION_KEY), object: nil)
 
         addUnicodeToButtons()
