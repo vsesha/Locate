@@ -8,6 +8,7 @@
 
 import CoreLocation
 import CoreData
+import UIKit
 
 protocol LocationControllerDelegate {
 
@@ -19,7 +20,9 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     var manager     :CLLocationManager?
     var location    :CLLocation?
     var delegate    :LocationControllerDelegate?
-    var counter       = 1
+    var counter      = 1
+    var publishTimer:Timer?
+    var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     static let sharedInstance : LocationController = {
         
@@ -34,8 +37,10 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         manager?.delegate = self
         manager?.requestAlwaysAuthorization()
-        manager?.allowsBackgroundLocationUpdates = true
+        manager?.allowsBackgroundLocationUpdates    = true
         manager?.pausesLocationUpdatesAutomatically = false
+        manager?.pausesLocationUpdatesAutomatically = false
+        manager?.activityType = CLActivityType.automotiveNavigation
     }
     
     func startUpdatingLocation(){
@@ -60,13 +65,62 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         return self.location!
     }
     
+    func startBackgroundTask (){
+        NSLog("Inside startBackgroundTask" )
+        bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {self.checkLocationTimerEvent()})
+    }
+    
+    func stopBackgroundTask () {
+        NSLog("Inside stopBackgroundTask" )
+        stopUpdatingLocation()
+        guard bgTask != UIBackgroundTaskInvalid else { return }
+        
+        UIApplication.shared.endBackgroundTask(bgTask)
+        bgTask = UIBackgroundTaskInvalid
+        publishTimer?.invalidate()
+    }
+    
+    func checkLocationTimerEvent (){
+        NSLog("Inside checkLocationTimerEvent" )
+        startUpdatingLocation()
+    }
+    
+    func startBackgroundTimer(){
+        NSLog("Inside startWaitTimer" )
+        publishTimer?.invalidate()
+        stopUpdatingLocation()
+        let interval = GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: GLOBAL_REFRESH_FREQUENCY)
+        
+        publishTimer = Timer.scheduledTimer(timeInterval: interval,
+                                            target: self,
+                                            selector: #selector(TriggerTimerEvent),
+                                            userInfo: nil,
+                                            repeats: true)
+    }
+    
+    func TriggerTimerEvent(){
+        NSLog("Inside TimerEvent" )
+        publishTimer?.invalidate()
+        startBackgroundTimer()
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+        NSLog("Inside didUpdateLocations - Is Background  = \(GLOBAL_IS_IN_BACKGROUND)" )
         NSLog("counter = \(self.counter)")
-        stopUpdatingLocation()
-        counter=counter + 1
-        location = locations.last
-        updateLocation(currentlocation: location!)
+        
+        counter     = counter + 1
+        location    = locations.last
+        
+        
+        if !(GLOBAL_IS_IN_BACKGROUND)
+        {
+            stopUpdatingLocation()
+            updateLocation(currentlocation: location!)
+            
+        } else {
+            updateLocation(currentlocation: location!)
+            startBackgroundTimer()
+        }
         
     }
     
