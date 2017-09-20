@@ -315,6 +315,16 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         case NotificationTypes.DISCONNECTED:
                 stopPublishing()
             
+        case NotificationTypes.START_MAIN_TIMER:
+            NSLog("Notification Event is  START MAIN THREAD")
+            if(GLOBAL_ALLOW_REALTIME_PUBSUB){
+                schedulePublishing()
+            }
+            
+        case NotificationTypes.STOP_MAIN_TIMER:
+             NSLog("Notification Event is  STOP MAIN THREAD")
+            stopPublishing()
+            
         case NotificationTypes.REALTIME_COORDINATES:
                 processRealtimeCoordinates(notifyMsg: notifyMsg)
         

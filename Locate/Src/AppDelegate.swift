@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
     
     func applicationWillResignActive(_ application: UIApplication) {
         
-       GLOBAL_IS_IN_BACKGROUND = true
+       //GLOBAL_IS_IN_BACKGROUND = true
         
         
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -60,31 +60,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         NSLog("Application Did Enter Background")
-        application.setMinimumBackgroundFetchInterval(10.0)
-        GLOBAL_IS_IN_BACKGROUND = true
         
-        //NotificationCenter.default.removeObserver(ViewController)
-       // NotificationCenter.default.addObserver(self, selector: #selector(ViewController.delegateNotification(_:)), name: NSNotification.Name(rawValue: GLOBAL_APP_INTERNAL_NOTIFICATION_KEY), object: nil)
-
+        if(GLOBAL_CONNECTION_STATUS)
+        {
+            GLOBAL_notifyToViews(notificationMsg: "Entering Background", notificationType: NotificationTypes.STOP_MAIN_TIMER)
         
+            application.setMinimumBackgroundFetchInterval(10.0)
+            GLOBAL_IS_IN_BACKGROUND = true
         
-        //LocationController.sharedInstance.startMonitoringInBackground()
-        //LocationController.sharedInstance.startUpdatingLocation()
-        LocationController.sharedInstance.startBackgroundTask()
-
+            //LocationController.sharedInstance.startMonitoringInBackground()
+            //LocationController.sharedInstance.startUpdatingLocation()
+            LocationController.sharedInstance.startBackgroundTask()
+            
+        }
         
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        //GLOBAL_IS_IN_BACKGROUND = false
+        
          NSLog("Application Will Enter Foreground")
-        //LocationController.sharedInstance.stopMonitoringInBackground()
         
-        //publishTimer?.invalidate()
+        if(GLOBAL_CONNECTION_STATUS){
+            GLOBAL_IS_IN_BACKGROUND = false
+            GLOBAL_notifyToViews(notificationMsg: "Entering Foreground", notificationType: NotificationTypes.START_MAIN_TIMER)
+        }
         
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

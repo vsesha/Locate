@@ -21,12 +21,14 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     var delegate    :LocationControllerDelegate?
     var counter = 1
     var publishTimer:Timer?
+    var checkLocationTimer:Timer?
+    var isManagerRunning: Bool = false
     
     var backgroundMode: Bool = false
     var lastNotifictionDate = NSDate()
     
     var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-    
+    var acceptableLocationAccuracy:CLLocationAccuracy = 100
     
     static let sharedInstance : LocationController = {
         
@@ -38,8 +40,8 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         super.init()
         self.manager = CLLocationManager()
         
-        manager?.desiredAccuracy = kCLLocationAccuracyBest
-        manager?.delegate = self
+        manager?.desiredAccuracy    = kCLLocationAccuracyBest
+        manager?.delegate           = self
         manager?.requestAlwaysAuthorization()
         manager?.allowsBackgroundLocationUpdates = true
         manager?.pausesLocationUpdatesAutomatically = false
@@ -55,10 +57,15 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     func startUpdatingLocation(){
         NSLog("Start updating location: Counter \(counter)")
         self.manager?.startUpdatingLocation()
+        isManagerRunning = true
     }
 
     func stopUpdatingLocation(){
+        NSLog("Stop updating location at  Counter \(counter)")
+        NSLog("isManagerRunning =  \(isManagerRunning)")
+        isManagerRunning = false
         self.manager?.stopUpdatingLocation()
+        NSLog("stopped location updates")
     }
     
     func startMonitoringInBackground(){
@@ -72,13 +79,28 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     }
     
     func startBackgroundTask (){
-        NSLog("Inside startBackgroundTask" )
-        bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {self.checkLocationTimerEvent()})
+        NSLog("Inside startBackgroundTask - location Manager is \(isManagerRunning)" )
+        
+        if(bgTask == UIBackgroundTaskInvalid) {
+            NSLog("startBackgroundTask - UIBackgroundTaskInvalid" )
+            startUpdatingLocation()
+            bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {self.checkLocationTimerEvent()})
+        }
+        else {
+            NSLog(" startBackgroundTask BGTask is valid, so do nothing")
+        }
+        
     }
     
     func checkLocationTimerEvent (){
         NSLog("Inside checkLocationTimerEvent" )
+        
+        checkLocationTimer?.invalidate()
+        checkLocationTimer = nil
+        
         startUpdatingLocation()
+        
+        self.perform(#selector(resetBackgroundTask), with: nil, afterDelay: 1)
     }
     
     func stopBackgroundTask () {
@@ -91,6 +113,18 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         publishTimer?.invalidate()
     }
     
+    func resetBackgroundTask(){
+        NSLog("Inside resetBackgroundTask - isManagerRunning = \(isManagerRunning)" )
+        if(isManagerRunning)
+        {
+            stopBackgroundTask()
+        } else
+        {
+            stopBackgroundTask()
+            startBackgroundTask()
+        }
+        
+    }
     func getLocation()->CLLocation{
 
         return self.location!
@@ -112,7 +146,11 @@ class LocationController: NSObject, CLLocationManagerDelegate{
             
         }
         else {
+            NSLog("Inside DidUpdateLocations - calling updateLocation")
             updateLocation(currentlocation: location!)
+            
+            //self.manager?.desiredAccuracy    = kCLLocationAccuracyThreeKilometers
+            NSLog("Inside DidUpdateLocations - calling startWaitTimer")
             startWaitTimer()
         }
     }
@@ -120,7 +158,9 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     func startWaitTimer(){
         NSLog("Inside startWaitTimer" )
         publishTimer?.invalidate()
+        
         stopUpdatingLocation()
+        
         let interval = GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: GLOBAL_REFRESH_FREQUENCY)
         
         publishTimer = Timer.scheduledTimer(timeInterval: interval,
@@ -130,14 +170,56 @@ class LocationController: NSObject, CLLocationManagerDelegate{
                                             repeats: true)
     }
     
+    func startCheckLocationTimer (){
+        NSLog("Inside startCheckLocationTimer" )
+        checkLocationTimer?.invalidate()
+        checkLocationTimer = nil
+        
+         let interval = GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: GLOBAL_REFRESH_FREQUENCY)
+        checkLocationTimer = Timer.scheduledTimer(timeInterval: interval,
+                                            target: self,
+                                            selector: #selector(checkLocationTimerEvent),
+                                            userInfo: nil,
+                                            repeats: true)
+
+    }
+    
+    
     func TimerEvent(){
         NSLog("Inside TimerEvent" )
         
         publishTimer?.invalidate()
-       // let locations = [CLLocation]()
-        //location    = locations.last
-        //updateLocation(currentlocation: location!)
-        startWaitTimer()
+        manager?.desiredAccuracy    = kCLLocationAccuracyBest
+        
+        if acceptableLocationAccuracyRetreived() {
+            startBackgroundTask()
+            //startCheckLocationTimer()
+            
+            
+            //stopUpdatingLocation()
+            NSLog("1")
+            let lastLocation = manager?.location
+            NSLog("2")
+            updateLocation(currentlocation: lastLocation!)
+            NSLog("3")
+            
+            
+            
+        }
+        else {
+            NSLog("Accuracy not reached yet ")
+            startWaitTimer()
+        }
+    }
+    
+    func acceptableLocationAccuracyRetreived() -> Bool {
+        NSLog("Inside acceptableLocationAccuracyRetreived - returning true by default as there is some issue here" )
+        return true
+        let Lastlocations = [CLLocation]()
+        location = Lastlocations.last
+        NSLog("location = \(location) ")
+        NSLog("Accuracy - \(location?.horizontalAccuracy) & \(acceptableLocationAccuracy)")
+        return (location?.horizontalAccuracy)! <= acceptableLocationAccuracy ? true: false
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
