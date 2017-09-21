@@ -13,7 +13,7 @@ import GooglePlaces
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     //var manager = CLLocationManager()
     var RTPubSub = RTPubSubController()
@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
         GMSPlacesClient.provideAPIKey(GLOBAL_GOOGLE_MAPS_API_KEY)
         GMSServices.provideAPIKey(GLOBAL_GOOGLE_MAPS_API_KEY)
         
-        LocationController.sharedInstance.delegate = self
-        LocationController.sharedInstance.startUpdatingLocation()
+        //LocationController.sharedInstance.delegate = self
+        //LocationController.sharedInstance.startUpdatingLocation()
         
         if (isConnectedToNetwork()){
             GLOBAL_IS_INTERENT_CONNECTED = true
@@ -148,69 +148,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LocationControllerDelegat
         }
     }
  
-    /*func getNewLocation(){
-        LocationController.sharedInstance.startUpdatingLocation()
-        //setGeoFencePoint(locationManager: <#T##CLLocationManager#>, location: <#T##CLLocation#>, referencePoint: <#T##String#>)
-    }
-    
-    func schedulePublishing(){
-        
-        if(GLOBAL_CONNECTION_STATUS){
-            
-            let interval = GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: GLOBAL_REFRESH_FREQUENCY)
-            
-            publishTimer = Timer.scheduledTimer(timeInterval: interval,
-                                                target: self,
-                                                selector: #selector(getNewLocation),
-                                                userInfo: nil,
-                                                repeats: true)}
-            
-        else{
-            NSLog("Cannot schedule publishing as its not connected")
-        }
-    }*/
-    
-    func publishMyLocation(currentLocation locations:CLLocation) {
-        NSLog("In AppDelegate::publishMyLocation - doing nothing ")
-    }
-    func publishMyLocationInBackground(currentLocation locations:CLLocation) {
-        
-        NSLog("AppDelegate - IN here - publishMyLocation ")
 
-        if(!GLOBAL_CONNECTION_STATUS || GLOBAL_NICK_NAME.isEmpty || !GLOBAL_ALLOW_REALTIME_PUBSUB){
-            NSLog("BACKGROUND - Cant publish because of Connection Status  is \(GLOBAL_CONNECTION_STATUS) or Nick Name is: \(GLOBAL_NICK_NAME) or Publish Status = \(GLOBAL_ALLOW_REALTIME_PUBSUB)")
-            return
-        }
-        
 
-        //let locations = LocationController.sharedInstance.getLocation()
-        let location = locations.coordinate
-        
-        var locationMsg = Message()
-        let locationJsonMsg: NSString
-        let dateFormatter  = DateFormatter ()
-        let date = Date()
-        
-        dateFormatter.dateFormat = "MM-dd-YYYY hh:mm:ss"
-        let currDate = dateFormatter.string(from: date)
-        
-        locationMsg.latitude    = String(format:"%.10f",(location.latitude))
-        locationMsg.longitude   = String(format:"%.10f",(location.longitude))
-        locationMsg.locationAddress = ""
-        locationMsg.locationName = "Current Loc of \(GLOBAL_NICK_NAME)"
-        
-        locationMsg.msgDateTime=currDate
-        locationMsg.msgFrom = GLOBAL_NICK_NAME
-        locationMsg.msgType = "101"
-        
-        publishCounter += 1
-        locationMsg.msgCounter = String (format:"%d",publishCounter)
-        locationJsonMsg = (locationMsg.toJSON() as NSString?)!
-        NSLog("Msg = \(locationJsonMsg)")
-        NSLog("Message = \(locationJsonMsg)")
-        
-        self.RTPubSub.publishMsg (channel: GLOBAL_CHANNEL as NSString,msg:locationJsonMsg )
-    }
     
 }
 
