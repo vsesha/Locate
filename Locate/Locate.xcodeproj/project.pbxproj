@@ -27,6 +27,7 @@
 		3ED1EA231F313943007A0953 /* Locate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3E9CC38E1E3257BD009014D0 /* Locate.xcdatamodeld */; };
 		3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0571E43B6820088897E /* MessageProtocol.swift */; };
 		3ED9D05A1E43BA520088897E /* JSONMsgSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */; };
+		3EDBA1F71F75AF9B0084FF2C /* BGLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */; };
 		A699BC483F51D5B635DDF8C9 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F53E40774296C3BD783E339 /* GooglePlaces.framework */; };
 		C3632157F92B57AF6EA08C89 /* Pods_Locate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10165010751C18A368178742 /* Pods_Locate.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		3ED1EA1A1F31319E007A0953 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		3ED9D0571E43B6820088897E /* MessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProtocol.swift; sourceTree = "<group>"; };
 		3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONMsgSerialization.swift; sourceTree = "<group>"; };
+		3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGLocationManager.swift; sourceTree = "<group>"; };
 		5F53E40774296C3BD783E339 /* GooglePlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GooglePlaces.framework; path = ../../../../../../../../Backup/VasuBKUP/MobileApps/Locategration/Locate/Pods/GooglePlaces/Frameworks/GooglePlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		953C21D99703E2A149CE8684 /* Pods-Locate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.release.xcconfig"; sourceTree = "<group>"; };
 		9676005A1202A85A85784B8B /* Pods-Locate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.debug.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		3ED1EA201F313728007A0953 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */,
 				3E1BEF541E917FBC00246911 /* InternetConnectionUtil.swift */,
 				3EB00C7C1E3D874200F6BB0F /* RealtimePubSub.swift */,
 				3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */,
@@ -320,6 +323,7 @@
 				3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */,
 				3E8E405A1F4637F2009E7B31 /* PreferencesSettings.swift in Sources */,
 				3E28E9CA1F22B32F001935E0 /* DistanceBreachCellView.swift in Sources */,
+				3EDBA1F71F75AF9B0084FF2C /* BGLocationManager.swift in Sources */,
 				3ED1EA1B1F31319E007A0953 /* GlobalVariables.swift in Sources */,
 				3EB00C7D1E3D874200F6BB0F /* RealtimePubSub.swift in Sources */,
 				3E9CC38A1E3257BD009014D0 /* ViewController.swift in Sources */,

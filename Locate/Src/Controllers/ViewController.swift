@@ -12,13 +12,13 @@ import GooglePlaces
 import AudioToolbox
 
 
-class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate {
     
     var channels:       NSMutableArray?
     var channelsIndex:  NSMutableDictionary?
     var RTPubSub        = RTPubSubController()
     var publishCounter  = 0
-    var locationManager = CLLocationManager()
+    
     var previousLocation:CLLocation?
     var CurrTripDestination: TripDestination?
     var destinations :[TripDestination] = []
@@ -36,6 +36,8 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var searchedLocationName    = String()
     var publishTimer:Timer?
     
+    var locationManager = CLLocationManager()
+    private var BGmanager : BGLocationManager!
     
     @IBOutlet weak var s_BreachListLabel: UILabel!
     
@@ -241,6 +243,8 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
+        
+        BGmanager = BGLocationManager(delegate: self)
 
     }
     
@@ -334,13 +338,40 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             processUserBreachCacheUpdates()
             
         case NotificationTypes.ERROR:
-                processExceptions(notifyMsg: notifyMsg)
+            processExceptions(notifyMsg: notifyMsg)
+        
+        case NotificationTypes.ENTERED_BACKGROUND:
+            NSLog("Notification Event is  ENTERED_BACKGROUND")
+            switchToBackground()
 
+        case NotificationTypes.ENTERED_FOREGROUND:
+            NSLog("Notification Event is  ENTERED_FOREGROUND")
+            switchToForeground()
+        
         default:
                 print("defult")
         }
         
     }
+    
+    
+func switchToForeground () {
+    
+    if(GLOBAL_CONNECTION_STATUS){
+            schedulePublishing()
+            BGmanager.applicationDidBecomeActive()
+            BGmanager.stopUpdatingLocation()
+        }
+    }
+    
+    func switchToBackground() {
+        if(GLOBAL_CONNECTION_STATUS){
+            stopPublishing()
+            BGmanager.startUpdatingLocationInBackground (interval: TimeInterval(GLOBAL_BACKGROUND_FREQUENCY), acceptableLocationAccuracy: 1000)
+            BGmanager.applicationDidEnterBackground()
+        }
+    }
+ 
     func processRealtimeCoordinates(notifyMsg: NotificationMessage){
 
         let data = notifyMsg.NotifyMessage?.data(using: String.Encoding.utf8, allowLossyConversion: false)
@@ -473,15 +504,11 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
                     self.present(alert, animated: true, completion: nil)
                 }
                 
-                NSLog("Here  - 1")
                 if GLOBAL_BREACH_LIST.count > 0 {
-                    NSLog("Here  - 2.a")
                     HideDistanceBreachAlert(p_flag: false)
                 } else {
-                    NSLog("Here  - 2.b")
                     HideDistanceBreachAlert(p_flag: true)
                 }
-                NSLog("Here  - 3")
                 return (true, alertMsg)
             }
             else

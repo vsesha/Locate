@@ -5,24 +5,22 @@
 //  Created by Vasudevan Seshadri on 2/7/17.
 //  Copyright © 2017 Vasudevan Seshadri. All rights reserved.
 //
-
+import UIKit
 import CoreLocation
 import CoreData
-import UIKit
 
 protocol LocationControllerDelegate {
 
-    func publishMyLocation(currentLocation:CLLocation)
-    func publishMyLocationInBackground(currentLocation:CLLocation)
-}
+        func publishMyLocation(currentLocation:CLLocation)
+    }
 
 class LocationController: NSObject, CLLocationManagerDelegate{
     var manager     :CLLocationManager?
     var location    :CLLocation?
     var delegate    :LocationControllerDelegate?
-    var counter      = 1
-    var publishTimer:Timer?
-    var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
+    var counter       = 1
+    var bJustPublished :Bool    = false
     
     static let sharedInstance : LocationController = {
         
@@ -31,105 +29,65 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     }()
     
     private override init() {
+
         super.init()
-        self.manager = CLLocationManager()
         
-        manager?.desiredAccuracy = kCLLocationAccuracyBest
-        manager?.delegate = self
-        manager?.requestAlwaysAuthorization()
+        NSLog("Inside LocationController::init()")
+        self.manager                = CLLocationManager()
+        manager?.desiredAccuracy    = kCLLocationAccuracyBest
+        manager?.distanceFilter     = kCLDistanceFilterNone
+        manager?.activityType       = CLActivityType.automotiveNavigation
+        
         manager?.allowsBackgroundLocationUpdates    = true
         manager?.pausesLocationUpdatesAutomatically = false
-        manager?.pausesLocationUpdatesAutomatically = false
-        manager?.activityType = CLActivityType.automotiveNavigation
+        
+        
+        manager?.requestAlwaysAuthorization()
+        manager?.delegate           = self
+        
+        NSLog("Exiting LocationController::init()")
+        
     }
     
+    
     func startUpdatingLocation(){
-        NSLog("Start updating location: Counter \(counter)")
         self.manager?.startUpdatingLocation()
+        
     }
 
     func stopUpdatingLocation(){
         self.manager?.stopUpdatingLocation()
     }
     
-    func startMonitoringInBackground(){
-        self.manager?.startMonitoringSignificantLocationChanges()
-    }
-    
-    func stopMonitoringInBackground(){
-        self.manager?.stopMonitoringSignificantLocationChanges()
-    }
     
     func getLocation()->CLLocation{
 
         return self.location!
     }
     
-    func startBackgroundTask (){
-        NSLog("Inside startBackgroundTask" )
-        bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {self.checkLocationTimerEvent()})
-    }
     
-    func stopBackgroundTask () {
-        NSLog("Inside stopBackgroundTask" )
-        stopUpdatingLocation()
-        guard bgTask != UIBackgroundTaskInvalid else { return }
-        
-        UIApplication.shared.endBackgroundTask(bgTask)
-        bgTask = UIBackgroundTaskInvalid
-        publishTimer?.invalidate()
-    }
-    
-    func checkLocationTimerEvent (){
-        NSLog("Inside checkLocationTimerEvent" )
-        startUpdatingLocation()
-    }
-    
-    func startBackgroundTimer(){
-        NSLog("Inside startWaitTimer" )
-        publishTimer?.invalidate()
-        stopUpdatingLocation()
-        let interval = GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: GLOBAL_REFRESH_FREQUENCY)
-        
-        publishTimer = Timer.scheduledTimer(timeInterval: interval,
-                                            target: self,
-                                            selector: #selector(TriggerTimerEvent),
-                                            userInfo: nil,
-                                            repeats: true)
-    }
-    
-    func TriggerTimerEvent(){
-        NSLog("Inside TimerEvent" )
-        publishTimer?.invalidate()
-        startBackgroundTimer()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-        NSLog("Inside didUpdateLocations - Is Background  = \(GLOBAL_IS_IN_BACKGROUND)" )
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]){
         NSLog("counter = \(self.counter)")
         
         counter     = counter + 1
         location    = locations.last
-        
-        
-        if !(GLOBAL_IS_IN_BACKGROUND)
-        {
+        if(!bJustPublished) {
             stopUpdatingLocation()
             updateLocation(currentlocation: location!)
-            
         } else {
-            updateLocation(currentlocation: location!)
-            startBackgroundTimer()
+            NSLog("Ignore as its just published")
+            bJustPublished = false
         }
-        
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         NSLog("Error" + error.localizedDescription)
     }
     
-
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        
+    }
     
     @objc(locationManager:didStartMonitoringForRegion:) func locationManager(_ manager: CLLocationManager, didStartMonitoringFor  region: CLRegion) {
         NSLog("Monitoring:",region.identifier)
@@ -156,9 +114,9 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     }
     
     func updateLocation(currentlocation:CLLocation){
+        bJustPublished = true
         guard let delegate = self.delegate else {return }
         delegate.publishMyLocation(currentLocation: location!)
-        delegate.publishMyLocationInBackground(currentLocation: location!)
         
     }
     

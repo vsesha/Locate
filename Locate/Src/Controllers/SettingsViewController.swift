@@ -10,7 +10,7 @@ import UIKit
 import GoogleMaps
 import MessageUI
 
-class SettingsViewController: UITableViewController, CLLocationManagerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
+class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
     @IBOutlet weak var s_NickName:                  UITextField!
     @IBOutlet weak var s_Channel:                   UITextField!

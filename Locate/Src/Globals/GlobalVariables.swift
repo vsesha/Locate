@@ -38,7 +38,7 @@ var GLOBAL_AUDIO_CODE                       = "1012"
 var GLOBAL_IS_INTERENT_CONNECTED            = true
 var GLOBAL_SHOW_ALERT_POPUPS                = false
 var GLOBAL_SHOW_TRAIL                       = false
-var GLOBAL_IS_IN_BACKGROUND                 = false
+var GLOBAL_BACKGROUND_FREQUENCY             = 90
 
 
 var GLOBAL_USER_LIST: [userStruct]                  = []
