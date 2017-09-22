@@ -24,6 +24,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     var checkLocationTimer:Timer?
     
     var isManagerRunning: Bool  = false
+    
     var bJustPublished :Bool    = false
     var backgroundMode: Bool    = false
     var lastNotifictionDate     = NSDate()
@@ -68,13 +69,14 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     
     func startUpdatingLocation(){
         NSLog("Start updating location: Counter \(counter)")
-        self.manager?.startUpdatingLocation()
         isManagerRunning = true
+        self.manager?.startUpdatingLocation()
+        
     }
 
     func stopUpdatingLocation(){
-        NSLog("Stop updating location at  Counter \(counter)")
-        NSLog("isManagerRunning =  \(isManagerRunning)")
+        NSLog("Stop updating location ")
+
         isManagerRunning = false
         self.manager?.stopUpdatingLocation()
         NSLog("stopped location updates")
@@ -133,6 +135,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
             stopBackgroundTask()
             startBackgroundTask()
         }
+
     }
     func getLocation()->CLLocation{
 
@@ -145,6 +148,8 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         
         NSLog("Inside didUpdateLocations - Is Bacoground  = \(GLOBAL_IS_IN_BACKGROUND)" )
         NSLog("counter = \(self.counter)")
+        
+        guard isManagerRunning else { return }
         
         counter     = counter + 1
         location    = locations.last
@@ -160,7 +165,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
             }
             
         }
-            if waitTimer == nil {
+          /*  if waitTimer == nil {
                 //NSLog("Inside DidUpdateLocations - calling updateLocation")
                 //updateLocation(currentlocation: location!)
             
@@ -168,7 +173,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
                 NSLog("Inside DidUpdateLocations - calling startWaitTimer")
                 startWaitTimer()
                 }
-        
+        */
     }
     
     func startWaitTimer(){
@@ -179,7 +184,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
                                             target: self,
                                             selector: #selector(TimerEvent),
                                             userInfo: nil,
-                                            repeats: true)
+                                            repeats: false)
     
     }
     
@@ -203,7 +208,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
                                             target: self,
                                             selector: #selector(checkLocationTimerEvent),
                                             userInfo: nil,
-                                            repeats: true)
+                                            repeats: false)
 
     }
     
@@ -242,7 +247,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
             startCheckLocationTimer()
             
             NSLog("Inside TimerEvent :: about to call stopUpdatingLocation()" )
-            stopUpdatingLocation()
+            self.manager?.stopUpdatingLocation()
             
             NSLog("1")
             let lastLocation = manager?.location

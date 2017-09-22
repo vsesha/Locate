@@ -12,13 +12,13 @@ import GooglePlaces
 import AudioToolbox
 
 
-class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate,BGLocationManagerDelegate {
     
     var channels:       NSMutableArray?
     var channelsIndex:  NSMutableDictionary?
     var RTPubSub        = RTPubSubController()
     var publishCounter  = 0
-    var locationManager = CLLocationManager()
+    
     var previousLocation:CLLocation?
     var CurrTripDestination: TripDestination?
     var destinations :[TripDestination] = []
@@ -35,6 +35,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var notificationMsg         = String()
     var searchedLocationName    = String()
     var publishTimer:Timer?
+    
+    var locationManager = CLLocationManager()
+    private var BGmanager: BGLocationManager!
     
     
     
@@ -237,6 +240,8 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
+        
+        BGmanager = BGLocationManager(delegate: self)
 
     }
     
@@ -315,15 +320,16 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         case NotificationTypes.DISCONNECTED:
                 stopPublishing()
             
-        case NotificationTypes.START_MAIN_TIMER:
-            NSLog("Notification Event is  START MAIN THREAD")
-            if(GLOBAL_ALLOW_REALTIME_PUBSUB){
-                schedulePublishing()
-            }
+        case NotificationTypes.ENTERED_BACKGROUND:
+            NSLog("Notification Event is  ENTERED_BACKGROUND")
+            switchFromForegroudToBackground()
             
-        case NotificationTypes.STOP_MAIN_TIMER:
-             NSLog("Notification Event is  STOP MAIN THREAD")
-            stopPublishing()
+            
+        case NotificationTypes.ENTERED_FOREGROUND:
+            NSLog("Notification Event is  ENTERED_FOREGROUND")
+            switchFromBackgroundToForeground()
+            
+            
             
         case NotificationTypes.REALTIME_COORDINATES:
                 processRealtimeCoordinates(notifyMsg: notifyMsg)
@@ -339,6 +345,27 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         }
         
     }
+    
+    
+    func switchFromBackgroundToForeground () {
+    
+        if(GLOBAL_CONNECTION_STATUS){
+            schedulePublishing()
+            BGmanager.applicationDidBecomeActive()
+            BGmanager.stopUpdatingLocation()
+        }
+    
+    }
+    
+    func switchFromForegroudToBackground() {
+        if(GLOBAL_CONNECTION_STATUS){
+            stopPublishing()
+            BGmanager.startUpdatingLocationInBackground (interval: 30, acceptableLocationAccuracy: 1000)
+            BGmanager.applicationDidEnterBackground()
+        }
+    
+    }
+    
     func processRealtimeCoordinates(notifyMsg: NotificationMessage){
 
         let data = notifyMsg.NotifyMessage?.data(using: String.Encoding.utf8, allowLossyConversion: false)
