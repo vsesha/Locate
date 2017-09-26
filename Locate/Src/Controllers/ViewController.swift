@@ -36,13 +36,17 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var searchedLocationName    = String()
     var publishTimer:Timer?
     
+    
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
     
     @IBOutlet weak var s_BreachListLabel: UILabel!
     
     @IBOutlet weak var alertLabel: UILabel!
-  
+    
+    @IBOutlet weak var s_NoOfUsersLabel: UIButton!
+   
+    @IBOutlet weak var UsersLabel: UILabel!
     @IBOutlet weak var startTripButton:     UIButton!
     @IBOutlet weak var drawPathButton:      UIButton!
     @IBOutlet weak var shareTripButton:     UIButton!
@@ -99,7 +103,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     {
 
         view.addSubview(drawPathButton)
-        view.addSubview(startTripButton)
+        //view.addSubview(startTripButton)
         view.addSubview(shareTripButton)
         //view.addSubview(addPathToTrip)
         view.addSubview(mapZoomIn)
@@ -112,12 +116,28 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         view.addSubview(s_BreachListLabel)
         view.bringSubview(toFront: s_BreachListLabel)
+        
+        view.addSubview(s_NoOfUsersLabel)
+        view.bringSubview(toFront: s_NoOfUsersLabel)
+        
+        view.addSubview(UsersLabel)
+        view.bringSubview(toFront: UsersLabel)
         addShadowEffect()
       
     }
     
     func addShadowEffect(){
 
+        
+        s_NoOfUsersLabel.layer.shadowOpacity = 0.4
+        s_NoOfUsersLabel.layer.shadowOffset = CGSizeFromString("1")
+        s_NoOfUsersLabel.layer.shadowRadius = 4
+        s_NoOfUsersLabel.layer.masksToBounds = false
+        s_NoOfUsersLabel.layer.cornerRadius = 4
+        //s_NoOfUsersLabel.titleLabel?.textAlignment = .center
+        
+        s_NoOfUsersLabel.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
+        
         
         mapZoomIn.layer.shadowColor=UIColor.black.cgColor
         mapZoomIn.layer.shadowOpacity = 0.4
@@ -152,12 +172,12 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         shareTripButton.layer.masksToBounds = false
         shareTripButton.layer.cornerRadius = 4
         
-        startTripButton.layer.shadowColor=UIColor.black.cgColor
-        startTripButton.layer.shadowOpacity = 0.4
-        startTripButton.layer.shadowOffset = CGSizeFromString("1")
-        startTripButton.layer.shadowRadius = 4
-        startTripButton.layer.masksToBounds = false
-        startTripButton.layer.cornerRadius = 4
+        //startTripButton.layer.shadowColor=UIColor.black.cgColor
+        //startTripButton.layer.shadowOpacity = 0.4
+        //startTripButton.layer.shadowOffset = CGSizeFromString("1")
+        //startTripButton.layer.shadowRadius = 4
+        //startTripButton.layer.masksToBounds = false
+        //startTripButton.layer.cornerRadius = 4
         
         
         groupLeader.layer.shadowColor=UIColor.black.cgColor
@@ -205,9 +225,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         shareTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
 
         
-        startTripButton.setTitle(NSString(string: "\u{26A1}\u{0000FE0E}") as String, for: .normal)
-        startTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        startTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
+        //startTripButton.setTitle(NSString(string: "\u{26A1}\u{0000FE0E}") as String, for: .normal)
+        //startTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+        //startTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
         
         DistBreachButton.setTitle(NSString(string: "\u{26A0}\u{0000FE0E}") as String, for: .normal)
         DistBreachButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
@@ -245,6 +265,12 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         view.addGestureRecognizer(tapGesture)
         
         BGmanager = BGLocationManager(delegate: self)
+        
+        NSLog("setting No of User label = \(GLOBAL_USER_LIST.count)")
+        s_NoOfUsersLabel.setTitle(String(GLOBAL_USER_LIST.count), for: .normal)
+        if (GLOBAL_USER_LIST.count == 1){
+            UsersLabel.text = "User"
+        }
 
     }
     
@@ -271,7 +297,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         //addPathToTrip.isHidden      = false
         drawPathButton.isHidden     = true
         shareTripButton.isHidden    = true
-        startTripButton.isHidden    = true
+        //startTripButton.isHidden    = true
         groupLeader.isHidden        = true
         
     }
@@ -329,11 +355,17 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             }
         
         case NotificationTypes.DISCONNECTED:
-                stopPublishing()
+            stopPublishing()
             
         case NotificationTypes.REALTIME_COORDINATES:
-                processRealtimeCoordinates(notifyMsg: notifyMsg)
+            processRealtimeCoordinates(notifyMsg: notifyMsg)
         
+        case NotificationTypes.USERCACHE_UPDATED:
+            s_NoOfUsersLabel.setTitle(String(GLOBAL_USER_LIST.count), for: .normal)
+            if (GLOBAL_USER_LIST.count == 1){
+                UsersLabel.text = "User"
+            }else {UsersLabel.text = "Users"}
+
         case NotificationTypes.USERBREACHCACHE_UPDATED:
             processUserBreachCacheUpdates()
             
@@ -707,12 +739,12 @@ func switchToForeground () {
             
             GLOBAL_ALLOW_REALTIME_PUBSUB    = true
             GLOBAL_TRIP_STARTED             = true
-            startTripButton.setTitle("Stop Trip", for: .normal)
+            //startTripButton.setTitle("Stop Trip", for: .normal)
             }
             else
             if (GLOBAL_TRIP_STARTED)
             {
-                startTripButton.setTitle("Start Trip", for: .normal)
+                //startTripButton.setTitle("Start Trip", for: .normal)
                 GLOBAL_ALLOW_REALTIME_PUBSUB    = false
                 GLOBAL_TRIP_STARTED             = false
             }
