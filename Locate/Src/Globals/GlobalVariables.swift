@@ -38,8 +38,8 @@ var GLOBAL_AUDIO_CODE                       = "1012"
 var GLOBAL_IS_INTERENT_CONNECTED            = true
 var GLOBAL_SHOW_ALERT_POPUPS                = false
 var GLOBAL_SHOW_TRAIL                       = false
-var GLOBAL_BACKGROUND_FREQUENCY             = 90
-
+var GLOBAL_BACKGROUND_FREQUENCY             = 15
+var GLOBAL_APP_VERSION                      = "1.0.0"
 
 var GLOBAL_USER_LIST: [userStruct]                  = []
 var GLOBAL_BREACH_LIST: [DistanceBreachStruct]      = []

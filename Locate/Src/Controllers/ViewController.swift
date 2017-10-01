@@ -271,6 +271,19 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         if (GLOBAL_USER_LIST.count == 1){
             UsersLabel.text = "User"
         }
+        
+        //test code
+        if !(CLLocationManager.authorizationStatus()  == .authorizedAlways){
+            var alertMsg = "Location always authorized is not set to true"
+
+            let alert = UIAlertController(title: "Alert", message: alertMsg, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            BGmanager.requestAlwaysAuthorization()
+        } 
+        
 
     }
     
@@ -399,7 +412,7 @@ func switchToForeground () {
     func switchToBackground() {
         if(GLOBAL_CONNECTION_STATUS){
             stopPublishing()
-            BGmanager.startUpdatingLocationInBackground (interval: TimeInterval(GLOBAL_BACKGROUND_FREQUENCY), acceptableLocationAccuracy: 1000)
+            BGmanager.startUpdatingLocationInBackground (interval: TimeInterval(GLOBAL_BACKGROUND_FREQUENCY), acceptableLocationAccuracy: 100)
             BGmanager.applicationDidEnterBackground()
         }
     }
