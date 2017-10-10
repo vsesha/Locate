@@ -282,7 +282,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             self.present(alert, animated: true, completion: nil)
             
             BGmanager.requestAlwaysAuthorization()
-        } 
+        }
         
 
     }
