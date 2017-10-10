@@ -245,7 +245,11 @@ func GLOBAL_GetCurrentTimeInStr() -> String{
         return currDate
 }
 
-
+func GLOBAL_GetApplicationVersion (){
+    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        GLOBAL_APP_VERSION = "Ver: \(version)"
+    }
+}
 
 /*  -------------- ************* --------------
 ONLY USED FOR REFERENCE. WILL BE DELETED SOON...

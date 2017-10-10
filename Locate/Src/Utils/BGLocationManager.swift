@@ -47,10 +47,13 @@ public class BGLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func configureLocationManager(){
-        manager.allowsBackgroundLocationUpdates = true
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+       
+        
+        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         manager.distanceFilter = kCLDistanceFilterNone
         manager.pausesLocationUpdatesAutomatically = false
+        //manager.requestAlwaysAuthorization()
+         manager.allowsBackgroundLocationUpdates = true
         manager.delegate = self
     }
     

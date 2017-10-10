@@ -25,7 +25,8 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
 
     @IBOutlet weak var s_AdditionalPrefText:        UILabel!
     
-    @IBOutlet weak var s_TriangleLabel: UIButton!
+    @IBOutlet weak var s_TriangleLabel:             UIButton!
+    @IBOutlet weak var s_AppVersionLabel:           UILabel!
     
     var validationError:String      = "None"
     let RTPubSub                    = RTPubSubController()
@@ -89,6 +90,10 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
 
         addUnicode()
         HideAdditionalPrefText(pFlag: true)
+        
+        
+        s_AppVersionLabel.text = GLOBAL_APP_VERSION
+   
     }
     
     func HideAdditionalPrefText(pFlag: Bool)

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.2</string>
+	<string>1.0.4</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
@@ -25,9 +25,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Using your lcoation to udate</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App will be using your location details</string>
+	<string>Locate Application will use your location information to publish for other members of the group</string>
+	<key>Privacy - Location Always and When In Use Usage Description</key>
+	<string>Locate Application will use your location information to publish for other members of the group</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Locate Application will use your location information to publish for other members of the group</string>
+	<key>NSLocation When In Use Usage Description</key>
+	<string>Locate Application will use your location information to publish for other members of the group</string>
 	<key>UIApplicationExitsOnSuspend</key>
 	<false/>
 	<key>UIBackgroundModes</key>

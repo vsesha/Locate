@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("Network not connected")
         }
         
+        GLOBAL_GetApplicationVersion ()
         return true
     }
     

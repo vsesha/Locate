@@ -589,6 +589,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="s_AdditionalPrefText" destination="ivx-EY-ODK" id="XAy-Y0-PaD"/>
+                        <outlet property="s_AppVersionLabel" destination="GAd-hb-88N" id="c5c-oR-U19"/>
                         <outlet property="s_Channel" destination="kOW-wV-NLy" id="jFr-uF-Cte"/>
                         <outlet property="s_ConnectionStatus" destination="aUv-jP-nEK" id="hHh-xO-7VB"/>
                         <outlet property="s_ErrorMsgDisplay" destination="OW0-bJ-e5C" id="w5w-jo-Knf"/>
@@ -631,43 +632,55 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nick Name:  User's nick name" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7bt-Ga-nEh">
-                                                    <rect key="frame" x="4" y="0.0" width="359" height="22"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nick Name:  User's nick name" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7bt-Ga-nEh">
+                                                    <rect key="frame" x="4" y="0.0" width="367" height="15.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trip Name:  Is the name of the trip. All those who are on a trip must have the same trip name" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60F-7O-jm0">
-                                                    <rect key="frame" x="4" y="21" width="367" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Name:  Is the name of the trip. All those who are on a trip must have the same trip name" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60F-7O-jm0">
+                                                    <rect key="frame" x="4" y="24.5" width="367" height="30.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Avatar: Select the color you prefer to be shown on other driver's map" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl3-gQ-yRj">
-                                                    <rect key="frame" x="4" y="64" width="367" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Avatar: Select the color you prefer to be shown on other driver's map" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl3-gQ-yRj">
+                                                    <rect key="frame" x="4" y="64" width="367" height="30.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Publish Frequency: Its the frequeny of publishing your location to other drivers in the group" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ize-tJ-tvL">
-                                                    <rect key="frame" x="4" y="104" width="367" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Publish Frequency: Its the frequeny of publishing your location to other drivers in the group" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ize-tJ-tvL">
+                                                    <rect key="frame" x="4" y="104" width="367" height="30.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6jQ-aP-sZ8">
-                                                    <rect key="frame" x="4" y="149" width="367" height="53"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6jQ-aP-sZ8">
+                                                    <rect key="frame" x="4" y="143.5" width="367" height="45.5"/>
                                                     <string key="text">Publish My Location: If you intend to publish your location to others. Setting this to false means your location or path is not visible to other drivers</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ize-tJ-tvL" firstAttribute="top" secondItem="Tl3-gQ-yRj" secondAttribute="bottom" constant="9" id="295-Jc-1tu"/>
+                                                <constraint firstItem="60F-7O-jm0" firstAttribute="top" secondItem="7bt-Ga-nEh" secondAttribute="bottom" constant="9" id="8Hz-ge-WET"/>
+                                                <constraint firstAttribute="trailing" secondItem="60F-7O-jm0" secondAttribute="trailing" constant="4" id="BaB-Z7-2e8"/>
+                                                <constraint firstAttribute="trailing" secondItem="ize-tJ-tvL" secondAttribute="trailing" constant="4" id="CfZ-RF-xAk"/>
+                                                <constraint firstItem="7bt-Ga-nEh" firstAttribute="top" secondItem="4aa-SE-k2s" secondAttribute="top" id="OQD-uO-5XV"/>
+                                                <constraint firstItem="6jQ-aP-sZ8" firstAttribute="leading" secondItem="4aa-SE-k2s" secondAttribute="leading" constant="4" id="Ofh-X3-ejW"/>
+                                                <constraint firstItem="Tl3-gQ-yRj" firstAttribute="top" secondItem="60F-7O-jm0" secondAttribute="bottom" constant="9" id="T8X-uP-Xfc"/>
+                                                <constraint firstItem="60F-7O-jm0" firstAttribute="leading" secondItem="4aa-SE-k2s" secondAttribute="leading" constant="4" id="ThF-VK-qHn"/>
+                                                <constraint firstAttribute="trailing" secondItem="7bt-Ga-nEh" secondAttribute="trailing" constant="4" id="UeI-vA-NLJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Tl3-gQ-yRj" secondAttribute="trailing" constant="4" id="Z4X-9n-K7W"/>
+                                                <constraint firstAttribute="trailing" secondItem="6jQ-aP-sZ8" secondAttribute="trailing" constant="4" id="aiG-Bb-7sG"/>
+                                                <constraint firstItem="Tl3-gQ-yRj" firstAttribute="leading" secondItem="4aa-SE-k2s" secondAttribute="leading" constant="4" id="gte-iV-cec"/>
+                                                <constraint firstItem="6jQ-aP-sZ8" firstAttribute="top" secondItem="ize-tJ-tvL" secondAttribute="bottom" constant="9" id="reJ-Ig-Jy5"/>
+                                                <constraint firstItem="ize-tJ-tvL" firstAttribute="leading" secondItem="4aa-SE-k2s" secondAttribute="leading" constant="4" id="y6I-Zh-N4e"/>
+                                                <constraint firstItem="7bt-Ga-nEh" firstAttribute="leading" secondItem="4aa-SE-k2s" secondAttribute="leading" constant="4" id="yY0-WH-w8b"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -689,41 +702,51 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="193.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I am group Leader: As a leader, your location will be the reference point for all participants while calculating geo distance" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvP-cq-AnP">
-                                                    <rect key="frame" x="4" y="0.0" width="367" height="46"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I am group Leader: As a leader, your location will be the reference point for all participants while calculating geo distance" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvP-cq-AnP">
+                                                    <rect key="frame" x="4" y="4" width="367" height="45.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aIb-uH-uoS">
-                                                    <rect key="frame" x="4" y="48" width="367" height="74"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popup geofence breach alerts:  Will show alert message everytime anyone breaches distance limit" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIA-cn-bkU">
+                                                    <rect key="frame" x="4" y="124.5" width="367" height="30.5"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show participants trail: Displays trail/track points taken by all participants. " textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4f-Sr-37l">
+                                                    <rect key="frame" x="4" y="163" width="367" height="30.5"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aIb-uH-uoS">
+                                                    <rect key="frame" x="4" y="56.5" width="367" height="61"/>
                                                     <string key="text">Geofence participants within X miles:  This is the radial distance that all participants shoud maintain with respect to a leader. Anyone breacing this distance will be shown in Distance Breach Alert list</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Popup geofence breach alerts:  Will show alert message everytime anyone breaches distance limit" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIA-cn-bkU">
-                                                    <rect key="frame" x="4" y="123" width="367" height="39"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show participants trail: Displays trail/track points taken by all participants. " textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4f-Sr-37l">
-                                                    <rect key="frame" x="4" y="162" width="367" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SIA-cn-bkU" firstAttribute="top" secondItem="aIb-uH-uoS" secondAttribute="bottom" constant="7" id="0yo-gC-c8m"/>
+                                                <constraint firstItem="gvP-cq-AnP" firstAttribute="leading" secondItem="XSI-2G-0zm" secondAttribute="leading" constant="4" id="6Bg-Mm-i09"/>
+                                                <constraint firstAttribute="trailing" secondItem="J4f-Sr-37l" secondAttribute="trailing" constant="4" id="89q-fp-s4U"/>
+                                                <constraint firstItem="SIA-cn-bkU" firstAttribute="leading" secondItem="XSI-2G-0zm" secondAttribute="leading" constant="4" id="DMh-bj-TYf"/>
+                                                <constraint firstAttribute="trailing" secondItem="aIb-uH-uoS" secondAttribute="trailing" constant="4" id="E4p-QY-KAm"/>
+                                                <constraint firstItem="gvP-cq-AnP" firstAttribute="top" secondItem="XSI-2G-0zm" secondAttribute="top" constant="4" id="QmN-t1-qb3"/>
+                                                <constraint firstAttribute="trailing" secondItem="gvP-cq-AnP" secondAttribute="trailing" constant="4" id="Ua5-Ln-tkQ"/>
+                                                <constraint firstItem="aIb-uH-uoS" firstAttribute="leading" secondItem="XSI-2G-0zm" secondAttribute="leading" constant="4" id="VQs-eA-6hF"/>
+                                                <constraint firstItem="J4f-Sr-37l" firstAttribute="top" secondItem="SIA-cn-bkU" secondAttribute="bottom" constant="8" id="ZKF-NY-iUI"/>
+                                                <constraint firstAttribute="trailing" secondItem="SIA-cn-bkU" secondAttribute="trailing" constant="4" id="Zg5-5H-vVN"/>
+                                                <constraint firstItem="aIb-uH-uoS" firstAttribute="top" secondItem="gvP-cq-AnP" secondAttribute="bottom" constant="7" id="ggU-kP-rOc"/>
+                                                <constraint firstItem="J4f-Sr-37l" firstAttribute="leading" secondItem="XSI-2G-0zm" secondAttribute="leading" constant="4" id="vwA-DO-0fd"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Designed &amp; Developed by" id="Gy7-nL-FQ0">
+                            <tableViewSection headerTitle="Feedback" id="Gy7-nL-FQ0">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="3" id="VGI-oZ-JUs">
                                         <rect key="frame" x="0.0" y="486" width="375" height="3"/>
@@ -740,21 +763,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="130.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="For any feedback, comments, bugs or proposals, feel free to  reach me at -  LocateVasu@gmail.com" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NqQ-dk-cPO">
-                                                    <rect key="frame" x="8" y="4" width="359" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For any feedback, comments, bugs or proposals, feel free to  reach me at -  LocateVasu@gmail.com" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NqQ-dk-cPO">
+                                                    <rect key="frame" x="4" y="6" width="367" height="33"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vasudevan Seshadri" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbN-tM-skG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vasudevan Seshadri" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbN-tM-skG">
                                                     <rect key="frame" x="176" y="48" width="195" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="195" id="LJu-G5-vXQ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="NqQ-dk-cPO" firstAttribute="top" secondItem="rLu-nd-CiA" secondAttribute="top" constant="6" id="9vv-Y6-SWy"/>
+                                                <constraint firstAttribute="trailing" secondItem="dbN-tM-skG" secondAttribute="trailing" constant="4" id="a6h-83-pxV"/>
+                                                <constraint firstItem="dbN-tM-skG" firstAttribute="top" secondItem="NqQ-dk-cPO" secondAttribute="bottom" constant="9" id="kMM-kX-wo7"/>
+                                                <constraint firstItem="NqQ-dk-cPO" firstAttribute="leading" secondItem="rLu-nd-CiA" secondAttribute="leading" constant="4" id="rTj-yl-cd4"/>
+                                                <constraint firstAttribute="trailing" secondItem="NqQ-dk-cPO" secondAttribute="trailing" constant="4" id="raa-Kz-sEP"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -765,11 +796,7 @@
                             <outlet property="delegate" destination="Hxl-Gz-1jl" id="1Td-eH-86v"/>
                         </connections>
                     </tableView>
-                    <toolbarItems>
-                        <barButtonItem title="Version 1.0.2" id="4DJ-6x-A8v">
-                            <color key="tintColor" red="1" green="0.50196081400000003" blue="0.0" alpha="0.75465539380000002" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnK-lJ-68a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
