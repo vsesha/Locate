@@ -46,7 +46,9 @@ enum MessageTypes: Int {
             AckToJoin           = 205,
             RequestForLeader    = 206,
             AckToLeaderMsg      = 207,
-            DistanceBreach      = 209
+            DistanceBreach      = 209,
+            DeleteUserDistBreach = 210,
+            PingCurrentDistance  = 211
 }
 
 struct Message: JSONSerializable{
@@ -112,15 +114,32 @@ struct userStruct: JSONSerializable {
         latitude    = _latitude
     }
 }*/
+struct pingUsersLocation: JSONSerializable {
+    var msgFrom:        String?
+    var msgType:        String?
+    
+}
+struct userDistanceStruct: JSONSerializable {
+    var userName:           String?
+    var userColor:          String?
+    var positionTime:       String?
+    var userDistance:       String?
+    var didBreachDistance:  Bool?
+    var distanceBreachCount:Int?
+    
+}
 
 struct UserPinnedLocation{
     var userName:   String?
     var pinMarker: GMSMarker?
-    init (_userName: String, _pinMarker: GMSMarker){
+    var userLocation: CLLocation?
+    init (_userName: String, _pinMarker: GMSMarker, _userLocation: CLLocation){
         userName  = _userName
         pinMarker = _pinMarker
+        userLocation = _userLocation
     }
 }
+
 
 struct DistanceBreachStruct: JSONSerializable {
     var msgFrom         =   "test"

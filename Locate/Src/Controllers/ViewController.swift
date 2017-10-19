@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import AudioToolbox
+import AVFoundation
 
 
 class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate {
@@ -36,6 +37,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var searchedLocationName    = String()
     var publishTimer:Timer?
     
+    let userDistCtrl            = UserDistanceController ()
     
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
@@ -58,7 +60,11 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     @IBOutlet weak var DistBreachButton: UIButton!
     @IBOutlet weak var SettingsNavButton:   UIBarButtonItem!
     
+    
+    @IBOutlet weak var speakButton: UIButton!
+    
     //@IBOutlet weak var alertShowButton: UIButton!
+    @IBOutlet weak var statusLabel: UILabel!
     
     
 
@@ -122,6 +128,13 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         view.addSubview(UsersLabel)
         view.bringSubview(toFront: UsersLabel)
+        
+        view.addSubview(speakButton)
+        view.bringSubview(toFront: speakButton)
+        
+        view.addSubview(statusLabel)
+        view.bringSubview(toFront: statusLabel)
+        
         addShadowEffect()
       
     }
@@ -135,6 +148,15 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         s_NoOfUsersLabel.layer.masksToBounds = false
         s_NoOfUsersLabel.layer.cornerRadius = 4
         //s_NoOfUsersLabel.titleLabel?.textAlignment = .center
+        
+        
+        
+        speakButton.layer.shadowOpacity = 0.4
+        speakButton.layer.shadowOffset = CGSizeFromString("1")
+        speakButton.layer.shadowRadius = 4
+        speakButton.layer.masksToBounds = false
+        speakButton.layer.cornerRadius = 4
+        
         
         s_NoOfUsersLabel.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
         
@@ -257,7 +279,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         if GLOBAL_BREACH_LIST.count > 0{
             HideDistanceBreachAlert(p_flag: false)
         } else {
-            HideDistanceBreachAlert(p_flag: true)
+            HideDistanceBreachAlert(p_flag: false)
         }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
@@ -453,6 +475,12 @@ func switchToForeground () {
                 }
             
             }
+            else  if(msgType == "211" ){
+                NSLog("Received ping for  User Location")
+                userDistCtrl.replyToDistancePing()
+               
+            }
+                
             else {
                 NSLog("Message Type \(msgType) is not supported yet")
             }
@@ -468,21 +496,44 @@ func switchToForeground () {
         let latitude    = (realtimeJsonMsg["latitude"]      as! NSString).doubleValue
         let fromUser    = realtimeJsonMsg["msgFrom"]        as! String
         let markerColor = realtimeJsonMsg["markerColor"]    as! String
-        
-    
-        
+
         let location    = CLLocation(latitude: latitude        as CLLocationDegrees,
                                   longitude: longitude      as CLLocationDegrees)
         
-        if(GLOBAL_SHOW_TRAIL == false){
-            removePreviousMarkerForUser(_userName: fromUser)
+        let (found, prevLocation) = FindandRemovePreviousMarker(_userName: fromUser)
+        if(found > -1){
+            drawTrack(originLocation: prevLocation, destinationlocation: location, color: markerColor)
+
+//            removePreviousMarkerForUser(_userName: fromUser)
         }
         addMarker(location: location, addressStr: fromUser, color:markerColor )
         NSLog("location  = \(location) ")
-
-        checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
         
+        addUserDistanceToCache(userlocation: location, UserName: fromUser, UserColor: markerColor )
+        //checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
+        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
+    }
+    
+
+    func FindandRemovePreviousMarker(_userName: String) -> (Int, CLLocation) {
+        var found: Int = -1
+        var userPrevLocation = CLLocation()
+        if (GLOBAL_PINNED_LOCATION_LIST.count > 0)
+        {
+            for count in 0 ... GLOBAL_PINNED_LOCATION_LIST.count-1 {
+                let userlocation = GLOBAL_PINNED_LOCATION_LIST[count]
+                if (userlocation.userName == _userName){
+                    let marker = userlocation.pinMarker
+                    removeMarker(_marker: marker!)
+                    userPrevLocation =  userlocation.userLocation!
+                    found = count
+                }
+            }
+        }
+        if(found > -1) {
+            GLOBAL_PINNED_LOCATION_LIST.remove(at: found)
+        }
+        return (found, userPrevLocation)
     }
     
     func removePreviousMarkerForUser(_userName: String){
@@ -502,16 +553,55 @@ func switchToForeground () {
                     found = count
                 }
             }
-            if(found > -1) { GLOBAL_PINNED_LOCATION_LIST.remove(at: found) }
+            if(found > -1) {
+                GLOBAL_PINNED_LOCATION_LIST.remove(at: found)
+            }
         }
     
+    }
+    
+    func addUserDistanceToCache(userlocation:CLLocation, UserName:String, UserColor: String) {
+        var userDistanceBreached    = false
+        let myCurrentLocation       = locationManager.location
+        
+        var distanceFromMe          = Double( (myCurrentLocation?.distance(from: userlocation))!)
+        let geoDistance             = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
+        
+        if (distanceFromMe > geoDistance) { userDistanceBreached = true}
+       
+        
+        NSLog("Distance in Meters   = \(String(describing: distanceFromMe))")
+        NSLog("Distance GEOFENCE    = \(geoDistance)")
+        
+        distanceFromMe              = distanceFromMe * 0.000621371 //converting to miles
+        var DistanceInStr:String = String(format:"%2f",distanceFromMe)
+        let index       = DistanceInStr.index(DistanceInStr.startIndex, offsetBy: 4)
+        DistanceInStr   = DistanceInStr.substring(to: index)
+        
+        
+        let currDate = GLOBAL_GetCurrentTimeInStr()
+        
+        var userDistObj             = userDistanceStruct()
+        userDistObj.userName        = UserName
+        userDistObj.userColor       = UserColor
+        userDistObj.positionTime    = currDate
+        userDistObj.userDistance    = DistanceInStr
+        userDistObj.distanceBreachCount = 1
+        userDistObj.didBreachDistance   = userDistanceBreached
+        
+        GLOBAL_UpdateUserDistanceList(userDistanceObj: userDistObj)
+        if (userDistanceBreached){
+            //AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
+            
+        }
+
     }
     
     func checkIfCrossedGeoFence(userlocation:CLLocation, UserName:String) -> (Bool, String) {
         var alertMsg                = ""
         let myCurrentLocation       =  locationManager.location
         var distanceFromMe          = Double( (myCurrentLocation?.distance(from: userlocation))!)
-        let geoDistance = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
+        let geoDistance             = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
         
         NSLog("Distance in Meters = \(String(describing: distanceFromMe))")
         NSLog("Distance GEOFENCE = \(geoDistance)")
@@ -742,6 +832,15 @@ func switchToForeground () {
         }
         zoomMapView()
     }
+    
+
+    @IBAction func speakToubhUp(_ sender: Any) {
+        
+        //here
+        userDistCtrl.getAllUsersDistance()
+   
+    }
+    
     
     @IBAction func startTripTouchUp(_ sender: Any) {
         if(GLOBAL_CONNECTION_STATUS) {

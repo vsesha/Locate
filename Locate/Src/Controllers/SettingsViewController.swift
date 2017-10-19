@@ -28,6 +28,8 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     @IBOutlet weak var s_TriangleLabel:             UIButton!
     @IBOutlet weak var s_AppVersionLabel:           UILabel!
     
+
+    
     var validationError:String      = "None"
     let RTPubSub                    = RTPubSubController()
     
@@ -206,8 +208,6 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     @IBAction func NickNameEditEnd(_ sender: Any) {
         view.endEditing(true)
         s_NickName.endEditing(true)
-        
-        NSLog("Nick name edit ended")
     }
 
  
@@ -235,7 +235,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
 
                 RTPubSub.enablePresence()
                 publishJoinExitMessageToAll(msgType: MessageTypes.IJoinedGroup.rawValue)
-                //RTPubSub.getAllUsersInGroup()
+
                 GLOBAL_addUserToList(userName: GLOBAL_NICK_NAME)
                 
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness:1.0, alpha: 1.0)
@@ -304,7 +304,9 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_JoinNow.isEnabled = false
                 RTPubSub.initRealtime()
                 changeConfigControlsState(state: false)
-                
+                var speakStr = "You are all set " + (GLOBAL_NICK_NAME)
+                    speakStr += ", Enjoy your trip"
+                LocateSpeaker.instance.speak(speakString: speakStr)
                 
             }
             else {
@@ -312,7 +314,9 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_ErrorMsgDisplay.text = validationError
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.0, saturation: 1.0, brightness:1.0, alpha: 1.0)
                 changeConfigControlsState(state: true)
-                //displayError()
+                let speakErr =  validationError
+                LocateSpeaker.instance.speak(speakString: speakErr)
+                
             }
             
         } else  if (GLOBAL_CONNECTION_STATUS && s_JoinNow.title(for: .normal) == "Exit"){
@@ -370,6 +374,17 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
        
     }
 
+    
+    @IBAction func UserNameSpeakerTouch(_ sender: UIButton) {
+        LocateSpeaker.instance.speak(speakString: s_NickName.text!)
+    }
+    
+    
+
+    @IBAction func TripNameSpeakerTouch(_ sender: UIButton) {
+        LocateSpeaker.instance.speak(speakString: s_Channel.text!)
+    }
+    
     
     func clearAllCache(){
         GLOBAL_BREACH_LIST.removeAll()

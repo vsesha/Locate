@@ -12,6 +12,7 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
 //class DistanceBreachViewController: UITableViewController {
     //let refreshControl = UIRefreshControl()
 
+    @IBOutlet weak var s_SpeakButton: UIButton!
     @IBOutlet weak var t_DistanceBreachTable: UITableView!
     var numberOfTableSections: Int =  1
     override func viewDidLoad() {

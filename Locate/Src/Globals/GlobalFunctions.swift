@@ -197,6 +197,42 @@ func GLOBAL_RemoveAllBreachList (){
   GLOBAL_BREACH_LIST.removeAll()
 }
 
+
+
+func GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceStruct) -> Int{
+    var UserAt: Int = -1
+    if(GLOBAL_USER_DISTANCE_LIST.count>0){
+        for count in 0 ... GLOBAL_USER_DISTANCE_LIST.count-1 {
+            let UserDistList = GLOBAL_USER_DISTANCE_LIST[count]
+            if userDistanceObj.userName == UserDistList.userName {
+                UserAt = count
+            }
+        }
+    }
+    NSLog(" User Exists at  = \(UserAt)")
+    return UserAt
+    
+}
+
+func GLOBAL_UpdateUserDistanceList (userDistanceObj: userDistanceStruct){
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceObj)
+    
+    if (UserAt > -1 ){
+        GLOBAL_USER_DISTANCE_LIST.remove(at: UserAt)
+    }
+    
+    GLOBAL_USER_DISTANCE_LIST.append(userDistanceObj)
+    NSLog("GLOBAL_USER_DISTANCE_LIST = \(GLOBAL_USER_DISTANCE_LIST)")
+}
+
+
+
+func GLOBAL_RemoveAllUserDistanceList (){
+    GLOBAL_USER_DISTANCE_LIST.removeAll()
+}
+
+
+
 func GLOBAL_printAllUsers()
 {
     NSLog("Users = \(GLOBAL_USER_LIST.count) - \(GLOBAL_USER_LIST)")

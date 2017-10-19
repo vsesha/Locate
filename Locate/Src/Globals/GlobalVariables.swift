@@ -40,10 +40,14 @@ var GLOBAL_SHOW_ALERT_POPUPS                = false
 var GLOBAL_SHOW_TRAIL                       = false
 var GLOBAL_BACKGROUND_FREQUENCY             = 15
 var GLOBAL_APP_VERSION                      = "1.0.0"
+var GLOBAL_SPEAK_LANGUAGE                   = "en-US"
+var GLOBAL_SPEAK_RATE                       = 0.5
 
-var GLOBAL_USER_LIST: [userStruct]                  = []
-var GLOBAL_BREACH_LIST: [DistanceBreachStruct]      = []
-var GLOBAL_PINNED_LOCATION_LIST:[UserPinnedLocation] = []
+var GLOBAL_USER_LIST: [userStruct]                      = []
+var GLOBAL_BREACH_LIST: [DistanceBreachStruct]          = []
+var GLOBAL_PINNED_LOCATION_LIST:[UserPinnedLocation]    = []
+var GLOBAL_USER_DISTANCE_LIST:[userDistanceStruct]      = []
+
 var ortc: OrtcClient?
 var GLOBAL_CONNECTION_FAIL_COUNT            = 0
 
