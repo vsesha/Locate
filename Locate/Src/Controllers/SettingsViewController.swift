@@ -324,9 +324,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
             s_JoinNow.isEnabled = true
             RTPubSub.disconnect()
             
-            clearAllCache()
-            
-            GLOBAL_notifyToViews(notificationMsg: "Updated Breach Cache", notificationType: NotificationTypes.USERBREACHCACHE_UPDATED)
+            GLOBAL_clearCache()
             
         }
     }
@@ -385,11 +383,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         LocateSpeaker.instance.speak(speakString: s_Channel.text!)
     }
     
-    
-    func clearAllCache(){
-        GLOBAL_BREACH_LIST.removeAll()
-        GLOBAL_PINNED_LOCATION_LIST.removeAll()
-    }
+
     func changeConfigControlsState(state : Bool){
         
         s_NickName.isEnabled                                = state

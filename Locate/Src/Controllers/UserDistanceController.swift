@@ -27,6 +27,14 @@ class UserDistanceController {
         
     }
     
+    func getAllUsersDistanceWitoutSpeak() {
+        NSLog("In getAllUsersDistance")
+        //1. Publish - SendYourCurrentLocation
+        //2. set NSTimer to 2 seconds and invoke speakUserDistance
+        pingDistanceMsg()
+        
+    }
+    
     func replyToDistancePing() {
         LocationController.sharedInstance.startUpdatingLocation()
     }
@@ -68,15 +76,15 @@ class UserDistanceController {
                 let userDistObj = GLOBAL_USER_DISTANCE_LIST[count]
                 speakStr += userDistObj.userName!
                 speakStr += " is " + (userDistObj.userDistance)!
-                speakStr += " miles away from you "
-                if (userDistObj.didBreachDistance)!{
+                speakStr += " miles away from you . "
+                /*if (userDistObj.didBreachDistance)!{
                     speakStr += ".  " + (userDistObj.userName!)
                     speakStr += " has breached your distance tollerance"
-                    }
+                    }*/
                 speakStr += " .  "
                 }
             } else {
-            speakStr = "No users in your list. Please try after sometime."
+            speakStr = "No users in your distance list yet, please try after sometime."
             }
         NSLog ("speakStr = \(speakStr)")
         

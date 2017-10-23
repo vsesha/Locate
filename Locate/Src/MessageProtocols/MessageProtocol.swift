@@ -33,6 +33,7 @@ enum NotificationTypes:Int {
     REALTIME_COORDINATES,
     USERCACHE_UPDATED,
     USERBREACHCACHE_UPDATED,
+    USERDISTANCECAHCE_UPDATED,
     ENTERED_BACKGROUND,
     ENTERED_FOREGROUND
 }
@@ -103,17 +104,7 @@ struct userStruct: JSONSerializable {
     var iSleader: Bool
 }
 
-//Structure for intenral memory of all pinned locations on map
-/*struct UserPinnedLocation: JSONSerializable{
-    var userName:   String?
-    var longitude:  Double?
-    var latitude:   Double?
-    init (_userName: String, _longitude: Double, _latitude: Double){
-        userName    = _userName
-        longitude   = _longitude
-        latitude    = _latitude
-    }
-}*/
+
 struct pingUsersLocation: JSONSerializable {
     var msgFrom:        String?
     var msgType:        String?

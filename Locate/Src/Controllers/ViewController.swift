@@ -688,13 +688,18 @@ func switchToForeground () {
         let tempMsgType: String = realtimeJsonMsg["msgType"]       as! String
         let msgType             = Int (tempMsgType)
         
+        
+        //update user cache and notify
         if (msgType == MessageTypes.IJoinedGroup.rawValue ) {
             if (!GLOBAL_addUserToList(userName: fromUser)) {NSLog("Error while adding user to group list")}
             publishIamStillInGroup()
         }
-        if (msgType == MessageTypes.IExitGroup.rawValue) {
-            if(!GLOBAL_deleteUser(userName: fromUser)) {NSLog ("Error while deleting user from group")}
         
+        if (msgType == MessageTypes.IExitGroup.rawValue) {
+            if(!GLOBAL_deleteUser(userName: fromUser)) {NSLog ("Error while deleting user from User cache")}
+            
+            //update user distance cache and notify
+             if(!GLOBAL_DeleteUserFromUserDistanceList (userName: fromUser)) {NSLog ("Error while deleting user from Distance cache")}
         }
         
         //GLOBAL_notifyToViews(notificationMsg: "User Added/deleted", notificationType: NotificationTypes.USERCACHE_UPDATED)

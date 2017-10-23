@@ -225,6 +225,19 @@ func GLOBAL_UpdateUserDistanceList (userDistanceObj: userDistanceStruct){
     NSLog("GLOBAL_USER_DISTANCE_LIST = \(GLOBAL_USER_DISTANCE_LIST)")
 }
 
+func GLOBAL_DeleteUserFromUserDistanceList(userName:String) -> Bool {
+    var userDistancObj      = userDistanceStruct()
+    userDistancObj.userName = userName
+    
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistancObj)
+    
+    if (UserAt > -1 ){
+        GLOBAL_USER_DISTANCE_LIST.remove(at: UserAt)
+        return true
+    }
+    return false
+    
+}
 
 
 func GLOBAL_RemoveAllUserDistanceList (){
@@ -270,7 +283,17 @@ func GLOBAL_notifyToViews(notificationMsg:String, notificationType:NotificationT
 
 func GLOBAL_clearCache (){
     GLOBAL_USER_LIST.removeAll()
+
+    GLOBAL_PINNED_LOCATION_LIST.removeAll()
+
+    GLOBAL_BREACH_LIST.removeAll()
+
+    GLOBAL_USER_DISTANCE_LIST.removeAll()
+    
     GLOBAL_notifyToViews(notificationMsg: "Updated User Cache", notificationType: NotificationTypes.USERCACHE_UPDATED)
+    
+    GLOBAL_notifyToViews(notificationMsg: "Updated User Distance Cache", notificationType: NotificationTypes.USERDISTANCECAHCE_UPDATED)
+    
 }
 func GLOBAL_GetCurrentTimeInStr() -> String{
         let dateFormatter  = DateFormatter ()
