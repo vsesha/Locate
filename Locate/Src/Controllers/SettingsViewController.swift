@@ -23,12 +23,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     @IBOutlet weak var s_ConnectionStatus:          UILabel!
     @IBOutlet weak var s_userGroupSize:             UILabel!
 
-    @IBOutlet weak var s_AdditionalPrefText:        UILabel!
-    
-    @IBOutlet weak var s_TriangleLabel:             UIButton!
+
     @IBOutlet weak var s_AppVersionLabel:           UILabel!
     
-
+    @IBOutlet weak var s_DistanceAlert: UIPickerView!
+    
+    @IBOutlet weak var s_SpeakerAssistant: UIPickerView!
     
     var validationError:String      = "None"
     let RTPubSub                    = RTPubSubController()
@@ -49,6 +49,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         s_Channel.delegate          = self
         s_RefreshFrequencyPicker.delegate = self
         s_RefreshFrequencyPicker.dataSource = self
+        
+        s_DistanceAlert.delegate    = self
+        s_DistanceAlert.dataSource  = self
+        
+        s_SpeakerAssistant.delegate = self
+        s_SpeakerAssistant.dataSource = self
         
         var row = GLOBAL_MARKER_COLORS.index(of: GLOBAL_MY_MARKER_COLOR)
         s_MarkerColor.selectRow(row!, inComponent: 0, animated: true)
@@ -89,27 +95,11 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         
         s_ErrorMsgDisplay.text  = GLOBAL_CONNECTION_ERR_MSG
         addEffectToButton()
-
-        addUnicode()
-        HideAdditionalPrefText(pFlag: true)
-        
-        
         s_AppVersionLabel.text = GLOBAL_APP_VERSION
    
     }
     
-    func HideAdditionalPrefText(pFlag: Bool)
-    {
-        s_AdditionalPrefText.isHidden   = pFlag
-        s_TriangleLabel.isHidden        = pFlag
-    }
-    func addUnicode(){
-        s_TriangleLabel.setTitle(NSString(string: "\u{25B2}") as String, for: .normal)
-        
-        s_TriangleLabel.contentVerticalAlignment = UIControlContentVerticalAlignment.bottom
-        s_TriangleLabel.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
-    }
-    
+ 
     func addEffectToButton(){
         s_JoinNow.layer.shadowColor=UIColor.black.cgColor
         s_JoinNow.layer.shadowOpacity   = 0.3
@@ -241,13 +231,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness:1.0, alpha: 1.0)
                 s_JoinNow.isEnabled = true
    
-            
-                UIView.animate(withDuration: 1.0, delay: 0.4, options:
-                    UIViewAnimationOptions.curveEaseOut, animations: {
-                        self.s_AdditionalPrefText.alpha = 1
-                }, completion: { finished in
-                    self.HideAdditionalPrefText(pFlag: false)
-                })
+
             
         
         case NotificationTypes.DISCONNECTED:
@@ -258,7 +242,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_ConnectionStatus.text = "DISCONNECTED"
                 s_ConnectionStatus.backgroundColor = nil
                 s_JoinNow.isEnabled = true
-                HideAdditionalPrefText(pFlag: true)
+
         
         case NotificationTypes.USERCACHE_UPDATED:
                 NSLog("case NotificationTypes.USERCACHE_UPDATED - \(GLOBAL_USER_LIST.count)")
@@ -274,7 +258,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
             s_ConnectionStatus.text = "ERROR"
             s_ConnectionStatus.backgroundColor = UIColor(hue: 0.0, saturation: 0.8, brightness:1.0, alpha: 1.0)
             s_JoinNow.isEnabled = true
-            HideAdditionalPrefText(pFlag: true)
+
             break
         
         default:

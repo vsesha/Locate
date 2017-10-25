@@ -24,16 +24,10 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocation When In Use Usage Description</key>
-	<string>Locate Application will use your location information to publish for other members of the group</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Locate Application will use your location information to publish for other members of the group</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Locate Application will use your location information to publish for other members of the group</string>
-	<key>Privacy - Location Always and When In Use Usage Description</key>
-	<string>Locate Application will use your location information to publish for other members of the group</string>
 	<key>UIApplicationExitsOnSuspend</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Locate will publish your locations to others in your group</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
@@ -61,6 +55,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Locate will publish your locations to others in your group</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Locate will publish your locations to others in your group</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Locate will publish your locations to others in your group</string>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string></string>

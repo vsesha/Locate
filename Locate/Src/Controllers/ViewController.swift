@@ -41,29 +41,18 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
-    
-    @IBOutlet weak var s_BreachListLabel: UILabel!
-    
-    @IBOutlet weak var alertLabel: UILabel!
-    
     @IBOutlet weak var s_NoOfUsersLabel: UIButton!
    
     @IBOutlet weak var UsersLabel: UILabel!
     @IBOutlet weak var startTripButton:     UIButton!
     @IBOutlet weak var drawPathButton:      UIButton!
     @IBOutlet weak var shareTripButton:     UIButton!
-    //@IBOutlet weak var addPathToTrip:       UIButton!
     @IBOutlet weak var mapZoomIn:           UIButton!
     @IBOutlet weak var mapZoomOut:          UIButton!
     @IBOutlet weak var groupLeader:         UIButton!
-    
-    @IBOutlet weak var DistBreachButton: UIButton!
     @IBOutlet weak var SettingsNavButton:   UIBarButtonItem!
-    
-    
     @IBOutlet weak var speakButton: UIButton!
-    
-    //@IBOutlet weak var alertShowButton: UIButton!
+
     @IBOutlet weak var statusLabel: UILabel!
     
     
@@ -115,14 +104,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         view.addSubview(mapZoomIn)
         view.addSubview(mapZoomOut)
         view.addSubview(groupLeader)
-        view.addSubview(DistBreachButton)
-        //view.addSubview(alertShowButton)
-        view.addSubview(alertLabel)
-        view.bringSubview(toFront: alertLabel)
-        
-        view.addSubview(s_BreachListLabel)
-        view.bringSubview(toFront: s_BreachListLabel)
-        
+
         view.addSubview(s_NoOfUsersLabel)
         view.bringSubview(toFront: s_NoOfUsersLabel)
         
@@ -172,14 +154,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         mapZoomOut.layer.shadowOffset = CGSizeFromString("1")
         mapZoomOut.layer.shadowRadius = 4
         mapZoomOut.layer.masksToBounds = false
-        
-        DistBreachButton.layer.shadowColor=UIColor.black.cgColor
-        DistBreachButton.layer.shadowOpacity = 0.4
-        DistBreachButton.layer.shadowOffset = CGSizeFromString("1")
-        DistBreachButton.layer.shadowRadius = 4
-        DistBreachButton.layer.masksToBounds = false
-        DistBreachButton.layer.cornerRadius = 4
-        
+       
         drawPathButton.layer.shadowColor=UIColor.black.cgColor
         drawPathButton.layer.shadowOpacity = 0.4
         drawPathButton.layer.shadowOffset = CGSizeFromString("1")
@@ -246,14 +221,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         shareTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         shareTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
 
-        
-        //startTripButton.setTitle(NSString(string: "\u{26A1}\u{0000FE0E}") as String, for: .normal)
-        //startTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        //startTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
-        
-        DistBreachButton.setTitle(NSString(string: "\u{26A0}\u{0000FE0E}") as String, for: .normal)
-        DistBreachButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        DistBreachButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
       
     }
 
@@ -274,14 +241,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         //THIS FUNCTION CALL WILL BE REMOVED AFTER ALPHA RELEASE
         hideSomeFeatureButtons()
         
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-        
-        if GLOBAL_BREACH_LIST.count > 0{
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: false)
-        }
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
@@ -296,7 +255,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         //test code
         if !(CLLocationManager.authorizationStatus()  == .authorizedAlways){
-            var alertMsg = "Location always authorized is not set to true"
+            let alertMsg = "Location always authorized is not set to true"
 
             let alert = UIAlertController(title: "Alert", message: alertMsg, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -366,14 +325,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         publishTimer?.invalidate()
     }
     
-    func HideDistanceBreachAlert(p_flag:Bool){
-        NSLog("GLOBAL_BREACH_LIST.count = \(GLOBAL_BREACH_LIST.count)")
-        NSLog("Show Or Hide  = \(p_flag)")
-        DistBreachButton.isHidden   = p_flag
-        alertLabel.isHidden         = p_flag
-        s_BreachListLabel.isHidden  = p_flag
-    }
-    
+
     
     func delegateNotification(_ notification:NSNotification){
         var notifyMsg:  NotificationMessage
@@ -462,18 +414,9 @@ func switchToForeground () {
             }
             else if(msgType == "209" ){
                 processDistanceBreachMsg(realtimeJsonMsg: jsonMsg)
-                alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-            }
+           }
             else if(msgType == "210" ){
                 processDeleteUserFromDistanceBreachMsg(realtimeJsonMsg: jsonMsg)
-                alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-                
-                if GLOBAL_BREACH_LIST.count > 0 {
-                    HideDistanceBreachAlert(p_flag: false)
-                    } else {
-                    HideDistanceBreachAlert(p_flag: true)
-                }
-            
             }
             else  if(msgType == "211" ){
                 NSLog("Received ping for  User Location")
@@ -511,7 +454,7 @@ func switchToForeground () {
         
         addUserDistanceToCache(userlocation: location, UserName: fromUser, UserColor: markerColor )
         //checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
+        
     }
     
 
@@ -638,12 +581,7 @@ func switchToForeground () {
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
-                
-                if GLOBAL_BREACH_LIST.count > 0 {
-                    HideDistanceBreachAlert(p_flag: false)
-                } else {
-                    HideDistanceBreachAlert(p_flag: true)
-                }
+
                 return (true, alertMsg)
             }
             else
@@ -717,14 +655,6 @@ func switchToForeground () {
         GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
         AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
         
-        if GLOBAL_BREACH_LIST.count > 0 {
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: true)
-        }
-        
-        
-        
         if (GLOBAL_SHOW_ALERT_POPUPS){
             
             alertMsg = " \(distBreachObj.userBreached ) is \(distBreachObj.breachDistance) miles away from Leader: \( distBreachObj.msgFrom)"
@@ -753,14 +683,6 @@ func switchToForeground () {
         }
     }
     func processUserBreachCacheUpdates () {
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-        
-        if GLOBAL_BREACH_LIST.count > 0 {
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: true)
-        }
-        
     }
     
     func processOthersInGroupMsg(realtimeJsonMsg:[String: AnyObject]){
