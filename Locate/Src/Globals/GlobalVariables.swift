@@ -57,4 +57,4 @@ var GLOBAL_MARKER_COLORS        = ["None","Red","Orange","Green","Blue","Purple"
 var GLOBAL_ARRAY_REFRESH_FREQ   = ["30 Sec", "1 Min", "2 Mins", "5 Mins", "10 Mins"]
 var GLOBAL_ARRAY_DISTANCE       = ["500 Mts", "1 Mile", "1.5 Miles", "2 Miles", "3 Miles","5 Miles", "7 Miles", "10 Miles"]
 
-var GLOBAL_ARRAY_EN_SPEAKERS = ["en-AU", "en-GB" , "en-IE" , "en-US" , "en-ZA"]
+var GLOBAL_ARRAY_SPEAKERS = ["en-US","en-GB"]

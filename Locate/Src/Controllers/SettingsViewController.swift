@@ -62,6 +62,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         row = GLOBAL_ARRAY_REFRESH_FREQ.index(of: GLOBAL_REFRESH_FREQUENCY)
         s_RefreshFrequencyPicker.selectRow(row!, inComponent: 0, animated: true)
         
+        row = GLOBAL_ARRAY_DISTANCE.index(of:GLOBAL_GEOFENCE_DISTANCE)
+        s_DistanceAlert.selectRow(row!, inComponent: 0, animated: true)
+        
+        row = GLOBAL_ARRAY_SPEAKERS.index(of: GLOBAL_SPEAK_LANGUAGE)
+        s_SpeakerAssistant.selectRow(row!, inComponent: 0, animated: true)
+        
         changeConfigControlsState(state: !GLOBAL_CONNECTION_STATUS)
         
         if(GLOBAL_CONNECTION_STATUS) { s_JoinNow.setTitle("Exit",for: .normal)}
@@ -121,8 +127,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS.count
         }
-        else {
+        else if pickerView == s_RefreshFrequencyPicker {
             return GLOBAL_ARRAY_REFRESH_FREQ.count
+        }
+        else if pickerView == s_DistanceAlert {
+            return GLOBAL_ARRAY_DISTANCE.count
+        }
+        else {
+            return GLOBAL_ARRAY_SPEAKERS.count
         }
     }
     
@@ -130,8 +142,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS[row]
         }
-        else  {
+        else if pickerView == s_RefreshFrequencyPicker  {
             return GLOBAL_ARRAY_REFRESH_FREQ[row]
+        }
+        else if pickerView == s_DistanceAlert {
+            return GLOBAL_ARRAY_DISTANCE[row]
+        }
+        else {
+            return GLOBAL_ARRAY_SPEAKERS[row]
         }
         
     }
@@ -141,8 +159,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             GLOBAL_MY_MARKER_COLOR = GLOBAL_MARKER_COLORS[row]
         }
-        else  {
+        else if pickerView == s_RefreshFrequencyPicker {
             GLOBAL_REFRESH_FREQUENCY = GLOBAL_ARRAY_REFRESH_FREQ[row]
+        }
+        else if pickerView == s_DistanceAlert {
+            GLOBAL_GEOFENCE_DISTANCE =   GLOBAL_ARRAY_DISTANCE[row]
+        }
+        else {
+            GLOBAL_SPEAK_LANGUAGE = GLOBAL_ARRAY_SPEAKERS[row]
         }
         
     }
@@ -166,9 +190,17 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 rowView.attributedText = attribSetting
 
         }
-        else {
+        else  if pickerView == s_RefreshFrequencyPicker {
                 let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_REFRESH_FREQ[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
                 rowView.attributedText = attribSetting
+        }
+        else  if pickerView == s_DistanceAlert {
+            let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_DISTANCE[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
+            rowView.attributedText = attribSetting
+        }
+        else   {
+            let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_SPEAKERS[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
+            rowView.attributedText = attribSetting
         }
         
            rowView.textAlignment = .center
@@ -335,12 +367,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         }
         
         if (GLOBAL_MY_MARKER_COLOR == "None" || GLOBAL_MY_MARKER_COLOR.isEmpty ){
-            validationError = "Avatar/color should be selected"
+            validationError = "Marker color should be selected"
             return false
         }
         
         if (GLOBAL_REFRESH_FREQUENCY.isEmpty){
-            validationError = "Refresh frequency cannot Empty"
+            validationError = "Refresh frequency cannot be Empty"
             return false
         }
         validationError         = "None"

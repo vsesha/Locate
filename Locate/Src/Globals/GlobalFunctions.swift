@@ -105,6 +105,8 @@ func GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: String) -> Double{
     }
 }
 
+
+
 func GLOBAL_setDefaultConfigValues(){
     GLOBAL_ALLOW_REALTIME_PUBSUB = true
     GLOBAL_URL              = "https://ortc-developers.realtime.co/server/ssl/2.1/"
