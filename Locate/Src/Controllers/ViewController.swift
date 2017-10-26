@@ -529,13 +529,24 @@ func switchToForeground () {
         userDistObj.userColor       = UserColor
         userDistObj.positionTime    = currDate
         userDistObj.userDistance    = DistanceInStr
-        userDistObj.distanceBreachCount = 1
+        userDistObj.distanceBreachCount = 0
         userDistObj.didBreachDistance   = userDistanceBreached
         
+        //To set Distance Breach Count, first check if the user breached previously
+        let prevBreachCount = GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistObj)
+        if ( prevBreachCount > 0){
+            userDistObj.distanceBreachCount = prevBreachCount + 1
+        }
+        
         GLOBAL_UpdateUserDistanceList(userDistanceObj: userDistObj)
-        if (userDistanceBreached){
-            //AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
-            
+        
+        let breachCount:Int = userDistObj.distanceBreachCount!
+        let reminder        = breachCount % 5
+        NSLog("breach stats - userDistanceBreached = \(userDistanceBreached) || breachCount = \(breachCount) || reminder = \(reminder))")
+        if (userDistanceBreached && (breachCount == 1 || reminder == 0 )) {
+            var speakStr = UserName + " is "
+            speakStr += DistanceInStr + " miles away from you"
+            LocateSpeaker.instance.speak(speakString: speakStr)
         }
 
     }

@@ -14,6 +14,7 @@
 		3E31F0991F96A7AA00A2C46F /* UserDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E31F0981F96A7AA00A2C46F /* UserDistanceController.swift */; };
 		3E43D3841F8DA47D0021B6A4 /* SpeakFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */; };
 		3E8E405A1F4637F2009E7B31 /* PreferencesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */; };
+		3E910E861FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */; };
 		3E9AD8521E36A38800467525 /* TripDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8511E36A38800467525 /* TripDestinations.swift */; };
 		3E9AD8541E36A54600467525 /* GMapUtillities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8531E36A54600467525 /* GMapUtillities.swift */; };
 		3E9AD8561E36E24100467525 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8551E36E24100467525 /* SettingsViewController.swift */; };
@@ -41,6 +42,7 @@
 		3E31F0981F96A7AA00A2C46F /* UserDistanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDistanceController.swift; sourceTree = "<group>"; };
 		3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakFunctions.swift; sourceTree = "<group>"; };
 		3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesSettings.swift; path = Src/Views/PreferencesSettings.swift; sourceTree = SOURCE_ROOT; };
+		3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealtimeMessaging_iOS_Swift3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9401251F9FD9DB0051C653 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = SOURCE_ROOT; };
 		3E9401261F9FD9DB0051C653 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMapsCore.framework; sourceTree = SOURCE_ROOT; };
 		3E9AD8511E36A38800467525 /* TripDestinations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDestinations.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E910E861FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +187,7 @@
 		E97E16ED99DA265BB4942718 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */,
 				3E9401251F9FD9DB0051C653 /* GoogleMaps.framework */,
 				3E9401261F9FD9DB0051C653 /* GoogleMapsCore.framework */,
 			);

@@ -216,6 +216,17 @@ func GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceStruct) -> Int
     
 }
 
+func GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistanceStruct) -> Int {
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceObj)
+    
+    if (UserAt > -1 ){
+        let UserDistList = GLOBAL_USER_DISTANCE_LIST[UserAt]
+        if (UserDistList.didBreachDistance)! {
+            return GLOBAL_USER_DISTANCE_LIST[UserAt].distanceBreachCount!
+        }
+    }
+    return 0
+}
 func GLOBAL_UpdateUserDistanceList (userDistanceObj: userDistanceStruct){
     let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceObj)
     

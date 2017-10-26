@@ -63,6 +63,7 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
             breachtime = breachtime.substring(from: index)
             cell.s_BreachTime?.text          = breachtime
             cell.s_BreachDistance?.text      = userDistanceObj.userDistance! + " Miles"
+            cell.s_BreachCount?.text         = String(describing: userDistanceObj.distanceBreachCount)
         
             let hue     = GLOBAL_getHueCode(color: userDistanceObj.userColor!)
             let color   = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)

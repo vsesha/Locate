@@ -16,7 +16,8 @@ class DistanceBreachCellView: UITableViewCell {
     
     @IBOutlet weak var s_BreachTime: UILabel!
     
-    @IBOutlet weak var s_BreachFrom: UILabel!
+    @IBOutlet weak var s_BreachCount: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
