@@ -222,24 +222,29 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     }
     
     @IBAction func NickNameChanged(_ sender: Any) {
-        s_NickName.text=s_NickName.text?.uppercased()
-        GLOBAL_NICK_NAME = s_NickName.text!
-        GLOBAL_FILTER_USER = GLOBAL_NICK_NAME
+        s_NickName.text     = s_NickName.text?.uppercased()
+        GLOBAL_NICK_NAME    = s_NickName.text!
+        GLOBAL_FILTER_USER  = GLOBAL_NICK_NAME
     }
     
     @IBAction func NickNameEditEnd(_ sender: Any) {
+        GLOBAL_NICK_NAME    = s_NickName.text!
+        GLOBAL_FILTER_USER  = GLOBAL_NICK_NAME
         view.endEditing(true)
         s_NickName.endEditing(true)
     }
 
  
-    
-    @IBAction func ChannelEditingChanged(_ sender: Any) {
-        s_Channel.text=s_Channel.text?.uppercased()
+    @IBAction func ChannelNameEditEnd(_ sender: Any) {
         GLOBAL_CHANNEL = s_Channel.text!
+        view.endEditing(true)
+        s_Channel.endEditing(true)
     }
     
-
+    @IBAction func ChannelEditingChanged(_ sender: Any) {
+        s_Channel.text  = s_Channel.text?.uppercased()
+        GLOBAL_CHANNEL  = s_Channel.text!
+    }
     
     func actOnNotification(_ notification:NSNotification){
         

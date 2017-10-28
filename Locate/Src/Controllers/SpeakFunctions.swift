@@ -26,8 +26,8 @@ class LocateSpeaker: NSObject,AVSpeechSynthesizerDelegate {
             try audioSession.setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.duckOthers)
             
             let utterance = AVSpeechUtterance(string: speakString)
-            
-            utterance.voice = AVSpeechSynthesisVoice(language: GLOBAL_SPEAK_LANGUAGE)
+            let speakerLang = GLOBAL_getSpeakerCode(SpeakerTone: GLOBAL_SPEAK_LANGUAGE)
+            utterance.voice = AVSpeechSynthesisVoice(language: speakerLang)
             
             try audioSession.setActive(true)
             

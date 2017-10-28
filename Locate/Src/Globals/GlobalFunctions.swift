@@ -105,6 +105,28 @@ func GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: String) -> Double{
     }
 }
 
+func GLOBAL_getSpeakerCode(SpeakerTone: String) -> String{
+    switch (SpeakerTone) {
+        
+    case "Nicole":
+        return "en-AU"
+        
+    case "Tom":
+        return "en-GB"
+        
+    case "Sarah":
+        return "en-IE"
+        
+    case "Linda":
+        return "en-US"
+        
+    case "Jessica":
+        return "en-ZA"
+        
+    default:
+        return "en-IE"
+    }
+}
 
 
 func GLOBAL_setDefaultConfigValues(){

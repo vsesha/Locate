@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icons8-Refresh-52.png",
+      "filename" : "Assistant.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icons8-Refresh-50.png",
+      "filename" : "Assistant-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icons8-Refresh-51.png",
+      "filename" : "Assistant-2.png",
       "scale" : "3x"
     }
   ],

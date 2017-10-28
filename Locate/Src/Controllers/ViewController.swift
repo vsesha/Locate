@@ -510,7 +510,7 @@ func switchToForeground () {
         var distanceFromMe          = Double( (myCurrentLocation?.distance(from: userlocation))!)
         let geoDistance             = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
         
-        if (distanceFromMe > geoDistance) { userDistanceBreached = true}
+        if (distanceFromMe > geoDistance) { userDistanceBreached = true }
        
         
         NSLog("Distance in Meters   = \(String(describing: distanceFromMe))")
@@ -534,14 +534,18 @@ func switchToForeground () {
         
         //To set Distance Breach Count, first check if the user breached previously
         let prevBreachCount = GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistObj)
-        if ( prevBreachCount > 0){
+        if ( userDistanceBreached ){
             userDistObj.distanceBreachCount = prevBreachCount + 1
         }
         
         GLOBAL_UpdateUserDistanceList(userDistanceObj: userDistObj)
         
         let breachCount:Int = userDistObj.distanceBreachCount!
-        let reminder        = breachCount % 5
+        var reminder        = 1
+        if (breachCount>0){
+            reminder = breachCount % 5
+            
+        }
         NSLog("breach stats - userDistanceBreached = \(userDistanceBreached) || breachCount = \(breachCount) || reminder = \(reminder))")
         if (userDistanceBreached && (breachCount == 1 || reminder == 0 )) {
             var speakStr = UserName + " is "
@@ -569,6 +573,7 @@ func switchToForeground () {
             
                 var DistanceInStr:String = String(format:"%2f",distanceFromMe)
                 let index = DistanceInStr.index(DistanceInStr.startIndex, offsetBy: 4)
+                
                 DistanceInStr = DistanceInStr.substring(to: index)
                     alertMsg = " \(UserName) is \(DistanceInStr) miles away from Leader: \(GLOBAL_NICK_NAME)"
 
