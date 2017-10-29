@@ -186,7 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Src/Globals/GlobalVariables.swift"
+<<<<<<< HEAD
             timestampString = "530986910.615744"
+=======
+            timestampString = "530989837.790226"
+>>>>>>> feature
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
