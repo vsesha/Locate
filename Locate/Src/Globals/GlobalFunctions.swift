@@ -105,6 +105,30 @@ func GLOBAL_getRefreshFrequencyCodeMap(RefreshFrequency: String) -> Double{
     }
 }
 
+func GLOBAL_getSpeakerCode(SpeakerTone: String) -> String{
+    switch (SpeakerTone) {
+        
+    case "Nicole":
+        return "en-AU"
+        
+    case "Tom":
+        return "en-GB"
+        
+    case "Sarah":
+        return "en-IE"
+        
+    case "Linda":
+        return "en-US"
+        
+    case "Jessica":
+        return "en-ZA"
+        
+    default:
+        return "en-IE"
+    }
+}
+
+
 func GLOBAL_setDefaultConfigValues(){
     GLOBAL_ALLOW_REALTIME_PUBSUB = true
     GLOBAL_URL              = "https://ortc-developers.realtime.co/server/ssl/2.1/"
@@ -197,6 +221,66 @@ func GLOBAL_RemoveAllBreachList (){
   GLOBAL_BREACH_LIST.removeAll()
 }
 
+
+
+func GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceStruct) -> Int{
+    var UserAt: Int = -1
+    if(GLOBAL_USER_DISTANCE_LIST.count>0){
+        for count in 0 ... GLOBAL_USER_DISTANCE_LIST.count-1 {
+            let UserDistList = GLOBAL_USER_DISTANCE_LIST[count]
+            if userDistanceObj.userName == UserDistList.userName {
+                UserAt = count
+            }
+        }
+    }
+    NSLog(" User Exists at  = \(UserAt)")
+    return UserAt
+    
+}
+
+func GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistanceStruct) -> Int {
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceObj)
+    
+    if (UserAt > -1 ){
+        let UserDistList = GLOBAL_USER_DISTANCE_LIST[UserAt]
+        if (UserDistList.didBreachDistance)! {
+            return GLOBAL_USER_DISTANCE_LIST[UserAt].distanceBreachCount!
+        }
+    }
+    return 0
+}
+func GLOBAL_UpdateUserDistanceList (userDistanceObj: userDistanceStruct){
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistanceObj)
+    
+    if (UserAt > -1 ){
+        GLOBAL_USER_DISTANCE_LIST.remove(at: UserAt)
+    }
+    
+    GLOBAL_USER_DISTANCE_LIST.append(userDistanceObj)
+    NSLog("GLOBAL_USER_DISTANCE_LIST = \(GLOBAL_USER_DISTANCE_LIST)")
+}
+
+func GLOBAL_DeleteUserFromUserDistanceList(userName:String) -> Bool {
+    var userDistancObj      = userDistanceStruct()
+    userDistancObj.userName = userName
+    
+    let  UserAt: Int = GLOBAL_UserExistInDistanceList (userDistanceObj: userDistancObj)
+    
+    if (UserAt > -1 ){
+        GLOBAL_USER_DISTANCE_LIST.remove(at: UserAt)
+        return true
+    }
+    return false
+    
+}
+
+
+func GLOBAL_RemoveAllUserDistanceList (){
+    GLOBAL_USER_DISTANCE_LIST.removeAll()
+}
+
+
+
 func GLOBAL_printAllUsers()
 {
     NSLog("Users = \(GLOBAL_USER_LIST.count) - \(GLOBAL_USER_LIST)")
@@ -234,7 +318,17 @@ func GLOBAL_notifyToViews(notificationMsg:String, notificationType:NotificationT
 
 func GLOBAL_clearCache (){
     GLOBAL_USER_LIST.removeAll()
+
+    GLOBAL_PINNED_LOCATION_LIST.removeAll()
+
+    GLOBAL_BREACH_LIST.removeAll()
+
+    GLOBAL_USER_DISTANCE_LIST.removeAll()
+    
     GLOBAL_notifyToViews(notificationMsg: "Updated User Cache", notificationType: NotificationTypes.USERCACHE_UPDATED)
+    
+    GLOBAL_notifyToViews(notificationMsg: "Updated User Distance Cache", notificationType: NotificationTypes.USERDISTANCECAHCE_UPDATED)
+    
 }
 func GLOBAL_GetCurrentTimeInStr() -> String{
         let dateFormatter  = DateFormatter ()
