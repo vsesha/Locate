@@ -11,7 +11,10 @@
 		3E28E9CA1F22B32F001935E0 /* DistanceBreachCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E28E9C91F22B32F001935E0 /* DistanceBreachCellView.swift */; };
 		3E28E9CC1F22B4D9001935E0 /* DistanceBreachViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E28E9CB1F22B4D9001935E0 /* DistanceBreachViewController.swift */; };
 		3E310ADB1E4A4C18002C4C7F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E310ADA1E4A4C18002C4C7F /* LocationManager.swift */; };
+		3E31F0991F96A7AA00A2C46F /* UserDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E31F0981F96A7AA00A2C46F /* UserDistanceController.swift */; };
+		3E43D3841F8DA47D0021B6A4 /* SpeakFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */; };
 		3E8E405A1F4637F2009E7B31 /* PreferencesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */; };
+		3E910E861FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */; };
 		3E9AD8521E36A38800467525 /* TripDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8511E36A38800467525 /* TripDestinations.swift */; };
 		3E9AD8541E36A54600467525 /* GMapUtillities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8531E36A54600467525 /* GMapUtillities.swift */; };
 		3E9AD8561E36E24100467525 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9AD8551E36E24100467525 /* SettingsViewController.swift */; };
@@ -28,17 +31,20 @@
 		3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0571E43B6820088897E /* MessageProtocol.swift */; };
 		3ED9D05A1E43BA520088897E /* JSONMsgSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */; };
 		3EDBA1F71F75AF9B0084FF2C /* BGLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */; };
-		A699BC483F51D5B635DDF8C9 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F53E40774296C3BD783E339 /* GooglePlaces.framework */; };
-		C3632157F92B57AF6EA08C89 /* Pods_Locate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10165010751C18A368178742 /* Pods_Locate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		10165010751C18A368178742 /* Pods_Locate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Locate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02BE643ABF754038B5EF33E4 /* Pods-Locate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.debug.xcconfig"; sourceTree = "<group>"; };
 		3E1BEF541E917FBC00246911 /* InternetConnectionUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnectionUtil.swift; sourceTree = "<group>"; };
 		3E28E9C91F22B32F001935E0 /* DistanceBreachCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBreachCellView.swift; sourceTree = "<group>"; };
 		3E28E9CB1F22B4D9001935E0 /* DistanceBreachViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBreachViewController.swift; sourceTree = "<group>"; };
 		3E310ADA1E4A4C18002C4C7F /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		3E31F0981F96A7AA00A2C46F /* UserDistanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDistanceController.swift; sourceTree = "<group>"; };
+		3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakFunctions.swift; sourceTree = "<group>"; };
 		3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesSettings.swift; path = Src/Views/PreferencesSettings.swift; sourceTree = SOURCE_ROOT; };
+		3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealtimeMessaging_iOS_Swift3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E9401251F9FD9DB0051C653 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = SOURCE_ROOT; };
+		3E9401261F9FD9DB0051C653 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMapsCore.framework; sourceTree = SOURCE_ROOT; };
 		3E9AD8511E36A38800467525 /* TripDestinations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDestinations.swift; sourceTree = "<group>"; };
 		3E9AD8531E36A54600467525 /* GMapUtillities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMapUtillities.swift; sourceTree = "<group>"; };
 		3E9AD8551E36E24100467525 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -57,9 +63,7 @@
 		3ED9D0571E43B6820088897E /* MessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProtocol.swift; sourceTree = "<group>"; };
 		3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONMsgSerialization.swift; sourceTree = "<group>"; };
 		3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGLocationManager.swift; sourceTree = "<group>"; };
-		5F53E40774296C3BD783E339 /* GooglePlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GooglePlaces.framework; path = ../../../../../../../../Backup/VasuBKUP/MobileApps/Locategration/Locate/Pods/GooglePlaces/Frameworks/GooglePlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		953C21D99703E2A149CE8684 /* Pods-Locate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.release.xcconfig"; sourceTree = "<group>"; };
-		9676005A1202A85A85784B8B /* Pods-Locate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.debug.xcconfig"; sourceTree = "<group>"; };
+		743F521C999A481635161DEF /* Pods-Locate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A699BC483F51D5B635DDF8C9 /* GooglePlaces.framework in Frameworks */,
-				C3632157F92B57AF6EA08C89 /* Pods_Locate.framework in Frameworks */,
+				3E910E861FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +84,8 @@
 				3E9CC39E1E325964009014D0 /* Podfile */,
 				3E9CC3861E3257BD009014D0 /* Src */,
 				3E9CC3851E3257BD009014D0 /* Products */,
-				AC186895A215A89F9DBAB5AC /* Pods */,
 				E97E16ED99DA265BB4942718 /* Frameworks */,
+				DAFF15875B08583C57249985 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,8 +127,10 @@
 			children = (
 				3E28E9CB1F22B4D9001935E0 /* DistanceBreachViewController.swift */,
 				3E9CC3891E3257BD009014D0 /* ViewController.swift */,
+				3E31F0981F96A7AA00A2C46F /* UserDistanceController.swift */,
 				3E9AD8551E36E24100467525 /* SettingsViewController.swift */,
 				3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */,
+				3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -170,11 +175,11 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AC186895A215A89F9DBAB5AC /* Pods */ = {
+		DAFF15875B08583C57249985 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9676005A1202A85A85784B8B /* Pods-Locate.debug.xcconfig */,
-				953C21D99703E2A149CE8684 /* Pods-Locate.release.xcconfig */,
+				02BE643ABF754038B5EF33E4 /* Pods-Locate.debug.xcconfig */,
+				743F521C999A481635161DEF /* Pods-Locate.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -182,8 +187,9 @@
 		E97E16ED99DA265BB4942718 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5F53E40774296C3BD783E339 /* GooglePlaces.framework */,
-				10165010751C18A368178742 /* Pods_Locate.framework */,
+				3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */,
+				3E9401251F9FD9DB0051C653 /* GoogleMaps.framework */,
+				3E9401261F9FD9DB0051C653 /* GoogleMapsCore.framework */,
 			);
 			name = Frameworks;
 			path = Pods/GoogleMaps/Base/Frameworks;
@@ -196,12 +202,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E9CC3991E3257BD009014D0 /* Build configuration list for PBXNativeTarget "Locate" */;
 			buildPhases = (
-				8377F6A181A31155875319EC /* [CP] Check Pods Manifest.lock */,
+				5D6769481835FF692B19A0B1 /* [CP] Check Pods Manifest.lock */,
 				3E9CC3801E3257BD009014D0 /* Sources */,
 				3E9CC3811E3257BD009014D0 /* Frameworks */,
 				3E9CC3821E3257BD009014D0 /* Resources */,
-				404CD42C8A6018DD8F4AB7CB /* [CP] Embed Pods Frameworks */,
-				ADE6C5885FE1B448F9F0559B /* [CP] Copy Pods Resources */,
+				9297E3060B3E7130670C44B1 /* [CP] Embed Pods Frameworks */,
+				DEBCD7CC02CE84BD476E8088 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -262,45 +268,57 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		404CD42C8A6018DD8F4AB7CB /* [CP] Embed Pods Frameworks */ = {
+		5D6769481835FF692B19A0B1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Locate-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9297E3060B3E7130670C44B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Locate/Pods-Locate-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RealtimeMessaging-iOS-Swift3/RealtimeMessaging_iOS_Swift3.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealtimeMessaging_iOS_Swift3.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Locate/Pods-Locate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8377F6A181A31155875319EC /* [CP] Check Pods Manifest.lock */ = {
+		DEBCD7CC02CE84BD476E8088 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		ADE6C5885FE1B448F9F0559B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Locate/Pods-Locate-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -316,8 +334,10 @@
 			files = (
 				3ED9D05A1E43BA520088897E /* JSONMsgSerialization.swift in Sources */,
 				3E9AD8541E36A54600467525 /* GMapUtillities.swift in Sources */,
+				3E31F0991F96A7AA00A2C46F /* UserDistanceController.swift in Sources */,
 				3E1BEF551E917FBC00246911 /* InternetConnectionUtil.swift in Sources */,
 				3E28E9CC1F22B4D9001935E0 /* DistanceBreachViewController.swift in Sources */,
+				3E43D3841F8DA47D0021B6A4 /* SpeakFunctions.swift in Sources */,
 				3E310ADB1E4A4C18002C4C7F /* LocationManager.swift in Sources */,
 				3E9AD8521E36A38800467525 /* TripDestinations.swift in Sources */,
 				3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */,
@@ -453,12 +473,16 @@
 		};
 		3E9CC39A1E3257BD009014D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9676005A1202A85A85784B8B /* Pods-Locate.debug.xcconfig */;
+			baseConfigurationReference = 02BE643ABF754038B5EF33E4 /* Pods-Locate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7ER6D25VEL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Maps/Frameworks",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Src/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = s.Locate;
@@ -469,12 +493,16 @@
 		};
 		3E9CC39B1E3257BD009014D0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 953C21D99703E2A149CE8684 /* Pods-Locate.release.xcconfig */;
+			baseConfigurationReference = 743F521C999A481635161DEF /* Pods-Locate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7ER6D25VEL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Maps/Frameworks",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Src/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = s.Locate;

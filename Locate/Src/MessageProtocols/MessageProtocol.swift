@@ -33,6 +33,7 @@ enum NotificationTypes:Int {
     REALTIME_COORDINATES,
     USERCACHE_UPDATED,
     USERBREACHCACHE_UPDATED,
+    USERDISTANCECAHCE_UPDATED,
     ENTERED_BACKGROUND,
     ENTERED_FOREGROUND
 }
@@ -46,7 +47,9 @@ enum MessageTypes: Int {
             AckToJoin           = 205,
             RequestForLeader    = 206,
             AckToLeaderMsg      = 207,
-            DistanceBreach      = 209
+            DistanceBreach      = 209,
+            DeleteUserDistBreach = 210,
+            PingCurrentDistance  = 211
 }
 
 struct Message: JSONSerializable{
@@ -101,26 +104,33 @@ struct userStruct: JSONSerializable {
     var iSleader: Bool
 }
 
-//Structure for intenral memory of all pinned locations on map
-/*struct UserPinnedLocation: JSONSerializable{
-    var userName:   String?
-    var longitude:  Double?
-    var latitude:   Double?
-    init (_userName: String, _longitude: Double, _latitude: Double){
-        userName    = _userName
-        longitude   = _longitude
-        latitude    = _latitude
-    }
-}*/
+
+struct pingUsersLocation: JSONSerializable {
+    var msgFrom:        String?
+    var msgType:        String?
+    
+}
+struct userDistanceStruct: JSONSerializable {
+    var userName:           String?
+    var userColor:          String?
+    var positionTime:       String?
+    var userDistance:       String?
+    var didBreachDistance:  Bool?
+    var distanceBreachCount:Int?
+    
+}
 
 struct UserPinnedLocation{
     var userName:   String?
     var pinMarker: GMSMarker?
-    init (_userName: String, _pinMarker: GMSMarker){
+    var userLocation: CLLocation?
+    init (_userName: String, _pinMarker: GMSMarker, _userLocation: CLLocation){
         userName  = _userName
         pinMarker = _pinMarker
+        userLocation = _userLocation
     }
 }
+
 
 struct DistanceBreachStruct: JSONSerializable {
     var msgFrom         =   "test"

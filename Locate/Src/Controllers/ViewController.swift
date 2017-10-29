@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import AudioToolbox
+import AVFoundation
 
 
 class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate {
@@ -36,29 +37,23 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     var searchedLocationName    = String()
     var publishTimer:Timer?
     
+    let userDistCtrl            = UserDistanceController ()
     
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
-    
-    @IBOutlet weak var s_BreachListLabel: UILabel!
-    
-    @IBOutlet weak var alertLabel: UILabel!
-    
     @IBOutlet weak var s_NoOfUsersLabel: UIButton!
    
     @IBOutlet weak var UsersLabel: UILabel!
     @IBOutlet weak var startTripButton:     UIButton!
     @IBOutlet weak var drawPathButton:      UIButton!
     @IBOutlet weak var shareTripButton:     UIButton!
-    //@IBOutlet weak var addPathToTrip:       UIButton!
     @IBOutlet weak var mapZoomIn:           UIButton!
     @IBOutlet weak var mapZoomOut:          UIButton!
     @IBOutlet weak var groupLeader:         UIButton!
-    
-    @IBOutlet weak var DistBreachButton: UIButton!
     @IBOutlet weak var SettingsNavButton:   UIBarButtonItem!
-    
-    //@IBOutlet weak var alertShowButton: UIButton!
+    @IBOutlet weak var speakButton: UIButton!
+
+    @IBOutlet weak var statusLabel: UILabel!
     
     
 
@@ -109,19 +104,19 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         view.addSubview(mapZoomIn)
         view.addSubview(mapZoomOut)
         view.addSubview(groupLeader)
-        view.addSubview(DistBreachButton)
-        //view.addSubview(alertShowButton)
-        view.addSubview(alertLabel)
-        view.bringSubview(toFront: alertLabel)
-        
-        view.addSubview(s_BreachListLabel)
-        view.bringSubview(toFront: s_BreachListLabel)
-        
+
         view.addSubview(s_NoOfUsersLabel)
         view.bringSubview(toFront: s_NoOfUsersLabel)
         
         view.addSubview(UsersLabel)
         view.bringSubview(toFront: UsersLabel)
+        
+        view.addSubview(speakButton)
+        view.bringSubview(toFront: speakButton)
+        
+        view.addSubview(statusLabel)
+        view.bringSubview(toFront: statusLabel)
+        
         addShadowEffect()
       
     }
@@ -135,6 +130,15 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         s_NoOfUsersLabel.layer.masksToBounds = false
         s_NoOfUsersLabel.layer.cornerRadius = 4
         //s_NoOfUsersLabel.titleLabel?.textAlignment = .center
+        
+        
+        
+        speakButton.layer.shadowOpacity = 0.4
+        speakButton.layer.shadowOffset = CGSizeFromString("1")
+        speakButton.layer.shadowRadius = 4
+        speakButton.layer.masksToBounds = false
+        speakButton.layer.cornerRadius = 4
+        
         
         s_NoOfUsersLabel.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
         
@@ -150,14 +154,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         mapZoomOut.layer.shadowOffset = CGSizeFromString("1")
         mapZoomOut.layer.shadowRadius = 4
         mapZoomOut.layer.masksToBounds = false
-        
-        DistBreachButton.layer.shadowColor=UIColor.black.cgColor
-        DistBreachButton.layer.shadowOpacity = 0.4
-        DistBreachButton.layer.shadowOffset = CGSizeFromString("1")
-        DistBreachButton.layer.shadowRadius = 4
-        DistBreachButton.layer.masksToBounds = false
-        DistBreachButton.layer.cornerRadius = 4
-        
+       
         drawPathButton.layer.shadowColor=UIColor.black.cgColor
         drawPathButton.layer.shadowOpacity = 0.4
         drawPathButton.layer.shadowOffset = CGSizeFromString("1")
@@ -224,14 +221,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         shareTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         shareTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
 
-        
-        //startTripButton.setTitle(NSString(string: "\u{26A1}\u{0000FE0E}") as String, for: .normal)
-        //startTripButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        //startTripButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
-        
-        DistBreachButton.setTitle(NSString(string: "\u{26A0}\u{0000FE0E}") as String, for: .normal)
-        DistBreachButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        DistBreachButton.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
       
     }
 
@@ -252,14 +241,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         //THIS FUNCTION CALL WILL BE REMOVED AFTER ALPHA RELEASE
         hideSomeFeatureButtons()
         
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-        
-        if GLOBAL_BREACH_LIST.count > 0{
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: true)
-        }
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
@@ -274,7 +255,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         //test code
         if !(CLLocationManager.authorizationStatus()  == .authorizedAlways){
-            var alertMsg = "Location always authorized is not set to true"
+            let alertMsg = "Location always authorized is not set to true"
 
             let alert = UIAlertController(title: "Alert", message: alertMsg, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -344,14 +325,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         publishTimer?.invalidate()
     }
     
-    func HideDistanceBreachAlert(p_flag:Bool){
-        NSLog("GLOBAL_BREACH_LIST.count = \(GLOBAL_BREACH_LIST.count)")
-        NSLog("Show Or Hide  = \(p_flag)")
-        DistBreachButton.isHidden   = p_flag
-        alertLabel.isHidden         = p_flag
-        s_BreachListLabel.isHidden  = p_flag
-    }
-    
+
     
     func delegateNotification(_ notification:NSNotification){
         var notifyMsg:  NotificationMessage
@@ -440,19 +414,16 @@ func switchToForeground () {
             }
             else if(msgType == "209" ){
                 processDistanceBreachMsg(realtimeJsonMsg: jsonMsg)
-                alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-            }
+           }
             else if(msgType == "210" ){
                 processDeleteUserFromDistanceBreachMsg(realtimeJsonMsg: jsonMsg)
-                alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-                
-                if GLOBAL_BREACH_LIST.count > 0 {
-                    HideDistanceBreachAlert(p_flag: false)
-                    } else {
-                    HideDistanceBreachAlert(p_flag: true)
-                }
-            
             }
+            else  if(msgType == "211" ){
+                NSLog("Received ping for  User Location")
+                userDistCtrl.replyToDistancePing()
+               
+            }
+                
             else {
                 NSLog("Message Type \(msgType) is not supported yet")
             }
@@ -468,21 +439,44 @@ func switchToForeground () {
         let latitude    = (realtimeJsonMsg["latitude"]      as! NSString).doubleValue
         let fromUser    = realtimeJsonMsg["msgFrom"]        as! String
         let markerColor = realtimeJsonMsg["markerColor"]    as! String
-        
-    
-        
+
         let location    = CLLocation(latitude: latitude        as CLLocationDegrees,
                                   longitude: longitude      as CLLocationDegrees)
         
-        if(GLOBAL_SHOW_TRAIL == false){
-            removePreviousMarkerForUser(_userName: fromUser)
+        let (found, prevLocation) = FindandRemovePreviousMarker(_userName: fromUser)
+        if(found > -1){
+            drawTrack(originLocation: prevLocation, destinationlocation: location, color: markerColor)
+
+//            removePreviousMarkerForUser(_userName: fromUser)
         }
         addMarker(location: location, addressStr: fromUser, color:markerColor )
         NSLog("location  = \(location) ")
-
-        checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
         
+        addUserDistanceToCache(userlocation: location, UserName: fromUser, UserColor: markerColor )
+        //checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
+        
+    }
+    
+
+    func FindandRemovePreviousMarker(_userName: String) -> (Int, CLLocation) {
+        var found: Int = -1
+        var userPrevLocation = CLLocation()
+        if (GLOBAL_PINNED_LOCATION_LIST.count > 0)
+        {
+            for count in 0 ... GLOBAL_PINNED_LOCATION_LIST.count-1 {
+                let userlocation = GLOBAL_PINNED_LOCATION_LIST[count]
+                if (userlocation.userName == _userName){
+                    let marker = userlocation.pinMarker
+                    removeMarker(_marker: marker!)
+                    userPrevLocation =  userlocation.userLocation!
+                    found = count
+                }
+            }
+        }
+        if(found > -1) {
+            GLOBAL_PINNED_LOCATION_LIST.remove(at: found)
+        }
+        return (found, userPrevLocation)
     }
     
     func removePreviousMarkerForUser(_userName: String){
@@ -502,16 +496,70 @@ func switchToForeground () {
                     found = count
                 }
             }
-            if(found > -1) { GLOBAL_PINNED_LOCATION_LIST.remove(at: found) }
+            if(found > -1) {
+                GLOBAL_PINNED_LOCATION_LIST.remove(at: found)
+            }
         }
     
+    }
+    
+    func addUserDistanceToCache(userlocation:CLLocation, UserName:String, UserColor: String) {
+        var userDistanceBreached    = false
+        let myCurrentLocation       = locationManager.location
+        
+        var distanceFromMe          = Double( (myCurrentLocation?.distance(from: userlocation))!)
+        let geoDistance             = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
+        
+        if (distanceFromMe > geoDistance) { userDistanceBreached = true }
+       
+        
+        NSLog("Distance in Meters   = \(String(describing: distanceFromMe))")
+        NSLog("Distance GEOFENCE    = \(geoDistance)")
+        
+        distanceFromMe              = distanceFromMe * 0.000621371 //converting to miles
+        var DistanceInStr:String = String(format:"%2f",distanceFromMe)
+        let index       = DistanceInStr.index(DistanceInStr.startIndex, offsetBy: 4)
+        DistanceInStr   = DistanceInStr.substring(to: index)
+        
+        
+        let currDate = GLOBAL_GetCurrentTimeInStr()
+        
+        var userDistObj             = userDistanceStruct()
+        userDistObj.userName        = UserName
+        userDistObj.userColor       = UserColor
+        userDistObj.positionTime    = currDate
+        userDistObj.userDistance    = DistanceInStr
+        userDistObj.distanceBreachCount = 0
+        userDistObj.didBreachDistance   = userDistanceBreached
+        
+        //To set Distance Breach Count, first check if the user breached previously
+        let prevBreachCount = GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistObj)
+        if ( userDistanceBreached ){
+            userDistObj.distanceBreachCount = prevBreachCount + 1
+        }
+        
+        GLOBAL_UpdateUserDistanceList(userDistanceObj: userDistObj)
+        
+        let breachCount:Int = userDistObj.distanceBreachCount!
+        var reminder        = 1
+        if (breachCount>0){
+            reminder = breachCount % 5
+            
+        }
+        NSLog("breach stats - userDistanceBreached = \(userDistanceBreached) || breachCount = \(breachCount) || reminder = \(reminder))")
+        if (userDistanceBreached && (breachCount == 1 || reminder == 0 )) {
+            var speakStr = UserName + " is "
+            speakStr += DistanceInStr + " miles away from you"
+            LocateSpeaker.instance.speak(speakString: speakStr)
+        }
+
     }
     
     func checkIfCrossedGeoFence(userlocation:CLLocation, UserName:String) -> (Bool, String) {
         var alertMsg                = ""
         let myCurrentLocation       =  locationManager.location
         var distanceFromMe          = Double( (myCurrentLocation?.distance(from: userlocation))!)
-        let geoDistance = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
+        let geoDistance             = GLOBAL_getDistanceCodeMap(Distance: GLOBAL_GEOFENCE_DISTANCE)
         
         NSLog("Distance in Meters = \(String(describing: distanceFromMe))")
         NSLog("Distance GEOFENCE = \(geoDistance)")
@@ -525,6 +573,7 @@ func switchToForeground () {
             
                 var DistanceInStr:String = String(format:"%2f",distanceFromMe)
                 let index = DistanceInStr.index(DistanceInStr.startIndex, offsetBy: 4)
+                
                 DistanceInStr = DistanceInStr.substring(to: index)
                     alertMsg = " \(UserName) is \(DistanceInStr) miles away from Leader: \(GLOBAL_NICK_NAME)"
 
@@ -548,12 +597,7 @@ func switchToForeground () {
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
-                
-                if GLOBAL_BREACH_LIST.count > 0 {
-                    HideDistanceBreachAlert(p_flag: false)
-                } else {
-                    HideDistanceBreachAlert(p_flag: true)
-                }
+
                 return (true, alertMsg)
             }
             else
@@ -598,13 +642,18 @@ func switchToForeground () {
         let tempMsgType: String = realtimeJsonMsg["msgType"]       as! String
         let msgType             = Int (tempMsgType)
         
+        
+        //update user cache and notify
         if (msgType == MessageTypes.IJoinedGroup.rawValue ) {
             if (!GLOBAL_addUserToList(userName: fromUser)) {NSLog("Error while adding user to group list")}
             publishIamStillInGroup()
         }
-        if (msgType == MessageTypes.IExitGroup.rawValue) {
-            if(!GLOBAL_deleteUser(userName: fromUser)) {NSLog ("Error while deleting user from group")}
         
+        if (msgType == MessageTypes.IExitGroup.rawValue) {
+            if(!GLOBAL_deleteUser(userName: fromUser)) {NSLog ("Error while deleting user from User cache")}
+            
+            //update user distance cache and notify
+             if(!GLOBAL_DeleteUserFromUserDistanceList (userName: fromUser)) {NSLog ("Error while deleting user from Distance cache")}
         }
         
         //GLOBAL_notifyToViews(notificationMsg: "User Added/deleted", notificationType: NotificationTypes.USERCACHE_UPDATED)
@@ -621,14 +670,6 @@ func switchToForeground () {
         
         GLOBAL_UpdateBreachList(distBreachObj: distBreachObj)
         AudioServicesPlayAlertSound(SystemSoundID(GLOBAL_AUDIO_CODE)!)
-        
-        if GLOBAL_BREACH_LIST.count > 0 {
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: true)
-        }
-        
-        
         
         if (GLOBAL_SHOW_ALERT_POPUPS){
             
@@ -658,14 +699,6 @@ func switchToForeground () {
         }
     }
     func processUserBreachCacheUpdates () {
-        alertLabel.text = String(GLOBAL_BREACH_LIST.count)
-        
-        if GLOBAL_BREACH_LIST.count > 0 {
-            HideDistanceBreachAlert(p_flag: false)
-        } else {
-            HideDistanceBreachAlert(p_flag: true)
-        }
-        
     }
     
     func processOthersInGroupMsg(realtimeJsonMsg:[String: AnyObject]){
@@ -742,6 +775,15 @@ func switchToForeground () {
         }
         zoomMapView()
     }
+    
+
+    @IBAction func speakToubhUp(_ sender: Any) {
+        
+        //here
+        userDistCtrl.getAllUsersDistance()
+   
+    }
+    
     
     @IBAction func startTripTouchUp(_ sender: Any) {
         if(GLOBAL_CONNECTION_STATUS) {

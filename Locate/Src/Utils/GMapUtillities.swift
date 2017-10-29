@@ -20,22 +20,30 @@ func drawPath()
     path.add(CLLocationCoordinate2DMake(41.808297, -88.007609))
     path.add(CLLocationCoordinate2DMake(41.878682, -87.640237))
     
-    let rectangle = GMSPolyline(path: path)
-    rectangle.strokeWidth = 2.0
-    rectangle.map = GLOBAL_MAP_VIEW
+    let rectangle           = GMSPolyline(path: path)
+    rectangle.strokeWidth   = 2.0
+    rectangle.map           = GLOBAL_MAP_VIEW
 //    self.view = mapView
     
     
     NSLog("drawPath:Exit")
 }
-func drawTrack(originLocation: CLLocation, destinationlocation:CLLocation){
+
+func drawTrack(originLocation: CLLocation, destinationlocation:CLLocation, color: String){
     let path = GMSMutablePath()
+    
+    let hue = GLOBAL_getHueCode(color: color)
+    let color = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)
+    
+    
     path.add(originLocation.coordinate)
     path.add(destinationlocation.coordinate)
     
     let line = GMSPolyline(path: path)
-    line.strokeWidth = 2.0
-    line.map = GLOBAL_MAP_VIEW
+    line.strokeWidth    = 2
+    line.geodesic       = true
+    line.strokeColor    = color
+    line.map            = GLOBAL_MAP_VIEW
 }
 
 func drawRouteMap(routes:[CLLocation]){
@@ -166,14 +174,14 @@ func addMarker(location: CLLocation,  addressStr: String, color: String)
         marker.appearAnimation = kGMSMarkerAnimationPop
         marker.title = addressStr + " @ " + GLOBAL_GetCurrentTimeInStr()
         
-        let hue = GLOBAL_getHueCode(color: color)
-        let color = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)
+        let hue     = GLOBAL_getHueCode(color: color)
+        let color   = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)
     
-        marker.icon = GMSMarker.markerImage(with: color)
-        marker.opacity = 0.8
+        marker.icon     = GMSMarker.markerImage(with: color)
+        marker.opacity  = 0.8
     
-        marker.map = GLOBAL_MAP_VIEW
-        let userLocation = UserPinnedLocation(_userName: addressStr, _pinMarker: marker)
+        marker.map      = GLOBAL_MAP_VIEW
+    let userLocation    = UserPinnedLocation(_userName: addressStr, _pinMarker: marker, _userLocation:location)
          GLOBAL_PINNED_LOCATION_LIST.append(userLocation)
     CATransaction.commit()
 

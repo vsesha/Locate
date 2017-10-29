@@ -23,10 +23,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     @IBOutlet weak var s_ConnectionStatus:          UILabel!
     @IBOutlet weak var s_userGroupSize:             UILabel!
 
-    @IBOutlet weak var s_AdditionalPrefText:        UILabel!
-    
-    @IBOutlet weak var s_TriangleLabel:             UIButton!
+
     @IBOutlet weak var s_AppVersionLabel:           UILabel!
+    
+    @IBOutlet weak var s_DistanceAlert: UIPickerView!
+    
+    @IBOutlet weak var s_SpeakerAssistant: UIPickerView!
     
     var validationError:String      = "None"
     let RTPubSub                    = RTPubSubController()
@@ -48,11 +50,23 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         s_RefreshFrequencyPicker.delegate = self
         s_RefreshFrequencyPicker.dataSource = self
         
+        s_DistanceAlert.delegate    = self
+        s_DistanceAlert.dataSource  = self
+        
+        s_SpeakerAssistant.delegate = self
+        s_SpeakerAssistant.dataSource = self
+        
         var row = GLOBAL_MARKER_COLORS.index(of: GLOBAL_MY_MARKER_COLOR)
         s_MarkerColor.selectRow(row!, inComponent: 0, animated: true)
         
         row = GLOBAL_ARRAY_REFRESH_FREQ.index(of: GLOBAL_REFRESH_FREQUENCY)
         s_RefreshFrequencyPicker.selectRow(row!, inComponent: 0, animated: true)
+        
+        row = GLOBAL_ARRAY_DISTANCE.index(of:GLOBAL_GEOFENCE_DISTANCE)
+        s_DistanceAlert.selectRow(row!, inComponent: 0, animated: true)
+        
+        row = GLOBAL_ARRAY_SPEAKERS.index(of: GLOBAL_SPEAK_LANGUAGE)
+        s_SpeakerAssistant.selectRow(row!, inComponent: 0, animated: true)
         
         changeConfigControlsState(state: !GLOBAL_CONNECTION_STATUS)
         
@@ -87,27 +101,11 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         
         s_ErrorMsgDisplay.text  = GLOBAL_CONNECTION_ERR_MSG
         addEffectToButton()
-
-        addUnicode()
-        HideAdditionalPrefText(pFlag: true)
-        
-        
         s_AppVersionLabel.text = GLOBAL_APP_VERSION
    
     }
     
-    func HideAdditionalPrefText(pFlag: Bool)
-    {
-        s_AdditionalPrefText.isHidden   = pFlag
-        s_TriangleLabel.isHidden        = pFlag
-    }
-    func addUnicode(){
-        s_TriangleLabel.setTitle(NSString(string: "\u{25B2}") as String, for: .normal)
-        
-        s_TriangleLabel.contentVerticalAlignment = UIControlContentVerticalAlignment.bottom
-        s_TriangleLabel.contentHorizontalAlignment  = UIControlContentHorizontalAlignment.center
-    }
-    
+ 
     func addEffectToButton(){
         s_JoinNow.layer.shadowColor=UIColor.black.cgColor
         s_JoinNow.layer.shadowOpacity   = 0.3
@@ -129,8 +127,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS.count
         }
-        else {
+        else if pickerView == s_RefreshFrequencyPicker {
             return GLOBAL_ARRAY_REFRESH_FREQ.count
+        }
+        else if pickerView == s_DistanceAlert {
+            return GLOBAL_ARRAY_DISTANCE.count
+        }
+        else {
+            return GLOBAL_ARRAY_SPEAKERS.count
         }
     }
     
@@ -138,8 +142,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             return GLOBAL_MARKER_COLORS[row]
         }
-        else  {
+        else if pickerView == s_RefreshFrequencyPicker  {
             return GLOBAL_ARRAY_REFRESH_FREQ[row]
+        }
+        else if pickerView == s_DistanceAlert {
+            return GLOBAL_ARRAY_DISTANCE[row]
+        }
+        else {
+            return GLOBAL_ARRAY_SPEAKERS[row]
         }
         
     }
@@ -149,8 +159,14 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         if pickerView == s_MarkerColor {
             GLOBAL_MY_MARKER_COLOR = GLOBAL_MARKER_COLORS[row]
         }
-        else  {
+        else if pickerView == s_RefreshFrequencyPicker {
             GLOBAL_REFRESH_FREQUENCY = GLOBAL_ARRAY_REFRESH_FREQ[row]
+        }
+        else if pickerView == s_DistanceAlert {
+            GLOBAL_GEOFENCE_DISTANCE =   GLOBAL_ARRAY_DISTANCE[row]
+        }
+        else {
+            GLOBAL_SPEAK_LANGUAGE = GLOBAL_ARRAY_SPEAKERS[row]
         }
         
     }
@@ -174,9 +190,17 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 rowView.attributedText = attribSetting
 
         }
-        else {
+        else  if pickerView == s_RefreshFrequencyPicker {
                 let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_REFRESH_FREQ[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
                 rowView.attributedText = attribSetting
+        }
+        else  if pickerView == s_DistanceAlert {
+            let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_DISTANCE[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
+            rowView.attributedText = attribSetting
+        }
+        else   {
+            let attribSetting = NSAttributedString(string: GLOBAL_ARRAY_SPEAKERS[row], attributes: [NSFontAttributeName:UIFont(name:"Helvetica Neue", size:14)!])
+            rowView.attributedText = attribSetting
         }
         
            rowView.textAlignment = .center
@@ -198,26 +222,29 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     }
     
     @IBAction func NickNameChanged(_ sender: Any) {
-        s_NickName.text=s_NickName.text?.uppercased()
-        GLOBAL_NICK_NAME = s_NickName.text!
-        GLOBAL_FILTER_USER = GLOBAL_NICK_NAME
+        s_NickName.text     = s_NickName.text?.uppercased()
+        GLOBAL_NICK_NAME    = s_NickName.text!
+        GLOBAL_FILTER_USER  = GLOBAL_NICK_NAME
     }
     
     @IBAction func NickNameEditEnd(_ sender: Any) {
+        GLOBAL_NICK_NAME    = s_NickName.text!
+        GLOBAL_FILTER_USER  = GLOBAL_NICK_NAME
         view.endEditing(true)
         s_NickName.endEditing(true)
-        
-        NSLog("Nick name edit ended")
     }
 
  
-    
-    @IBAction func ChannelEditingChanged(_ sender: Any) {
-        s_Channel.text=s_Channel.text?.uppercased()
+    @IBAction func ChannelNameEditEnd(_ sender: Any) {
         GLOBAL_CHANNEL = s_Channel.text!
+        view.endEditing(true)
+        s_Channel.endEditing(true)
     }
     
-
+    @IBAction func ChannelEditingChanged(_ sender: Any) {
+        s_Channel.text  = s_Channel.text?.uppercased()
+        GLOBAL_CHANNEL  = s_Channel.text!
+    }
     
     func actOnNotification(_ notification:NSNotification){
         
@@ -235,19 +262,13 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
 
                 RTPubSub.enablePresence()
                 publishJoinExitMessageToAll(msgType: MessageTypes.IJoinedGroup.rawValue)
-                //RTPubSub.getAllUsersInGroup()
+
                 GLOBAL_addUserToList(userName: GLOBAL_NICK_NAME)
                 
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness:1.0, alpha: 1.0)
                 s_JoinNow.isEnabled = true
    
-            
-                UIView.animate(withDuration: 1.0, delay: 0.4, options:
-                    UIViewAnimationOptions.curveEaseOut, animations: {
-                        self.s_AdditionalPrefText.alpha = 1
-                }, completion: { finished in
-                    self.HideAdditionalPrefText(pFlag: false)
-                })
+
             
         
         case NotificationTypes.DISCONNECTED:
@@ -258,7 +279,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_ConnectionStatus.text = "DISCONNECTED"
                 s_ConnectionStatus.backgroundColor = nil
                 s_JoinNow.isEnabled = true
-                HideAdditionalPrefText(pFlag: true)
+
         
         case NotificationTypes.USERCACHE_UPDATED:
                 NSLog("case NotificationTypes.USERCACHE_UPDATED - \(GLOBAL_USER_LIST.count)")
@@ -274,7 +295,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
             s_ConnectionStatus.text = "ERROR"
             s_ConnectionStatus.backgroundColor = UIColor(hue: 0.0, saturation: 0.8, brightness:1.0, alpha: 1.0)
             s_JoinNow.isEnabled = true
-            HideAdditionalPrefText(pFlag: true)
+
             break
         
         default:
@@ -304,7 +325,9 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_JoinNow.isEnabled = false
                 RTPubSub.initRealtime()
                 changeConfigControlsState(state: false)
-                
+                var speakStr = "You are all set " + (GLOBAL_NICK_NAME)
+                    speakStr += ", Enjoy your trip"
+                LocateSpeaker.instance.speak(speakString: speakStr)
                 
             }
             else {
@@ -312,7 +335,9 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
                 s_ErrorMsgDisplay.text = validationError
                 s_ConnectionStatus.backgroundColor = UIColor(hue: 0.0, saturation: 1.0, brightness:1.0, alpha: 1.0)
                 changeConfigControlsState(state: true)
-                //displayError()
+                let speakErr =  validationError
+                LocateSpeaker.instance.speak(speakString: speakErr)
+                
             }
             
         } else  if (GLOBAL_CONNECTION_STATUS && s_JoinNow.title(for: .normal) == "Exit"){
@@ -320,9 +345,7 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
             s_JoinNow.isEnabled = true
             RTPubSub.disconnect()
             
-            clearAllCache()
-            
-            GLOBAL_notifyToViews(notificationMsg: "Updated Breach Cache", notificationType: NotificationTypes.USERBREACHCACHE_UPDATED)
+            GLOBAL_clearCache()
             
         }
     }
@@ -349,12 +372,12 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
         }
         
         if (GLOBAL_MY_MARKER_COLOR == "None" || GLOBAL_MY_MARKER_COLOR.isEmpty ){
-            validationError = "Avatar/color should be selected"
+            validationError = "Marker color should be selected"
             return false
         }
         
         if (GLOBAL_REFRESH_FREQUENCY.isEmpty){
-            validationError = "Refresh frequency cannot Empty"
+            validationError = "Refresh frequency cannot be Empty"
             return false
         }
         validationError         = "None"
@@ -371,10 +394,17 @@ class SettingsViewController: UITableViewController,  UIPickerViewDelegate, UIPi
     }
 
     
-    func clearAllCache(){
-        GLOBAL_BREACH_LIST.removeAll()
-        GLOBAL_PINNED_LOCATION_LIST.removeAll()
+    @IBAction func UserNameSpeakerTouch(_ sender: UIButton) {
+        LocateSpeaker.instance.speak(speakString: s_NickName.text!)
     }
+    
+    
+
+    @IBAction func TripNameSpeakerTouch(_ sender: UIButton) {
+        LocateSpeaker.instance.speak(speakString: s_Channel.text!)
+    }
+    
+
     func changeConfigControlsState(state : Bool){
         
         s_NickName.isEnabled                                = state
