@@ -657,7 +657,7 @@ func switchToForeground () {
             //update user distance cache and notify
              if(!GLOBAL_DeleteUserFromUserDistanceList (userName: fromUser)) {NSLog ("Error while deleting user from Distance cache")}
             
-            let speakStr:String = fromUser + " exited the group."
+            let speakStr:String = fromUser + " left the group."
             LocateSpeaker.instance.speak(speakString: speakStr)
         }
         

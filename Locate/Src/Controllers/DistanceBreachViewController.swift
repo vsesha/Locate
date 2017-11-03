@@ -72,9 +72,14 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
             if(userDistanceObj.didBreachDistance)!
             {
                 cell.s_BreachDistance.textColor = UIColor.red
+            } else {
+                cell.s_BreachDistance.textColor = UIColor.blue
+                
             }
             if(userDistanceObj.distanceBreachCount! > 0){
                 cell.s_BreachCount.textColor = UIColor.red
+            } else {
+                cell.s_BreachCount.textColor = UIColor.blue
             }
             
         }

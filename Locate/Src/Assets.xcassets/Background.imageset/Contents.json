@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "speaker_5B-1.png",
+      "filename" : "BackgroundProcess.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Settings_5.png",
+      "filename" : "BackgroundProcess-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "speaker_5B.png",
+      "filename" : "BackgroundProcess-2.png",
       "scale" : "3x"
     }
   ],
