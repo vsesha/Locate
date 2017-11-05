@@ -319,7 +319,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     func getNewLocation(){
         LocationController.sharedInstance.startUpdatingLocation()
-        //setGeoFencePoint(locationManager: <#T##CLLocationManager#>, location: <#T##CLLocation#>, referencePoint: <#T##String#>)
     }
     func stopPublishing(){
         publishTimer?.invalidate()
@@ -646,7 +645,10 @@ func switchToForeground () {
         //update user cache and notify
         if (msgType == MessageTypes.IJoinedGroup.rawValue ) {
             if (!GLOBAL_addUserToList(userName: fromUser)) {NSLog("Error while adding user to group list")}
+            let speakStr:String = fromUser + " joind the group."
+            LocateSpeaker.instance.speak(speakString: speakStr)
             publishIamStillInGroup()
+            
         }
         
         if (msgType == MessageTypes.IExitGroup.rawValue) {
@@ -654,6 +656,9 @@ func switchToForeground () {
             
             //update user distance cache and notify
              if(!GLOBAL_DeleteUserFromUserDistanceList (userName: fromUser)) {NSLog ("Error while deleting user from Distance cache")}
+            
+            let speakStr:String = fromUser + " left the group."
+            LocateSpeaker.instance.speak(speakString: speakStr)
         }
         
         //GLOBAL_notifyToViews(notificationMsg: "User Added/deleted", notificationType: NotificationTypes.USERCACHE_UPDATED)
@@ -778,10 +783,7 @@ func switchToForeground () {
     
 
     @IBAction func speakToubhUp(_ sender: Any) {
-        
-        //here
         userDistCtrl.getAllUsersDistance()
-   
     }
     
     
