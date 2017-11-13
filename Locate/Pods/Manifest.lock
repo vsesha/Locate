@@ -1,4 +1,26 @@
 PODS:
+  - ApiAI (0.5.5):
+    - ApiAI/AudioFileConverter (= 0.5.5)
+    - ApiAI/Core (= 0.5.5)
+    - ApiAI/ResponseMapping (= 0.5.5)
+    - ApiAI/UIKit (= 0.5.5)
+    - ApiAI/UserEntities (= 0.5.5)
+    - ApiAI/VoiceFileRequest (= 0.5.5)
+    - ApiAI/VoiceRequest (= 0.5.5)
+  - ApiAI/AudioFileConverter (0.5.5):
+    - ApiAI/Core
+  - ApiAI/Core (0.5.5)
+  - ApiAI/ResponseMapping (0.5.5):
+    - ApiAI/Core
+  - ApiAI/UIKit (0.5.5):
+    - ApiAI/Core
+    - ApiAI/VoiceRequest
+  - ApiAI/UserEntities (0.5.5):
+    - ApiAI/Core
+  - ApiAI/VoiceFileRequest (0.5.5):
+    - ApiAI/Core
+  - ApiAI/VoiceRequest (0.5.5):
+    - ApiAI/Core
   - GoogleMaps (2.1.1):
     - GoogleMaps/Maps (= 2.1.1)
   - GoogleMaps/Base (2.1.1)
@@ -11,16 +33,18 @@ PODS:
   - Starscream (2.0.0)
 
 DEPENDENCIES:
+  - ApiAI
   - GoogleMaps
   - GooglePlaces
   - RealtimeMessaging-iOS-Swift3
 
 SPEC CHECKSUMS:
+  ApiAI: f812efe6bff8b6d980b15ffd40c3e74ae8f467c4
   GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
   GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
   RealtimeMessaging-iOS-Swift3: 9e723add7984143dfa9c92f3e728de287d78c1f8
   Starscream: 947c865596f0d6bb3f0203fee23228ed2d471468
 
-PODFILE CHECKSUM: ad50671e5d0ea82874219ad72902a43dd369daac
+PODFILE CHECKSUM: 799cb6dace117abd2a979c88a92896393dc26919
 
 COCOAPODS: 1.3.1

@@ -10,6 +10,7 @@
 import CoreData
 import GoogleMaps
 import GooglePlaces
+import ApiAI
 
 
 @UIApplicationMain
@@ -33,6 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         GLOBAL_GetApplicationVersion ()
+        
+        let Config: AIConfiguration = AIDefaultConfiguration()
+        Config.clientAccessToken = "075bb41fd2044ab3bbea4f9dc3031724"
+        let apiai = ApiAI.shared()
+        apiai?.configuration = Config
+        
         return true
     }
     

@@ -23,4 +23,8 @@ pod 'GooglePlaces'
         # Pods for testing
     #end
     
+    # Pod for Locate AI
+    use_frameworks!
+    pod 'ApiAI'
+    
 end

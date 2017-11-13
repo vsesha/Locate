@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4C472803EA01BC42A62591FA2B090AB9"
+               BlueprintIdentifier = "693BC0316E9E04CCEEDD4A4EBCD6E6BE"
                BuildableName = "RealtimeMessaging_iOS_Swift3.framework"
                BlueprintName = "RealtimeMessaging-iOS-Swift3"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C472803EA01BC42A62591FA2B090AB9"
+            BlueprintIdentifier = "693BC0316E9E04CCEEDD4A4EBCD6E6BE"
             BuildableName = "RealtimeMessaging_iOS_Swift3.framework"
             BlueprintName = "RealtimeMessaging-iOS-Swift3"
             ReferencedContainer = "container:Pods.xcodeproj">

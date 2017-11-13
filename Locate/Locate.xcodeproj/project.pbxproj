@@ -31,10 +31,13 @@
 		3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0571E43B6820088897E /* MessageProtocol.swift */; };
 		3ED9D05A1E43BA520088897E /* JSONMsgSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */; };
 		3EDBA1F71F75AF9B0084FF2C /* BGLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */; };
+		D3B742B7CEBC786A6BC7680C /* Pods_Locate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C907B44BEA007A9BE3033AB /* Pods_Locate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02BE643ABF754038B5EF33E4 /* Pods-Locate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.debug.xcconfig"; sourceTree = "<group>"; };
+		2C907B44BEA007A9BE3033AB /* Pods_Locate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Locate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E086AEE1FB4F77200B3968D /* ApiAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ApiAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E1BEF541E917FBC00246911 /* InternetConnectionUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnectionUtil.swift; sourceTree = "<group>"; };
 		3E28E9C91F22B32F001935E0 /* DistanceBreachCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBreachCellView.swift; sourceTree = "<group>"; };
 		3E28E9CB1F22B4D9001935E0 /* DistanceBreachViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBreachViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E910E861FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework in Frameworks */,
+				D3B742B7CEBC786A6BC7680C /* Pods_Locate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,9 +191,11 @@
 		E97E16ED99DA265BB4942718 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E086AEE1FB4F77200B3968D /* ApiAI.framework */,
 				3E910E871FA2418E00246087 /* RealtimeMessaging_iOS_Swift3.framework */,
 				3E9401251F9FD9DB0051C653 /* GoogleMaps.framework */,
 				3E9401261F9FD9DB0051C653 /* GoogleMapsCore.framework */,
+				2C907B44BEA007A9BE3033AB /* Pods_Locate.framework */,
 			);
 			name = Frameworks;
 			path = Pods/GoogleMaps/Base/Frameworks;
@@ -293,11 +299,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Locate/Pods-Locate-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
 				"${BUILT_PRODUCTS_DIR}/RealtimeMessaging-iOS-Swift3/RealtimeMessaging_iOS_Swift3.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ApiAI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealtimeMessaging_iOS_Swift3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);

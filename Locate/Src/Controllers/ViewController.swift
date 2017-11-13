@@ -11,7 +11,7 @@ import GoogleMaps
 import GooglePlaces
 import AudioToolbox
 import AVFoundation
-
+import ApiAI
 
 class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate {
     
@@ -783,9 +783,49 @@ func switchToForeground () {
     
 
     @IBAction func speakToubhUp(_ sender: Any) {
-        userDistCtrl.getAllUsersDistance()
+         //userDistCtrl.getAllUsersDistance()
+        
+
+        APIAI_NLPtoAction(pNLPString: "Where are people")
+        
     }
     
+    func APIAI_NLPtoAction(pNLPString: String){
+        let request = ApiAI.shared().textRequest()
+        
+        request?.query  = pNLPString
+        
+        
+        request?.setMappedCompletionBlockSuccess({ (request, response) in
+            let response        = response as! AIResponse
+            
+            if (!response.status.isSuccess){
+                print("Status for \(pNLPString)  resulted with \(response.status.error)")
+                
+            }
+            
+            let BotResult       = response.result
+            let BotResponse     = BotResult?.fulfillment.speech
+            let action          = BotResult?.action as! String
+            
+            switch (action){
+            case "ACTION.GET_ALL_USERS_STATUS":
+                self.userDistCtrl.getAllUsersDistance()
+                break
+            default:
+                print("\(pNLPString) did not resolve into any action")
+                LocateSpeaker.instance.speak(speakString: BotResponse!)
+                
+            }
+            
+            
+            print("Outmsg from AI = \(BotResponse)")
+        }, failure: { (request, error) in
+            print("error = \(error)")
+        })
+        
+        ApiAI.shared().enqueue(request)
+    }
     
     @IBAction func startTripTouchUp(_ sender: Any) {
         if(GLOBAL_CONNECTION_STATUS) {
