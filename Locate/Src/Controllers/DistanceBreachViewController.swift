@@ -8,13 +8,15 @@
 
 import UIKit
 
-class DistanceBreachViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DistanceBreachViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 //class DistanceBreachViewController: UITableViewController {
     //let refreshControl = UIRefreshControl()
 
     @IBOutlet weak var s_SpeakButton: UIButton!
     @IBOutlet weak var t_DistanceBreachTable: UITableView!
     
+    
+    @IBOutlet weak var s_UserCommandMic: UIButton!
     
     var numberOfTableSections: Int =  1
     override func viewDidLoad() {
@@ -29,8 +31,30 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         NotificationCenter.default.addObserver(self, selector: #selector(self.delegateNotification(_:)), name: NSNotification.Name(rawValue: GLOBAL_APP_INTERNAL_NOTIFICATION_KEY), object: nil)
         
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        
+        longPressGesture.minimumPressDuration = 0.50
+        longPressGesture.delaysTouchesBegan = true
+        longPressGesture.delegate = self
+        
+        s_UserCommandMic.addGestureRecognizer(longPressGesture)
+        
+        
     }
 
+    func handleLongPress(gestureRecognizer:UILongPressGestureRecognizer){
+            print("Inside handlLongPress")
+        
+        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+            print("UIGestureRecognizerState.began")
+          
+        }
+        if(gestureRecognizer.state == UIGestureRecognizerState.ended){
+            print("UIGestureRecognizerState.ended")
+        }
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -122,4 +146,8 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         userDistCtrl.getAllUsersDistanceWitoutSpeak()
         t_DistanceBreachTable.reloadData()
     }
+    
+    
+    
+    
 }

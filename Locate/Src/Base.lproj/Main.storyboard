@@ -15,6 +15,7 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue-Bold</string>
             <string>HelveticaNeue-Italic</string>
+            <string>HelveticaNeue-MediumItalic</string>
         </array>
         <array key="HelveticaNeueLights.ttc">
             <string>HelveticaNeue-Light</string>
@@ -160,6 +161,23 @@
                                 <color key="textColor" red="1" green="0.3899745129041029" blue="0.13043379161565916" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pg9-m7-cuB">
+                                <rect key="frame" x="3" y="520" width="368" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="0.40084546232876711" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk2-t5-B5g">
+                                <rect key="frame" x="164" y="594" width="47" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Mic" image="Microphone"/>
+                                <connections>
+                                    <action selector="micButtonTouchDown:" destination="BYZ-38-t0r" eventType="touchDown" id="COO-7M-cah"/>
+                                    <action selector="micButtonTouchInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mSM-Hw-wOa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -181,10 +199,12 @@
                         <outlet property="groupLeader" destination="I0b-3h-VIN" id="9Dc-Xf-66P"/>
                         <outlet property="mapZoomIn" destination="aJa-9W-P9L" id="3kO-EY-OEU"/>
                         <outlet property="mapZoomOut" destination="x8z-4n-Xid" id="yAU-8k-RFU"/>
+                        <outlet property="micButton" destination="yk2-t5-B5g" id="y70-dU-QaC"/>
                         <outlet property="s_NoOfUsersLabel" destination="3S7-Ko-7gu" id="Q8M-GU-dNs"/>
                         <outlet property="shareTripButton" destination="bbu-qu-TTF" id="khl-x8-Y10"/>
                         <outlet property="speakButton" destination="dbi-Jf-uJV" id="fVU-pt-dag"/>
                         <outlet property="statusLabel" destination="ZW7-b7-ZFE" id="2O2-ib-e90"/>
+                        <outlet property="userCommand" destination="Pg9-m7-cuB" id="zkR-hB-RYc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -853,6 +873,11 @@
                                                         <action selector="JoinNowPressed:" destination="FFn-jW-9PU" eventType="touchUpInside" id="6BA-lV-xqz"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4b-kf-RK2">
+                                                    <rect key="frame" x="8" y="5" width="44" height="37"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="Microphone"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ghX-fl-jDK" secondAttribute="bottom" constant="-4.5" id="FFm-gL-s7P"/>
@@ -1218,6 +1243,11 @@
                                     <action selector="refreshButtonTouchup:" destination="HHo-wk-UTN" eventType="touchUpInside" id="ORZ-L1-z0n"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyG-30-JPb">
+                                <rect key="frame" x="165" y="565" width="44" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="mic" image="Microphone"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1242,6 +1272,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="s_SpeakButton" destination="a9A-Fi-cBO" id="GSI-Kn-gRn"/>
+                        <outlet property="s_UserCommandMic" destination="LyG-30-JPb" id="m8l-0p-hLV"/>
                         <outlet property="t_DistanceBreachTable" destination="Jz3-c5-mpM" id="cny-8d-KBU"/>
                     </connections>
                 </viewController>
@@ -1256,6 +1287,7 @@
         <image name="Background" width="48" height="48"/>
         <image name="Color" width="50" height="50"/>
         <image name="Distance" width="50" height="50"/>
+        <image name="Microphone" width="50" height="50"/>
         <image name="NickName" width="48" height="48"/>
         <image name="Publish" width="50" height="50"/>
         <image name="Refresh" width="25" height="25"/>

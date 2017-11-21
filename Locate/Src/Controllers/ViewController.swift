@@ -12,8 +12,9 @@ import GooglePlaces
 import AudioToolbox
 import AVFoundation
 import ApiAI
+import Speech
 
-class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate, SFSpeechRecognizerDelegate,UIGestureRecognizerDelegate {
     
     var channels:       NSMutableArray?
     var channelsIndex:  NSMutableDictionary?
@@ -39,6 +40,13 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     let userDistCtrl            = UserDistanceController ()
     
+    let audioEngine             = AVAudioEngine()
+    let speechRecognizer:         SFSpeechRecognizer? = SFSpeechRecognizer (locale: Locale.init(identifier: "en-US"))
+    let speechRequest           = SFSpeechAudioBufferRecognitionRequest()
+    var speechRecognitionTask:    SFSpeechRecognitionTask?
+    
+    var speechCommand           = "Help"
+    
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
     @IBOutlet weak var s_NoOfUsersLabel: UIButton!
@@ -55,8 +63,12 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
 
     @IBOutlet weak var statusLabel: UILabel!
     
+    @IBOutlet weak var micButton: UIButton!
     
-
+    
+    @IBOutlet weak var userCommand: UILabel!
+    
+  var Testcounter = 0
     
     func initMapVariables(){
 
@@ -66,7 +78,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         GLOBAL_MAP_VIEW.settings.myLocationButton       = true
         GLOBAL_MAP_VIEW.settings.setAllGesturesEnabled  (true)
         bringAllButtonsToVisibleMode()
-    
         
     }
     
@@ -116,6 +127,12 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         view.addSubview(statusLabel)
         view.bringSubview(toFront: statusLabel)
+        
+        view.addSubview(micButton)
+        view.bringSubview(toFront: micButton)
+        
+        view.addSubview(userCommand)
+        view.bringSubview(toFront: userCommand)
         
         addShadowEffect()
       
@@ -240,10 +257,22 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         //THIS FUNCTION CALL WILL BE REMOVED AFTER ALPHA RELEASE
         hideSomeFeatureButtons()
+      
+        //adding long press gesture
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleMicLongPress))
+        
+        longPressGesture.minimumPressDuration   = 0.50
+        longPressGesture.delaysTouchesBegan     = true
+        longPressGesture.delegate               = self
+        //self.micButton.addGestureRecognizer(longPressGesture)
+        
+        
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
+        
+        //self.collectionView.addGestureRecognizer(longPressgesture)
         
         BGmanager = BGLocationManager(delegate: self)
         
@@ -252,8 +281,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         if (GLOBAL_USER_LIST.count == 1){
             UsersLabel.text = "User"
         }
-        
-        //test code
+       
         if !(CLLocationManager.authorizationStatus()  == .authorizedAlways){
             let alertMsg = "Location always authorized is not set to true"
 
@@ -265,7 +293,7 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
             BGmanager.requestAlwaysAuthorization()
         }
         
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -618,6 +646,7 @@ func switchToForeground () {
     }
     
     
+
     func processRoutePoints(realtimeJsonMsg:[String: AnyObject]){
         let fromUser                = realtimeJsonMsg["msgFrom"] as! String
         let routePtsArr:Array<Any>  = realtimeJsonMsg["LocationArr"] as! Array<Any>
@@ -783,14 +812,19 @@ func switchToForeground () {
     
 
     @IBAction func speakToubhUp(_ sender: Any) {
-         //userDistCtrl.getAllUsersDistance()
+         userDistCtrl.getAllUsersDistance()
         
 
-        APIAI_NLPtoAction(pNLPString: "Where are people")
+       // sendRequestToLocateBOT(pNLPString: "Where are people")
         
     }
     
-    func APIAI_NLPtoAction(pNLPString: String){
+
+    
+    
+
+    
+    func sendRequestToLocateBOT(pNLPString: String){
         let request = ApiAI.shared().textRequest()
         
         request?.query  = pNLPString
@@ -827,6 +861,98 @@ func switchToForeground () {
         ApiAI.shared().enqueue(request)
     }
     
+    func RecognizeSpeech(){
+        guard let node = audioEngine.inputNode else {return }
+
+        let recordingFormat = node.outputFormat(forBus: 0)
+        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) {buffer, _ in
+            self.speechRequest.append(buffer)
+        }
+
+        audioEngine.prepare()
+        do{
+            try audioEngine.start()
+        } catch { return print (error)}
+        
+
+        guard let myRecognizer = SFSpeechRecognizer () else {print ("Recognizer not supported for this local or something went wrong")
+            return
+        }
+
+        if !myRecognizer.isAvailable {
+            print ("Recognizer is not available")
+            return
+        }
+
+        speechRecognitionTask = speechRecognizer?.recognitionTask(with: speechRequest, resultHandler: { (result, error ) in
+            if let result = result {
+                let bestString = result.bestTranscription.formattedString
+                //print ("speech string = \(bestString)")
+                self.userCommand.text   = bestString
+                
+                self.speechCommand      = bestString
+
+                var lastString: String  = ""
+                for segment  in result.bestTranscription.segments{
+                    let indexTo = bestString.index(bestString.startIndex, offsetBy: segment.substringRange.location)
+                    lastString = bestString.substring(from: indexTo)
+                }
+                
+            } else if let error = error {print (error)}
+        })
+        
+    }
+
+    
+  func handleMicLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        print("inside handleMicLongPress")
+   
+        if (gestureReconizer.state == UIGestureRecognizerState.began) {
+            print("UIGestureRecognizerState.began")
+            self.RecognizeSpeech()
+        }
+        if (gestureReconizer.state == UIGestureRecognizerState.ended) {
+            print("UIGestureRecognizerState.ended")
+            self.speechRequest.endAudio()
+            audioEngine.inputNode?.removeTap(onBus: 0)
+            audioEngine.stop()
+            
+            print("audioEngine Stopped now")
+            sendRequestToLocateBOT(pNLPString: speechCommand)
+        }
+    }
+    
+    
+
+    @IBAction func micButtonTouchDown(_ sender: UIButton) {
+        
+        RecognizeSpeech()
+        print("micButtonTouchDown - userCommand =  \(speechCommand)")
+        
+    }
+    
+    
+    @IBAction func micButtonTouchInside(_ sender: UIButton) {
+        /*let publishToBotTimer = Timer.scheduledTimer(timeInterval: 1,
+                                            target: self,
+                                            selector: #selector(sendToBot),
+                                            userInfo: nil,
+                                            repeats: false)*/
+        
+    }
+  
+    
+    func sendToBot (){
+        audioEngine.stop()
+        speechRequest.endAudio()
+        audioEngine.inputNode?.removeTap(onBus: 0)
+
+        
+        print("micButtonTouchInside - userCommand =  \(speechCommand)")
+        sendRequestToLocateBOT(pNLPString: speechCommand)
+        
+    
+    }
     @IBAction func startTripTouchUp(_ sender: Any) {
         if(GLOBAL_CONNECTION_STATUS) {
             
