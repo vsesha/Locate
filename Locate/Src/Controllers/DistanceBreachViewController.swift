@@ -8,12 +8,21 @@
 
 import UIKit
 
+
 class DistanceBreachViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 //class DistanceBreachViewController: UITableViewController {
     //let refreshControl = UIRefreshControl()
 
+    var SpeechToText = SpeechController()
+    var botManager = BotCommunicationManager()
+    
     @IBOutlet weak var s_SpeakButton: UIButton!
     @IBOutlet weak var t_DistanceBreachTable: UITableView!
+    
+    
+    @IBOutlet weak var saySomeThingLabel: UILabel!
+    @IBOutlet weak var userCommand: UILabel!
+    var speechCommand           = "Help"
     
     
     @IBOutlet weak var s_UserCommandMic: UIButton!
@@ -33,24 +42,57 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         
-        longPressGesture.minimumPressDuration = 0.50
+        longPressGesture.minimumPressDuration = 0.10
         longPressGesture.delaysTouchesBegan = true
         longPressGesture.delegate = self
         
         s_UserCommandMic.addGestureRecognizer(longPressGesture)
-        
-        
     }
 
     func handleLongPress(gestureRecognizer:UILongPressGestureRecognizer){
             print("Inside handlLongPress")
-        
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+            UIView.animate(withDuration: 0.005, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                self.saySomeThingLabel.alpha    = 1.0
+                self.userCommand.alpha          = 1.0
+                print("B.2")
+             }, completion: nil)
+            
             print("UIGestureRecognizerState.began")
+            do{
+                try SpeechToText.startRecording (labelControl: self.userCommand)
+                
+            } catch let error as Error {
+                print("error = \(error)")
+            }
+            
+            print("micButtonTouchDown - userCommand =  \(userCommand.text)")
           
         }
         if(gestureRecognizer.state == UIGestureRecognizerState.ended){
             print("UIGestureRecognizerState.ended")
+            
+            let publishToBotTimer = Timer.scheduledTimer(timeInterval: 0.4,
+                                                         target: self,
+                                                         selector: #selector(sendToBot),
+                                                         userInfo: nil,
+                                                         repeats: false)
+        }
+        
+    }
+    
+    
+    func sendToBot (){
+      
+        do {
+   
+            SpeechToText.stopSpeaking()
+            speechCommand           = self.userCommand.text!
+            print("micButtonTouchInside - userCommand =  \(speechCommand)")
+            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand)
+        }catch let error as Error{
+            print("error = \(error)")
+            
         }
         
     }
@@ -69,11 +111,12 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         GLOBAL_notifyToViews(notificationMsg: "Updated User distance  Cache", notificationType: NotificationTypes.USERDISTANCECAHCE_UPDATED)
         
     }
-       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+   
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GLOBAL_USER_DISTANCE_LIST.count
     }
 
-       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         NSLog("In tableView - cellForRow")
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceBreachCell") as! DistanceBreachCellView
@@ -146,8 +189,5 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         userDistCtrl.getAllUsersDistanceWitoutSpeak()
         t_DistanceBreachTable.reloadData()
     }
-    
-    
-    
     
 }

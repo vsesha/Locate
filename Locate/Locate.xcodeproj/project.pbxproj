@@ -31,6 +31,9 @@
 		3ED9D0581E43B6820088897E /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0571E43B6820088897E /* MessageProtocol.swift */; };
 		3ED9D05A1E43BA520088897E /* JSONMsgSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */; };
 		3EDBA1F71F75AF9B0084FF2C /* BGLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */; };
+		3EE97C5C1FD392E30018ADEC /* SFSpeechToText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE97C5B1FD392E20018ADEC /* SFSpeechToText.swift */; };
+		3EE97C5E1FD595460018ADEC /* BotCommunitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE97C5D1FD595460018ADEC /* BotCommunitionManager.swift */; };
+		3EE97C601FD8CAE10018ADEC /* BotActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE97C5F1FD8CAE10018ADEC /* BotActionHandler.swift */; };
 		D3B742B7CEBC786A6BC7680C /* Pods_Locate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C907B44BEA007A9BE3033AB /* Pods_Locate.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +69,9 @@
 		3ED9D0571E43B6820088897E /* MessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProtocol.swift; sourceTree = "<group>"; };
 		3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONMsgSerialization.swift; sourceTree = "<group>"; };
 		3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGLocationManager.swift; sourceTree = "<group>"; };
+		3EE97C5B1FD392E20018ADEC /* SFSpeechToText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSpeechToText.swift; sourceTree = "<group>"; };
+		3EE97C5D1FD595460018ADEC /* BotCommunitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BotCommunitionManager.swift; path = Src/Utils/BotCommunitionManager.swift; sourceTree = SOURCE_ROOT; };
+		3EE97C5F1FD8CAE10018ADEC /* BotActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotActionHandler.swift; sourceTree = "<group>"; };
 		743F521C999A481635161DEF /* Pods-Locate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Locate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Locate/Pods-Locate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +141,7 @@
 				3E9AD8551E36E24100467525 /* SettingsViewController.swift */,
 				3E8E40591F4637F2009E7B31 /* PreferencesSettings.swift */,
 				3E43D3831F8DA47D0021B6A4 /* SpeakFunctions.swift */,
+				3EE97C5F1FD8CAE10018ADEC /* BotActionHandler.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -153,12 +160,14 @@
 			isa = PBXGroup;
 			children = (
 				3EDBA1F61F75AF9B0084FF2C /* BGLocationManager.swift */,
+				3EE97C5D1FD595460018ADEC /* BotCommunitionManager.swift */,
 				3E1BEF541E917FBC00246911 /* InternetConnectionUtil.swift */,
 				3EB00C7C1E3D874200F6BB0F /* RealtimePubSub.swift */,
 				3ED9D0591E43BA520088897E /* JSONMsgSerialization.swift */,
 				3E9AD8511E36A38800467525 /* TripDestinations.swift */,
 				3E310ADA1E4A4C18002C4C7F /* LocationManager.swift */,
 				3E9AD8531E36A54600467525 /* GMapUtillities.swift */,
+				3EE97C5B1FD392E20018ADEC /* SFSpeechToText.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -356,8 +365,11 @@
 				3EB00C7D1E3D874200F6BB0F /* RealtimePubSub.swift in Sources */,
 				3E9CC38A1E3257BD009014D0 /* ViewController.swift in Sources */,
 				3E9CC3881E3257BD009014D0 /* AppDelegate.swift in Sources */,
+				3EE97C5C1FD392E30018ADEC /* SFSpeechToText.swift in Sources */,
+				3EE97C5E1FD595460018ADEC /* BotCommunitionManager.swift in Sources */,
 				3ED1EA231F313943007A0953 /* Locate.xcdatamodeld in Sources */,
 				3E9AD8561E36E24100467525 /* SettingsViewController.swift in Sources */,
+				3EE97C601FD8CAE10018ADEC /* BotActionHandler.swift in Sources */,
 				3EBE81041EF1ED6000CAE230 /* GlobalFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

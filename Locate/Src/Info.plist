@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Locate uses speech recognition to interact with Locate Bot and Assistant</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -19,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.8</string>
+	<string>1.0.10</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
@@ -34,6 +32,10 @@
 	<string>Locate will publish your locations to others in your group</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Locate will publish your locations to others in your group</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your speech will be detected after tapping mic button</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Locate uses speech recognition to interact with Locate Bot and Assistant</string>
 	<key>UIApplicationExitsOnSuspend</key>
 	<false/>
 	<key>UIBackgroundModes</key>
@@ -61,8 +63,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Your speech will be detected after tapping mic button</string>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string></string>

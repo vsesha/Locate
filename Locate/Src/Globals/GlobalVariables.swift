@@ -40,7 +40,7 @@ var GLOBAL_SHOW_ALERT_POPUPS                = false
 var GLOBAL_SHOW_TRAIL                       = false
 var GLOBAL_BACKGROUND_FREQUENCY             = 15
 var GLOBAL_APP_VERSION                      = "1.0.0"
-var GLOBAL_SPEAK_LANGUAGE                   = "Sarah"
+var GLOBAL_SPEAK_LANGUAGE                   = "Linda"
 var GLOBAL_SPEAK_RATE                       = 0.5
 
 var GLOBAL_USER_LIST: [userStruct]                      = []

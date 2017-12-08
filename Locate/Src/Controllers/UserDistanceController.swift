@@ -92,5 +92,14 @@ class UserDistanceController {
         LocateSpeaker.instance.speak(speakString: speakStr)
     }
     
+    func getTotalNumberOfUsers(){
+        var speakStr = "There are "
+        var userCount = GLOBAL_USER_DISTANCE_LIST.count
+        
+        speakStr += String(userCount)
+        speakStr += " users in your group list"
+        LocateSpeaker.instance.speak(speakString: speakStr)
+    }
+    
 
 }

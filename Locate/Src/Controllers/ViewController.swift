@@ -12,9 +12,9 @@ import GooglePlaces
 import AudioToolbox
 import AVFoundation
 import ApiAI
-import Speech
+//import Speech
 
-class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate, SFSpeechRecognizerDelegate,UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, LocationControllerDelegate, BGLocationManagerDelegate, UIGestureRecognizerDelegate {
     
     var channels:       NSMutableArray?
     var channelsIndex:  NSMutableDictionary?
@@ -40,12 +40,9 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     let userDistCtrl            = UserDistanceController ()
     
-    let audioEngine             = AVAudioEngine()
-    let speechRecognizer:         SFSpeechRecognizer? = SFSpeechRecognizer (locale: Locale.init(identifier: "en-US"))
-    let speechRequest           = SFSpeechAudioBufferRecognitionRequest()
-    var speechRecognitionTask:    SFSpeechRecognitionTask?
-    
     var speechCommand           = "Help"
+    
+    var botManager      = BotCommunicationManager()
     
     var locationManager = CLLocationManager()
     private var BGmanager : BGLocationManager!
@@ -65,10 +62,16 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     @IBOutlet weak var micButton: UIButton!
     
+    @IBOutlet weak var saySomeThingLabel: UILabel!
     
     @IBOutlet weak var userCommand: UILabel!
     
+    
+    
   var Testcounter = 0
+    //var SpeechText =  SpeechToTextManager()
+    var speechCtrl = SpeechController()
+    
     
     func initMapVariables(){
 
@@ -130,6 +133,11 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         view.addSubview(micButton)
         view.bringSubview(toFront: micButton)
+        
+        
+        
+        view.addSubview(saySomeThingLabel)
+        view.bringSubview(toFront: saySomeThingLabel)
         
         view.addSubview(userCommand)
         view.bringSubview(toFront: userCommand)
@@ -258,15 +266,6 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         //THIS FUNCTION CALL WILL BE REMOVED AFTER ALPHA RELEASE
         hideSomeFeatureButtons()
       
-        //adding long press gesture
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleMicLongPress))
-        
-        longPressGesture.minimumPressDuration   = 0.50
-        longPressGesture.delaysTouchesBegan     = true
-        longPressGesture.delegate               = self
-        //self.micButton.addGestureRecognizer(longPressGesture)
-        
-        
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideKeyboard))
         tapGesture.cancelsTouchesInView = true
@@ -813,146 +812,111 @@ func switchToForeground () {
 
     @IBAction func speakToubhUp(_ sender: Any) {
          userDistCtrl.getAllUsersDistance()
-        
-
-       // sendRequestToLocateBOT(pNLPString: "Where are people")
-        
     }
     
-
-    
-    
-
     
     func sendRequestToLocateBOT(pNLPString: String){
-        let request = ApiAI.shared().textRequest()
-        
-        request?.query  = pNLPString
-        
-        
-        request?.setMappedCompletionBlockSuccess({ (request, response) in
-            let response        = response as! AIResponse
-            
-            if (!response.status.isSuccess){
-                print("Status for \(pNLPString)  resulted with \(response.status.error)")
+        do {
+            ApiAI.shared().cancellAllRequests()
+            let request = ApiAI.shared().textRequest()
+            request?.query  = pNLPString
+            request?.setMappedCompletionBlockSuccess({ (request, response) in
+                let response        = response as! AIResponse
+                if (!response.status.isSuccess){
                 
-            }
+                    print("Status for \(pNLPString)  resulted with \(response.status.error)")
+                    
+                }
+                let BotResult       = response.result
+                let BotResponse     = BotResult?.fulfillment.speech
+                let action          = BotResult?.action as! String
+       
             
-            let BotResult       = response.result
-            let BotResponse     = BotResult?.fulfillment.speech
-            let action          = BotResult?.action as! String
-            
-            switch (action){
-            case "ACTION.GET_ALL_USERS_STATUS":
-                self.userDistCtrl.getAllUsersDistance()
-                break
-            default:
-                print("\(pNLPString) did not resolve into any action")
-                LocateSpeaker.instance.speak(speakString: BotResponse!)
-                
-            }
-            
-            
-            print("Outmsg from AI = \(BotResponse)")
-        }, failure: { (request, error) in
-            print("error = \(error)")
-        })
-        
-        ApiAI.shared().enqueue(request)
-    }
-    
-    func RecognizeSpeech(){
-        guard let node = audioEngine.inputNode else {return }
-
-        let recordingFormat = node.outputFormat(forBus: 0)
-        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) {buffer, _ in
-            self.speechRequest.append(buffer)
-        }
-
-        audioEngine.prepare()
-        do{
-            try audioEngine.start()
-        } catch { return print (error)}
-        
-
-        guard let myRecognizer = SFSpeechRecognizer () else {print ("Recognizer not supported for this local or something went wrong")
-            return
-        }
-
-        if !myRecognizer.isAvailable {
-            print ("Recognizer is not available")
-            return
-        }
-
-        speechRecognitionTask = speechRecognizer?.recognitionTask(with: speechRequest, resultHandler: { (result, error ) in
-            if let result = result {
-                let bestString = result.bestTranscription.formattedString
-                //print ("speech string = \(bestString)")
-                self.userCommand.text   = bestString
-                
-                self.speechCommand      = bestString
-
-                var lastString: String  = ""
-                for segment  in result.bestTranscription.segments{
-                    let indexTo = bestString.index(bestString.startIndex, offsetBy: segment.substringRange.location)
-                    lastString = bestString.substring(from: indexTo)
+                switch (action){
+                case "ACTION.GET_ALL_USERS_STATUS":
+                    self.userDistCtrl.getAllUsersDistance()
+                    break
+                default:
+                    print("\(pNLPString) did not resolve into any action")
+                    LocateSpeaker.instance.speak(speakString: BotResponse!)
+                    
                 }
                 
-            } else if let error = error {print (error)}
-        })
-        
-    }
-
-    
-  func handleMicLongPress(gestureReconizer: UILongPressGestureRecognizer) {
-        print("inside handleMicLongPress")
-   
-        if (gestureReconizer.state == UIGestureRecognizerState.began) {
-            print("UIGestureRecognizerState.began")
-            self.RecognizeSpeech()
+                
+                print("Outmsg from AI = \(BotResponse)")
+            }, failure: { (request, error) in
+                print("error = \(error)")
+            })
+            ApiAI.shared().enqueue(request)
         }
-        if (gestureReconizer.state == UIGestureRecognizerState.ended) {
-            print("UIGestureRecognizerState.ended")
-            self.speechRequest.endAudio()
-            audioEngine.inputNode?.removeTap(onBus: 0)
-            audioEngine.stop()
-            
-            print("audioEngine Stopped now")
-            sendRequestToLocateBOT(pNLPString: speechCommand)
+        catch let exception as NSException {
+            print("Exception = \(exception)")
         }
     }
     
-    
+  
 
     @IBAction func micButtonTouchDown(_ sender: UIButton) {
-        
-        RecognizeSpeech()
-        print("micButtonTouchDown - userCommand =  \(speechCommand)")
-        
+        do{
+            speechCtrl.stopSpeaking()
+            
+        UIView.animate(withDuration: 0.025, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.saySomeThingLabel.alpha    = 1.0
+            self.userCommand.alpha          = 1.0
+        }, completion: nil)
+            do {
+                try speechCtrl.startRecording(labelControl: self.userCommand)
+                
+            } catch let error as NSException {
+                print("error = \(error)")
+            }
+        print("micButtonTouchDown - userCommand =  \(userCommand.text)")
+        }
+        catch let error as NSException {
+            print("Error in micButtonTouchDown = \(error)")
+        }
     }
     
     
     @IBAction func micButtonTouchInside(_ sender: UIButton) {
-        /*let publishToBotTimer = Timer.scheduledTimer(timeInterval: 1,
+        
+        let publishToBotTimer = Timer.scheduledTimer(timeInterval: 0.4,
                                             target: self,
                                             selector: #selector(sendToBot),
                                             userInfo: nil,
-                                            repeats: false)*/
+                                            repeats: false)
         
     }
   
     
     func sendToBot (){
-        audioEngine.stop()
-        speechRequest.endAudio()
-        audioEngine.inputNode?.removeTap(onBus: 0)
+        do {
+            speechCtrl.stopSpeaking()
+            speechCommand           = self.userCommand.text!
 
+            print("micButtonTouchInside - userCommand =  \(speechCommand)")
+
+            //sendRequestToLocateBOT(pNLPString: speechCommand)
+            
+            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand)
+            
+            UIView.animate(withDuration: 1.0, delay: 3.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                  print("A.6")
+                self.userCommand.text           = ""
+                self.userCommand.alpha          = 0
+                self.saySomeThingLabel.alpha    = 0
+            }, completion: nil)
+            
+        }catch let exceptions as NSException {
+            print("exceptions = \(exceptions)")
         
-        print("micButtonTouchInside - userCommand =  \(speechCommand)")
-        sendRequestToLocateBOT(pNLPString: speechCommand)
-        
+        } catch let errors as NSError{
+            print("errors = \(errors)")
+            
+        }
     
     }
+    
     @IBAction func startTripTouchUp(_ sender: Any) {
         if(GLOBAL_CONNECTION_STATUS) {
             
