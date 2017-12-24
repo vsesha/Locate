@@ -10,23 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.093722"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "817"
-            endingLineNumber = "817"
-            landmarkName = "ViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.093937"
+            timestampString = "535825933.769816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "283"
@@ -42,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.094055"
+            timestampString = "535825933.770958"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "285"
@@ -58,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.094182"
+            timestampString = "535825933.771855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
@@ -74,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.094317"
+            timestampString = "535825933.772663"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "336"
             endingLineNumber = "336"
-            landmarkName = "schedulePublishing()"
+            landmarkName = "hideSomeFeatureButtons()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,13 +73,61 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.094451"
+            filePath = "Src/Utils/BotCommunitionManager.swift"
+            timestampString = "535418696.329976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "899"
-            endingLineNumber = "899"
-            landmarkName = "sendToBot()"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "sendRequestToLocateBOT(pNLPString:botResponseLabel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__ObjC.AIRequest&gt;, Swift.Optional&lt;Any&gt;) -&gt; () in Locate.BotCommunicationManager.sendRequestToLocateBOT(pNLPString: Swift.String, botResponseLabel: __ObjC.UILabel) throws -&gt; ()"
+                  moduleName = "Locate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vsesha/Backup/VasuBKUP/MobileApps/Locate/Locate/Src/Utils/BotCommunitionManager.swift"
+                  timestampString = "534643353.523973"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "3576">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__ObjC.AIRequest&gt;, Swift.Optional&lt;Any&gt;) -&gt; () in Locate.BotCommunicationManager.sendRequestToLocateBOT(pNLPString: Swift.String, botResponseLabel: __ObjC.UILabel) throws -&gt; ()"
+                  moduleName = "Locate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vsesha/Backup/VasuBKUP/MobileApps/Locate/Locate/Src/Utils/BotCommunitionManager.swift"
+                  timestampString = "534643353.544919"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "6496">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Src/Utils/BotCommunitionManager.swift"
+            timestampString = "535418696.330123"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "sendRequestToLocateBOT(pNLPString:botResponseLabel:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,13 +137,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.09458"
+            filePath = "Src/Controllers/BotActionHandler.swift"
+            timestampString = "534741262.007118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "820"
-            endingLineNumber = "820"
-            landmarkName = "sendRequestToLocateBOT(pNLPString:)"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "HandleGetSpecificUserStatus(Params:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -121,13 +153,45 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Src/Controllers/ViewController.swift"
-            timestampString = "534398661.094667"
+            filePath = "Src/Controllers/UserDistanceController.swift"
+            timestampString = "534894840.094896"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "821"
-            endingLineNumber = "821"
-            landmarkName = "sendRequestToLocateBOT(pNLPString:)"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "getSpecificUserDetails(username:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Src/Controllers/UserDistanceController.swift"
+            timestampString = "534894840.105826"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "getSpecificUserDetails(username:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Src/Controllers/BotActionHandler.swift"
+            timestampString = "534741262.008224"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "HandleGetSpecificUserStatus(Params:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

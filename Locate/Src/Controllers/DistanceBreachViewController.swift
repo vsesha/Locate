@@ -16,6 +16,8 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
     var SpeechToText = SpeechController()
     var botManager = BotCommunicationManager()
     
+    @IBOutlet weak var youLabel: UILabel!
+    @IBOutlet weak var botLabel: UILabel!
     @IBOutlet weak var s_SpeakButton: UIButton!
     @IBOutlet weak var t_DistanceBreachTable: UITableView!
     
@@ -26,6 +28,15 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
     
     
     @IBOutlet weak var s_UserCommandMic: UIButton!
+    
+    /*
+    self.botLabel.alpha             = 1.0
+    self.saySomeThingLabel.alpha    = 1.0
+    
+    self.userCommand.alpha          = 1.0
+    self.youLabel.alpha             = 1.0*/
+    
+    
     
     var numberOfTableSections: Int =  1
     override func viewDidLoad() {
@@ -49,13 +60,12 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         s_UserCommandMic.addGestureRecognizer(longPressGesture)
     }
 
-    func handleLongPress(gestureRecognizer:UILongPressGestureRecognizer){
-            print("Inside handlLongPress")
+    func handleLongPress(gestureRecognizer:UILongPressGestureRecognizer) {
+        
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
-            UIView.animate(withDuration: 0.005, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.015, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
                 self.saySomeThingLabel.alpha    = 1.0
                 self.userCommand.alpha          = 1.0
-                print("B.2")
              }, completion: nil)
             
             print("UIGestureRecognizerState.began")
@@ -65,9 +75,6 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
             } catch let error as Error {
                 print("error = \(error)")
             }
-            
-            print("micButtonTouchDown - userCommand =  \(userCommand.text)")
-          
         }
         if(gestureRecognizer.state == UIGestureRecognizerState.ended){
             print("UIGestureRecognizerState.ended")
@@ -81,16 +88,23 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         
     }
     
-    
     func sendToBot (){
       
         do {
    
             SpeechToText.stopSpeaking()
             speechCommand           = self.userCommand.text!
-            print("micButtonTouchInside - userCommand =  \(speechCommand)")
-            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand)
-        }catch let error as Error{
+            self.userCommand.text = ""
+           
+            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand, botResponseLabel: saySomeThingLabel)
+        
+            UIView.animate(withDuration: 1.0, delay: 4.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                self.userCommand.text           = ""
+                self.userCommand.alpha          = 0
+                self.saySomeThingLabel.alpha    = 0
+            }, completion: nil)
+        
+        } catch let error as Error{
             print("error = \(error)")
             
         }

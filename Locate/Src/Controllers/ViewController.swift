@@ -62,8 +62,16 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
     
     @IBOutlet weak var micButton: UIButton!
     
+    
+    
+    
+    
+    @IBOutlet weak var botLabel: UILabel!
     @IBOutlet weak var saySomeThingLabel: UILabel!
     
+    
+    
+    @IBOutlet weak var youLabel: UILabel!
     @IBOutlet weak var userCommand: UILabel!
     
     
@@ -138,9 +146,14 @@ class ViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate,
         
         view.addSubview(saySomeThingLabel)
         view.bringSubview(toFront: saySomeThingLabel)
+        view.addSubview(botLabel)
+        view.bringSubview(toFront: botLabel)
+        
         
         view.addSubview(userCommand)
         view.bringSubview(toFront: userCommand)
+        view.addSubview(youLabel)
+        view.bringSubview(toFront: youLabel)
         
         addShadowEffect()
       
@@ -813,56 +826,25 @@ func switchToForeground () {
     @IBAction func speakToubhUp(_ sender: Any) {
          userDistCtrl.getAllUsersDistance()
     }
-    
-    
-    func sendRequestToLocateBOT(pNLPString: String){
-        do {
-            ApiAI.shared().cancellAllRequests()
-            let request = ApiAI.shared().textRequest()
-            request?.query  = pNLPString
-            request?.setMappedCompletionBlockSuccess({ (request, response) in
-                let response        = response as! AIResponse
-                if (!response.status.isSuccess){
-                
-                    print("Status for \(pNLPString)  resulted with \(response.status.error)")
-                    
-                }
-                let BotResult       = response.result
-                let BotResponse     = BotResult?.fulfillment.speech
-                let action          = BotResult?.action as! String
-       
-            
-                switch (action){
-                case "ACTION.GET_ALL_USERS_STATUS":
-                    self.userDistCtrl.getAllUsersDistance()
-                    break
-                default:
-                    print("\(pNLPString) did not resolve into any action")
-                    LocateSpeaker.instance.speak(speakString: BotResponse!)
-                    
-                }
-                
-                
-                print("Outmsg from AI = \(BotResponse)")
-            }, failure: { (request, error) in
-                print("error = \(error)")
-            })
-            ApiAI.shared().enqueue(request)
-        }
-        catch let exception as NSException {
-            print("Exception = \(exception)")
-        }
-    }
+   
     
   
 
     @IBAction func micButtonTouchDown(_ sender: UIButton) {
+        //Gets triggered as soon as user clicks the button
         do{
+            self.userCommand.text = " "
             speechCtrl.stopSpeaking()
             
-        UIView.animate(withDuration: 0.025, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.saySomeThingLabel.alpha    = 1.0
-            self.userCommand.alpha          = 1.0
+            AudioServicesPlaySystemSound(1519)
+
+        UIView.animate(withDuration: 0.015, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.botLabel.alpha             = 0.85
+            self.saySomeThingLabel.alpha    = 0.85
+            
+            self.userCommand.alpha          = 0.85
+            self.youLabel.alpha             = 0.85
+            
         }, completion: nil)
             do {
                 try speechCtrl.startRecording(labelControl: self.userCommand)
@@ -870,7 +852,6 @@ func switchToForeground () {
             } catch let error as NSException {
                 print("error = \(error)")
             }
-        print("micButtonTouchDown - userCommand =  \(userCommand.text)")
         }
         catch let error as NSException {
             print("Error in micButtonTouchDown = \(error)")
@@ -879,6 +860,7 @@ func switchToForeground () {
     
     
     @IBAction func micButtonTouchInside(_ sender: UIButton) {
+        //Gets triggered when the button is released
         
         let publishToBotTimer = Timer.scheduledTimer(timeInterval: 0.4,
                                             target: self,
@@ -893,21 +875,23 @@ func switchToForeground () {
         do {
             speechCtrl.stopSpeaking()
             speechCommand           = self.userCommand.text!
-
-            print("micButtonTouchInside - userCommand =  \(speechCommand)")
-
-            //sendRequestToLocateBOT(pNLPString: speechCommand)
             
-            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand)
+            try botManager.sendRequestToLocateBOT(pNLPString: speechCommand, botResponseLabel: saySomeThingLabel)
             
-            UIView.animate(withDuration: 1.0, delay: 3.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                  print("A.6")
-                self.userCommand.text           = ""
-                self.userCommand.alpha          = 0
+            UIView.animate(withDuration: 0.25, delay: 3.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                
+                //self.userCommand.text           = ""
+                self.saySomeThingLabel.text     = ""
+
+                self.botLabel.alpha             = 0
                 self.saySomeThingLabel.alpha    = 0
+                self.userCommand.alpha          = 0
+                self.youLabel.alpha             = 0
+                
+                
             }, completion: nil)
             
-        }catch let exceptions as NSException {
+        } catch let exceptions as NSException {
             print("exceptions = \(exceptions)")
         
         } catch let errors as NSError{

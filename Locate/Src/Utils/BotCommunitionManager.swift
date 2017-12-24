@@ -16,7 +16,7 @@ class BotCommunicationManager: NSObject{
         super.init()
     }
     
-func sendRequestToLocateBOT(pNLPString: String) throws   {
+    func sendRequestToLocateBOT(pNLPString: String, botResponseLabel: UILabel) throws   {
     do {
             let request = ApiAI.shared().textRequest()
             request?.query  = pNLPString
@@ -24,17 +24,28 @@ func sendRequestToLocateBOT(pNLPString: String) throws   {
                     let response        = response as! AIResponse
       
                     if (!response.status.isSuccess){
-                        print("Status for \(pNLPString)  resulted with \(response.status.error)")
+                        let errMsg = "Error: \(response.status.error)"
+                        
+                        var respMsg = "Status for " + pNLPString
+                            respMsg += "  resulted with " + errMsg
+                        
+                        botResponseLabel.text = respMsg
+                        return
                     }
                 
                     let BotResult       = response.result
                     let BotResponse     = BotResult?.fulfillment.speech
+                    let parameters      = BotResult?.parameters as? [String: AIResponseParameter]
+                    print ("Parameters = \(parameters)")
+                
                     let action          = BotResult?.action as! String
-                    print("Action = \(action)")
-                    print("BotResult = \(BotResult)")
                 
-                    self.botactionHandler.actionHandler ( Response: BotResponse!, ActionString: action)
                 
+                    botResponseLabel.text = BotResponse
+                
+                    self.botactionHandler.actionHandler ( Response: BotResponse!,
+                                                      ActionString: action,
+                                                      Parameters: parameters!)
                 
                     }, failure: { (request, error) in
                         print("error = \(error)")

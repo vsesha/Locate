@@ -18,6 +18,7 @@ import Foundation
 import UIKit
 import Speech
 
+
 class SpeechController:  NSObject, SFSpeechRecognizerDelegate {
     
     
@@ -73,6 +74,10 @@ class SpeechController:  NSObject, SFSpeechRecognizerDelegate {
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
+        
+        //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+        
+        
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()  //3
         
         let inputNode = audioEngine.inputNode /* {fatalError("Audio engine has no input node")}  //4*/
