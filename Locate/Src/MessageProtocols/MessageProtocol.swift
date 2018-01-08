@@ -49,7 +49,8 @@ enum MessageTypes: Int {
             AckToLeaderMsg      = 207,
             DistanceBreach      = 209,
             DeleteUserDistBreach = 210,
-            PingCurrentDistance  = 211
+            PingCurrentDistance  = 211,
+            PokeSpecificUser     = 212
 }
 
 struct Message: JSONSerializable{
@@ -111,12 +112,20 @@ struct pingUsersLocation: JSONSerializable {
     
 }
 struct userDistanceStruct: JSONSerializable {
-    var userName:           String?
-    var userColor:          String?
-    var positionTime:       String?
-    var userDistance:       String?
-    var didBreachDistance:  Bool?
-    var distanceBreachCount:Int?
+    var userName:               String?
+    var userColor:              String?
+    var positionTime:           String?
+    var userDistance:           String?
+    var didBreachDistance:      Bool?
+    var distanceBreachCount:    Int?
+    var userLocationAddress:    String?
+    
+}
+
+struct pokeMsgStruct: JSONSerializable {
+    var msgType             = "212"
+    var msgFrom:       String?
+    var msgTo:         String?
     
 }
 

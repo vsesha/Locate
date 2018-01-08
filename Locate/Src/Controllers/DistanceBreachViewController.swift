@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AudioToolbox
 
 class DistanceBreachViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 //class DistanceBreachViewController: UITableViewController {
@@ -64,8 +64,7 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
         
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
             UIView.animate(withDuration: 0.015, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                self.saySomeThingLabel.alpha    = 1.0
-                self.userCommand.alpha          = 1.0
+                self.setUserCommandLabelsAlpha(alphaValue: 0.85)
              }, completion: nil)
             
             print("UIGestureRecognizerState.began")
@@ -98,10 +97,9 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
            
             try botManager.sendRequestToLocateBOT(pNLPString: speechCommand, botResponseLabel: saySomeThingLabel)
         
-            UIView.animate(withDuration: 1.0, delay: 4.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.25, delay: 3.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
                 self.userCommand.text           = ""
-                self.userCommand.alpha          = 0
-                self.saySomeThingLabel.alpha    = 0
+                self.setUserCommandLabelsAlpha(alphaValue: 0.0)
             }, completion: nil)
         
         } catch let error as Error{
@@ -163,6 +161,8 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
                 cell.s_BreachCount.textColor = UIColor.blue
             }
             
+            cell.s_LocationAddress?.text = userDistanceObj.userLocationAddress
+            
         }
         
         return cell
@@ -192,16 +192,25 @@ class DistanceBreachViewController: UIViewController, UITableViewDataSource, UIT
 
 
     @IBAction func speakerTouchup(_ sender: Any) {
+        AudioServicesPlaySystemSound(1519)
         let userDistCtrl            = UserDistanceController ()
         userDistCtrl.speakUsersDistance()
     }
 
 
     @IBAction func refreshButtonTouchup(_ sender: Any) {
-        
+        AudioServicesPlaySystemSound(1519)
         let userDistCtrl    = UserDistanceController ()
         userDistCtrl.getAllUsersDistanceWitoutSpeak()
         t_DistanceBreachTable.reloadData()
+    }
+    
+    func setUserCommandLabelsAlpha(alphaValue:Double){
+        let alphaFloatValue = CGFloat(alphaValue)
+        self.botLabel.alpha             = alphaFloatValue
+        self.saySomeThingLabel.alpha    = alphaFloatValue
+        self.userCommand.alpha          = alphaFloatValue
+        self.youLabel.alpha             = alphaFloatValue
     }
     
 }

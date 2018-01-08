@@ -101,8 +101,22 @@ class UserDistanceController {
         LocateSpeaker.instance.speak(speakString: speakStr)
     }
     
+    func checkIfUserExists (username: String) -> Bool{
+        var userFound = false
+        print ("checking for user \(username)")
+
+        for count in 0 ... GLOBAL_USER_DISTANCE_LIST.count-1 {
+            let userDistObj = GLOBAL_USER_DISTANCE_LIST[count]
+            if userDistObj.userName == username {
+                userFound = true
+                break
+            }
+            
+        }
+        return userFound
+    }
+    
     func getSpecificUserDetails (username: String){
-        
         var speakStr = " "
         var userFound = false
         print ("checking for user \(username)")
@@ -131,5 +145,14 @@ class UserDistanceController {
         LocateSpeaker.instance.speak(speakString: speakStr)
     }
     
+func getUserNames() -> String{
+        var userNames = ""
+        for count in 0 ... GLOBAL_USER_DISTANCE_LIST.count-1 {
+            let userDistObj = GLOBAL_USER_DISTANCE_LIST[count]
+                userNames += userDistObj.userName!
+                userNames += " , "
+            }
+        return userNames
+    }
 
 }

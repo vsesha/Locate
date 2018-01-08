@@ -75,9 +75,8 @@ class SpeechController:  NSObject, SFSpeechRecognizerDelegate {
             print("audioSession properties weren't set because of an error.")
         }
         
-        //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-        
-        
+        AudioServicesPlaySystemSound(1519)
+
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()  //3
         
         let inputNode = audioEngine.inputNode /* {fatalError("Audio engine has no input node")}  //4*/

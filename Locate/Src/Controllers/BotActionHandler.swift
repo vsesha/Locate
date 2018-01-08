@@ -30,6 +30,10 @@ class BotActionHandlerManager {
             HandleGetSpecificUserStatus(Params: Parameters)
             break
             
+        case "ACTION.GET_USER_NAMES":
+            HandleGetUserNames()
+            break
+            
         default:
             print("11")
             print("\(ActionString) did not resolve into any action")
@@ -76,6 +80,22 @@ class BotActionHandlerManager {
         userDistCtrl.getTotalNumberOfUsers()
     }
     
+    func HandleGetUserNames(){
+        if(!GLOBAL_CONNECTION_STATUS )
+        {
+            let speakString = "You are not part of any trip."
+            LocateSpeaker.instance.speak(speakString: speakString)
+            return
+        }
+        
+        let userDistCtrl            = UserDistanceController ()
+        
+        var userNames   = "Following users in your list: "
+        userNames       += userDistCtrl.getUserNames()
+        
+        LocateSpeaker.instance.speak(speakString: userNames)
+    }
+    
     func publishJoinExitMessageToAll(msgType: Int){
         var Joinmsg = JoinExitMsgs()
         Joinmsg.msgFrom = GLOBAL_NICK_NAME
@@ -93,23 +113,49 @@ class BotActionHandlerManager {
             return
         }
         
-        var users = Params["USER"]?.stringValue
+       // var users = Params["USER"]?.stringValue
         
-        print("Original - users = \(users)")
-        users = users?.uppercased()
+        var users = stripOffUnwantedCharaters(dirtyString: (Params["USER"]?.stringValue)!)
         
-        users = users?.trimmingCharacters(in: .whitespacesAndNewlines)
-        users = users?.removingWhitespaces()
-        users = users?.removingNewLineCharacters()
-        
-        users = users?.replacingOccurrences(of: "(", with: "")
-        users = users?.replacingOccurrences(of: ")", with: "")
-
-        print("After trimming - users = \(users)")
+       print("After trimming - users = \(users)")
         
         let userDistCtrl            = UserDistanceController ()
-        userDistCtrl.getSpecificUserDetails(username: users!)
+        userDistCtrl.getSpecificUserDetails(username: users)
         
+    }
+    
+    func HandlePokeUser(Params: [String: AIResponseParameter]){
+    print("Inside HandlePokeUser")
+        if(!GLOBAL_CONNECTION_STATUS )
+        {
+            let speakString = "You should be part of a trip inorder to poke anyone."
+            LocateSpeaker.instance.speak(speakString: speakString)
+            return
+        }
+          var users = stripOffUnwantedCharaters(dirtyString: (Params["USER"]?.stringValue)!)
+        
+        let userDistCtrl    = UserDistanceController ()
+        var userFound       = userDistCtrl.checkIfUserExists(username: users)
+        if (userFound){
+            //sendPokeToUser
+        } else
+            {
+                let speakString = "Cant Poke, no users by name: " + users
+                LocateSpeaker.instance.speak(speakString: speakString)
+            }
+    }
+    
+    func stripOffUnwantedCharaters(dirtyString: String) -> String {
+        var cleanString  = dirtyString.uppercased()
+        
+        cleanString = cleanString.trimmingCharacters(in: .whitespacesAndNewlines)
+        cleanString = cleanString.removingWhitespaces()
+        cleanString = cleanString.removingNewLineCharacters()
+        
+        cleanString = cleanString.replacingOccurrences(of: "(", with: "")
+        cleanString = cleanString.replacingOccurrences(of: ")", with: "")
+        
+        return cleanString
     }
     
 }

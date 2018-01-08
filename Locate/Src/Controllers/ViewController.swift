@@ -462,6 +462,11 @@ func switchToForeground () {
                 userDistCtrl.replyToDistancePing()
                
             }
+            else  if(msgType == "212" ){
+                NSLog("Received poke message")
+                processPokeMsg(realtimeJsonMsg: jsonMsg)
+                
+            }
                 
             else {
                 NSLog("Message Type \(msgType) is not supported yet")
@@ -473,11 +478,29 @@ func switchToForeground () {
         }
     }
     
+    func processPokeMsg(realtimeJsonMsg:[String: AnyObject]){
+        
+        let fromUser    = realtimeJsonMsg["msgFrom"]        as! String
+        let toUser      = realtimeJsonMsg["msgTo"]    as! String
+        
+        print("To User = \(toUser)")
+        
+        if (GLOBAL_NICK_NAME == toUser) {
+            var speakStr = ""
+            speakStr = "Hey " + GLOBAL_NICK_NAME
+            speakStr += ", looks like " + fromUser
+            speakStr += " is trying to Poke you!"
+            LocateSpeaker.instance.speak(speakString: speakStr)
+        }
+        
+    }
+    
     func processCoordinates(realtimeJsonMsg:[String: AnyObject]){
         let longitude   = (realtimeJsonMsg["longitude"]     as! NSString).doubleValue
         let latitude    = (realtimeJsonMsg["latitude"]      as! NSString).doubleValue
         let fromUser    = realtimeJsonMsg["msgFrom"]        as! String
         let markerColor = realtimeJsonMsg["markerColor"]    as! String
+        let locationAddress = realtimeJsonMsg["locationAddress"]           as! String
 
         let location    = CLLocation(latitude: latitude        as CLLocationDegrees,
                                   longitude: longitude      as CLLocationDegrees)
@@ -489,9 +512,9 @@ func switchToForeground () {
 //            removePreviousMarkerForUser(_userName: fromUser)
         }
         addMarker(location: location, addressStr: fromUser, color:markerColor )
-        NSLog("location  = \(location) ")
         
-        addUserDistanceToCache(userlocation: location, UserName: fromUser, UserColor: markerColor )
+        
+        addUserDistanceToCache(userlocation: location, UserName: fromUser, UserColor: markerColor, locatonAddress: locationAddress )
         //checkIfCrossedGeoFence(userlocation: location, UserName: fromUser )
         
     }
@@ -542,7 +565,7 @@ func switchToForeground () {
     
     }
     
-    func addUserDistanceToCache(userlocation:CLLocation, UserName:String, UserColor: String) {
+    func addUserDistanceToCache(userlocation:CLLocation, UserName:String, UserColor: String, locatonAddress: String) {
         var userDistanceBreached    = false
         let myCurrentLocation       = locationManager.location
         
@@ -570,6 +593,7 @@ func switchToForeground () {
         userDistObj.userDistance    = DistanceInStr
         userDistObj.distanceBreachCount = 0
         userDistObj.didBreachDistance   = userDistanceBreached
+        userDistObj.userLocationAddress = locatonAddress
         
         //To set Distance Breach Count, first check if the user breached previously
         let prevBreachCount = GLOBAL_GetUserDistanceBreachCount(userDistanceObj: userDistObj)
@@ -836,8 +860,7 @@ func switchToForeground () {
             self.userCommand.text = " "
             speechCtrl.stopSpeaking()
             
-            AudioServicesPlaySystemSound(1519)
-
+           
         UIView.animate(withDuration: 0.015, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.botLabel.alpha             = 0.85
             self.saySomeThingLabel.alpha    = 0.85
@@ -1010,13 +1033,22 @@ func switchToForeground () {
         
         locationMsg.latitude        = String(format:"%.10f",(location.latitude))
         locationMsg.longitude       = String(format:"%.10f",(location.longitude))
-        locationMsg.locationAddress = ""
+        
+        //locationMsg.locationAddress = getLocationName(location: locations)
+        getAddress(location: locations, handler: {(address) -> Void in
+            locationMsg.locationAddress = address
+        })
+        
+        print("address = \(locationMsg.locationAddress)")
         locationMsg.locationName    = "Current Loc of \(GLOBAL_NICK_NAME)"
         
         locationMsg.msgDateTime     = currDate
         locationMsg.msgFrom         = GLOBAL_NICK_NAME
         locationMsg.msgType         = "101"
         locationMsg.markerColor     = GLOBAL_MY_MARKER_COLOR
+        
+       // var locateName =
+        
         
         publishCounter += 1
         locationMsg.msgCounter      = String (format:"%d",publishCounter)

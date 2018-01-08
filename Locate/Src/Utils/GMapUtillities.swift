@@ -226,6 +226,88 @@ func getLocation(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) -> An
 
 }
 
+func getLocationName(location: CLLocation) -> String {
+print("Inside getLocationName")
+    var placeName = "Unknown Location"
+    CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
+        print(location)
+        
+        if error != nil {
+            print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+            placeName = "Reverse geocoder failed with error"
+            return
+        }
+        
+        if placemarks!.count > 0 {
+            let pm = placemarks![0] as! CLPlacemark
+            print(pm.locality)
+            placeName = pm.locality!
+            
+        }
+        else {
+            placeName = "Problem with the data received from geocoder"
+            print("Problem with the data received from geocoder")
+            
+        }
+    })
+    print("Location Address = \(placeName)")
+    return placeName
+}
+
+func getAddress(location: CLLocation, handler: @escaping (String) -> Void)
+{
+    var address: String = ""
+    let geoCoder = CLGeocoder()
+    
+    print("location = \(location.coordinate.latitude)")
+    
+    //let location = CLLocation(latitude: selectedLat, longitude: selectedLon)
+    //selectedLat and selectedLon are double values set by the app in a previous process
+    
+    geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+        
+        print("In geoCoder.reverseGeocodeLocation")
+        
+        // Place details
+        var placeMark: CLPlacemark?
+        placeMark = placemarks?[0]
+        
+        print("placeMark.locality = \(placeMark?.locality)")
+        print("placeMark = \(placeMark)")
+        
+        // Address dictionary
+        //print(placeMark.addressDictionary ?? "")
+        
+        // Location name
+        if let locationName = placeMark?.addressDictionary?["Name"] as? String {
+            address += locationName + ", "
+        }
+        
+        // Street address
+        if let street = placeMark?.addressDictionary?["Thoroughfare"] as? String {
+            address += street + ", "
+        }
+        
+        // City
+        if let city = placeMark?.addressDictionary?["City"] as? String {
+            address += city + ", "
+        }
+        
+        // Zip code
+        if let zip = placeMark?.addressDictionary?["ZIP"] as? String {
+            address += zip + ", "
+        }
+        
+        // Country
+        if let country = placeMark?.addressDictionary?["Country"] as? String {
+            address += country
+        }
+        
+        // Passing address back
+        handler((placeMark?.locality)!)
+    })
+}
+
 
 
 
